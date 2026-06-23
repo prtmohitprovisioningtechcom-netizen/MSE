@@ -43,7 +43,7 @@ export default function Navbar() {
       <nav className="glass-nav shadow-sm px-4 md:px-8 py-8 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-1 group">
           <div className="flex items-center">
-            <img src="/mse.jpeg" alt="MSE Logo" className="h-28 w-28" />
+            <img src="/mse.jpeg" alt="MSE Logo" className="h-28 w-40" />
           </div>
           <div>
           <span className="font-medium text-base md:text-lg tracking-tight text-primary font-display flex items-center gap-1.5 leading-none">

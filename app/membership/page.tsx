@@ -90,12 +90,16 @@ export default function MembershipPage() {
       <section className="bg-slate-50 rounded-3xl p-6 md:p-12 border border-slate-100 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         <div className="lg:col-span-5 space-y-4">
           <span className="text-secondary font-bold text-xs uppercase tracking-widest block">Offline Onboarding</span>
-          <h2 className="text-3xl font-extrabold text-primary tracking-tight font-display">How Membership Works</h2>
+          <h2 className="text-3xl font-extrabold text-primary tracking-tight font-display">
+            How Membership Works
+          </h2>
           <p className="text-sm text-slate-500 leading-relaxed">
             For now, membership is handled directly by the secretariat team. Please use phone or email for brochure, eligibility, document checklist, and payment instructions.
           </p>
           <div className="p-5 bg-white border border-slate-100 rounded-2xl text-xs text-slate-600 space-y-2">
-            <p className="font-bold text-primary flex items-center gap-2"><HelpCircle className="h-4 w-4 text-secondary" /> Secretariat Contact</p>
+            <p className="font-bold text-primary flex items-center gap-2">
+              <HelpCircle className="h-4 w-4 text-secondary" /> Secretariat Contact
+            </p>
             <p>Phone: +91 (22) 2623-1111</p>
             <p>Email: info@mseccia.org.in</p>
           </div>
@@ -120,7 +124,9 @@ export default function MembershipPage() {
           const Icon = item.icon;
           return (
             <div key={item.title} className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-3">
-              <div className="p-3 bg-primary/5 text-primary rounded-2xl w-fit"><Icon className="h-5 w-5" /></div>
+              <div className="p-3 bg-primary/5 text-primary rounded-2xl w-fit">
+                <Icon className="h-5 w-5" />
+              </div>
               <h3 className="font-bold text-primary font-display">{item.title}</h3>
               <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
             </div>
