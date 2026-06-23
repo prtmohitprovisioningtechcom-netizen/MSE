@@ -1,4 +1,9 @@
-import { Check, Building, ShieldCheck, FileText, HelpCircle } from 'lucide-react';
+import dynamic from 'next/dynamic';
+const Check = dynamic(() => import('lucide-react').then(mod => mod.Check), { ssr: false });
+const Building = dynamic(() => import('lucide-react').then(mod => mod.Building), { ssr: false });
+const ShieldCheck = dynamic(() => import('lucide-react').then(mod => mod.ShieldCheck), { ssr: false });
+const FileText = dynamic(() => import('lucide-react').then(mod => mod.FileText), { ssr: false });
+const HelpCircle = dynamic(() => import('lucide-react').then(mod => mod.HelpCircle), { ssr: false });
 
 export const revalidate = 0;
 
