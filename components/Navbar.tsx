@@ -25,15 +25,7 @@ const navGroups = [
   { name: 'Membership', path: '/membership' },
   { name: 'Events', path: '/events' },
   { name: 'News & Media', path: '/news' },
-  {
-    name: 'Industrial Desk',
-    path: '/industrial',
-    children: [
-      { name: 'Track Grievance', path: '/grievance' },
-      { name: 'Online Application', path: '/membership' },
-      { name: 'Buyer-Seller Matchmaking', path: '/matchmaking' },
-    ],
-  },
+
   { name: 'Contact', path: '/contact' },
 ];
 
@@ -62,6 +54,7 @@ export default function Navbar() {
       <nav className="glass-nav shadow-sm px-4 md:px-8 py-3 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group min-w-0">
             <Image src="/mse.jpeg" alt="MSECCIA Logo" width={128} height={96} className="h-24 w-32 md:h-28 md:w-36 object-contain" priority />
+            <span className="ml-2 text-sm font-semibold text-primary">MSE Chamber of Commerce And Industry Association</span>
         </Link>
 
         <div className="hidden xl:flex items-center gap-1.5">
