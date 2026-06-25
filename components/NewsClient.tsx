@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -41,7 +41,7 @@ export default function NewsClient({ news: initialNews, gallery: initialGallery 
   const fallbackGallery = [
     {
       _id: 'g1',
-      title: 'MSE Conclave BKC BKC 2026',
+      title: 'MSE Industrial Conclave BKC 2026',
       type: 'Photo',
       url: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2070&auto=format&fit=crop'
     },
@@ -272,3 +272,4 @@ export default function NewsClient({ news: initialNews, gallery: initialGallery 
     </div>
   );
 }
+

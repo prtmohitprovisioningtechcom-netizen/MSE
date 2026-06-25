@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Calendar, MapPin, Users, Clock, BookOpen } from 'lucide-react';
@@ -71,7 +71,7 @@ export default function EventsClient({ events: initialEvents }: EventsClientProp
           Trade Meets & Workshops
         </h1>
         <p className="text-sm text-slate-500">
-          Browse upcoming vendor development conclaves, procurement meetings, capacity-building classes, and trade exhibitions. Online event registration is disabled for now.
+          Browse upcoming vendor development conclaves, procurement meetings, capacity-building programs, and trade exhibitions curated for MSMEs and industrial partners.
         </p>
       </div>
 
@@ -150,3 +150,4 @@ export default function EventsClient({ events: initialEvents }: EventsClientProp
     </div>
   );
 }
+

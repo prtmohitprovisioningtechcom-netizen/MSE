@@ -1,4 +1,4 @@
-import { Handshake, Landmark, ArrowUpRight, ShieldCheck, Award, Building2, CheckSquare } from 'lucide-react';
+﻿import { Handshake, Landmark, ArrowUpRight, ShieldCheck, Award, Building2, CheckSquare } from 'lucide-react';
 
 export default function VendorDevelopmentPage() {
   const psuMandates = [
@@ -28,7 +28,7 @@ export default function VendorDevelopmentPage() {
           Vendor Development & PSU Connect
         </h1>
         <p className="text-sm text-slate-500">
-          Learn about public procurement, GeM portal readiness, and buyer-seller development programs. Online matchmaking forms are disabled for now.
+          Learn about public procurement, GeM portal readiness, buyer-seller development programs, and supply-chain opportunities for MSMEs.
         </p>
       </div>
 
@@ -104,3 +104,4 @@ export default function VendorDevelopmentPage() {
     </div>
   );
 }
+

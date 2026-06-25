@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, Clock, Building2, Globe, HeartHandshake } from 'lucide-react';
+﻿import { MapPin, Phone, Mail, Clock, Building2, Globe, HeartHandshake } from 'lucide-react';
 
 export default function ContactPage() {
   const offices = [
@@ -34,7 +34,7 @@ export default function ContactPage() {
           Contact Secretariat
         </h1>
         <p className="text-sm text-slate-500">
-          Online contact forms are disabled for now. Please reach the chamber team through the official phone numbers and email addresses below.
+          Reach the chamber team for membership, government scheme guidance, vendor development, events, and industrial support desk coordination.
         </p>
       </div>
 
@@ -112,3 +112,4 @@ export default function ContactPage() {
     </div>
   );
 }
+

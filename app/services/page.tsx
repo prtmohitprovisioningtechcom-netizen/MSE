@@ -8,12 +8,8 @@ export default function ServicesPage() {
       icon: Building2,
       benefits: ['Udyam Registration guidance', 'Export cluster information', 'Smart factory awareness']
     },
-    {
-      title: 'Industrial Development',
-      description: 'Facilitating awareness around industrial estate allocations, logistics connectivity, power subsidy coordination, and raw material channels.',
-      icon: HardHat,
-      benefits: ['GIDC / MIDC liaison information', 'Power and water subsidy guides', 'Logistics hub mapping']
-    },
+
+
     {
       title: 'Training & Awareness',
       description: 'Regular sessions focusing on GST, tax compliance, labor laws, environmental codes, quality standards, and export compliance.',
@@ -50,12 +46,8 @@ export default function ServicesPage() {
       icon: Sparkles,
       benefits: ['NSDC course awareness', 'Shopfloor safety training', 'CNC and PLC programming guidance']
     },
-    {
-      title: 'Industrial Grievance Desk',
-      description: 'Guidance for delayed payment recovery, MSMED Act awareness, municipal approvals, and utility-related industry concerns.',
-      icon: ShieldAlert,
-      benefits: ['MSEFC filing awareness', 'Delayed payment guidance', 'Clearance facilitation information']
-    }
+
+
   ];
 
   return (
@@ -66,7 +58,7 @@ export default function ServicesPage() {
           Services & Facilitation Desks
         </h1>
         <p className="text-sm text-slate-500">
-          MSECCIA provides public information about business processes, policy support, credit access, and industrial facilitation. Online inquiry forms are disabled for now.
+          MSECCIA provides structured support for business processes, policy representation, credit access, digital readiness, procurement facilitation, and industrial coordination through its chamber desks.
         </p>
       </div>
 
@@ -102,7 +94,7 @@ export default function ServicesPage() {
           <span className="text-secondary font-bold text-xs uppercase tracking-widest block">Offline Assistance</span>
           <h2 className="text-2xl md:text-3xl font-extrabold font-display">Need details about any desk?</h2>
           <p className="text-sm text-slate-200 leading-relaxed">
-            Please contact the secretariat by phone or email. The website is currently informational only, with forms and login features removed.
+            Connect with the secretariat for membership support, scheme guidance, vendor readiness, events, and grievance coordination. Digital workflows and database-backed modules remain available for operational use.
           </p>
         </div>
         <div className="bg-white/10 border border-white/10 rounded-2xl p-5 text-xs text-slate-100 space-y-2">
@@ -114,3 +106,4 @@ export default function ServicesPage() {
     </div>
   );
 }
+

@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { 
-  Building2, Users, Handshake, CheckSquare, Award, ArrowRight, 
+import {
+  Building2, Users, Handshake, CheckSquare, Award, ArrowRight,
   Calendar, MapPin, Tag, Clock, ArrowUpRight, ShieldCheck, HelpCircle, User
 } from 'lucide-react';
 
@@ -15,11 +15,11 @@ interface HomeClientProps {
   initialSchemes: any[];
 }
 
-export default function HomeClient({ 
-  initialEvents, 
-  initialNews, 
+export default function HomeClient({
+  initialEvents,
+  initialNews,
   initialTestimonials,
-  initialSchemes 
+  initialSchemes
 }: HomeClientProps) {
   // Stats counter simulation
   const [counts, setCounts] = useState({ members: 0, meets: 0, resolution: 0, funds: 0 });
@@ -132,15 +132,15 @@ export default function HomeClient({
 
   return (
     <div className="space-y-20 pb-20">
-      
+
       {/* HERO SECTION */}
       <section className="relative min-h-[85vh] flex items-center justify-center bg-gradient-to-br from-slate-900 via-primary to-slate-950 text-white overflow-hidden px-6 py-16">
         {/* Background Overlay Graphics */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-secondary/15 via-transparent to-transparent opacity-60" />
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2074&auto=format&fit=crop')] mix-blend-overlay opacity-15 bg-cover bg-center" />
-        
+
         <div className="max-w-6xl mx-auto w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -149,7 +149,7 @@ export default function HomeClient({
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/10 border border-secondary/35 text-secondary text-xs font-bold uppercase tracking-wider">
               <span>Partners In Growth, Nation In Progress</span>
             </div>
-            
+
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight font-display text-white">
               Empowering MSMEs, <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-orange-400">
@@ -157,21 +157,21 @@ export default function HomeClient({
               </span> <br />
               Industrial Future
             </h1>
-            
+
             <p className="text-base md:text-lg text-slate-300 max-w-xl leading-relaxed">
               Connecting enterprises, micro-industries, startups, SC/ST entrepreneurs, and Government regulatory bodies for sustainable domestic manufacturing and export growth.
             </p>
-            
+
             <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2">
-              <Link 
-                href="/membership" 
+              <Link
+                href="/membership"
                 className="px-6 py-3 bg-secondary hover:bg-secondary-hover text-white text-sm font-bold rounded-xl shadow-lg shadow-secondary/25 transition-all flex items-center gap-2 group hover:scale-[1.03]"
               >
                 <span>Become Member</span>
                 <ArrowRight className="h-4 w-4 group-hover:translate-x-1.5 transition-transform" />
               </Link>
-              <Link 
-                href="/services" 
+              <Link
+                href="/services"
                 className="px-6 py-3 bg-white/10 hover:bg-white/15 border border-white/20 text-white text-sm font-semibold rounded-xl backdrop-blur-sm transition-all flex items-center gap-2"
               >
                 <span>Explore Services</span>
@@ -181,66 +181,16 @@ export default function HomeClient({
           </motion.div>
 
           {/* Quick Access Portal Panel */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="lg:col-span-4 bg-white/10 border border-white/25 rounded-3xl p-6 backdrop-blur-md shadow-2xl relative"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-full blur-3xl" />
-            <h3 className="text-lg font-bold text-white mb-4 border-b border-white/15 pb-2.5 flex items-center gap-2">
-              <ShieldCheck className="h-5 w-5 text-secondary" /> Industrial Desk
-            </h3>
-            
-            <div className="space-y-4">
-              <p className="text-xs text-slate-300">Quickly search and track submitted grievances or apply for membership online.</p>
-              
-              <Link href="/grievance" className="block p-3.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl transition-all">
-                <span className="block text-xs font-bold text-white">Track Grievance</span>
-                <span className="block text-[10px] text-slate-400 mt-0.5">Check complaint status via tracking ID</span>
-              </Link>
+            <img src="/mse.jpeg" alt="MSECCIA Logo" className="h-64 w-80 md:h-72 md:w-96 object-contain rounded-lg mx-auto p-2" />
 
-              <Link href="/membership" className="block p-3.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl transition-all">
-                <span className="block text-xs font-bold text-white">Online Application</span>
-                <span className="block text-[10px] text-slate-400 mt-0.5">Apply for Corporate/MSME/Startup tier</span>
-              </Link>
-
-              <Link href="/vendor-development" className="block p-3.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl transition-all">
-                <span className="block text-xs font-bold text-white">Buyer-Seller Matchmaking</span>
-                <span className="block text-[10px] text-slate-400 mt-0.5">Procurement connect program details</span>
-              </Link>
-            </div>
           </motion.div>
-        </div>
-      </section>
-
-      {/* STATS COUNTDOWN COUNTERS */}
-      <section className="max-w-6xl mx-auto px-6 -mt-28 relative z-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { label: 'Registered Members', count: counts.members.toLocaleString() + '+', icon: Users, color: 'text-primary' },
-            { label: 'Buyer-Seller Meets', count: counts.meets.toString() + '+', icon: Handshake, color: 'text-secondary' },
-            { label: 'Grievance Resolution', count: counts.resolution.toString() + '%', icon: CheckSquare, color: 'text-accent' },
-            { label: 'Credit Facilitated', count: '₹' + counts.funds.toString() + ' Cr+', icon: Award, color: 'text-orange-500' }
-          ].map((stat, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * idx, duration: 0.5 }}
-              className="glass-card rounded-2xl p-5 md:p-6 text-center border border-slate-200 shadow-xl flex flex-col items-center hover:scale-[1.03] transition-all"
-            >
-              <div className={`p-3 rounded-xl bg-slate-50 ${stat.color} mb-3.5 shadow-sm`}>
-                <stat.icon className="h-6 w-6" />
-              </div>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-primary font-display tracking-tight leading-none">
-                {stat.count}
-              </h2>
-              <p className="text-[11px] md:text-xs font-semibold text-slate-500 mt-2 uppercase tracking-wider leading-tight">
-                {stat.label}
-              </p>
-            </motion.div>
-          ))}
         </div>
       </section>
 
@@ -253,7 +203,7 @@ export default function HomeClient({
               Promoting Industrial Growth & Trade Alliances
             </h2>
           </div>
-          
+
           <p className="text-sm text-slate-600 leading-relaxed">
             The MSE Chamber of Commerce & Industry Association (MSECCIA) is an apex independent chamber representing micro, small, and medium businesses across India. We serve as a vital link connecting MSMEs, technology innovators, financial institutes, large industrial houses, and administrative government agencies.
           </p>
@@ -280,7 +230,7 @@ export default function HomeClient({
         {/* Chairman Message Card */}
         <div className="lg:col-span-5 bg-gradient-to-br from-primary to-slate-900 text-white rounded-3xl p-6 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[350px]">
           <div className="absolute top-0 right-0 w-36 h-36 bg-secondary/15 rounded-full blur-3xl" />
-          
+
           <div className="space-y-4">
             <span className="text-secondary text-[10px] font-bold uppercase tracking-widest block">President's Message</span>
             <blockquote className="text-xs text-slate-300 italic leading-relaxed">
@@ -331,8 +281,8 @@ export default function HomeClient({
                   <h4 className="font-bold text-primary text-base font-display">{service.title}</h4>
                   <p className="text-xs text-slate-500 leading-relaxed">{service.desc}</p>
                 </div>
-                <Link 
-                  href={service.link} 
+                <Link
+                  href={service.link}
                   className="mt-6 flex items-center gap-1 text-[11px] font-bold text-secondary uppercase hover:text-secondary-hover transition-colors"
                 >
                   <span>Learn More</span>
@@ -346,7 +296,7 @@ export default function HomeClient({
 
       {/* EVENTS & NEWS SPLIT SECTION */}
       <section className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12">
-        
+
         {/* Dynamic Events Column */}
         <div className="lg:col-span-7 space-y-6">
           <div className="flex justify-between items-end border-b border-slate-200 pb-3">
@@ -361,14 +311,14 @@ export default function HomeClient({
 
           <div className="space-y-4">
             {events.map((event: any) => (
-              <div 
+              <div
                 key={event._id}
                 className="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row gap-4"
               >
                 {event.image && (
                   <div className="w-full md:w-36 h-24 rounded-lg overflow-hidden shrink-0 bg-slate-100 relative">
-                    <img 
-                      src={event.image} 
+                    <img
+                      src={event.image}
                       alt={event.title}
                       className="object-cover w-full h-full"
                     />
@@ -382,7 +332,7 @@ export default function HomeClient({
                     <h4 className="font-bold text-slate-900 text-sm mt-1">{event.title}</h4>
                     <p className="text-xs text-slate-500 line-clamp-1 mt-1">{event.description}</p>
                   </div>
-                  
+
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-slate-400 font-medium">
                     <span className="flex items-center gap-1">
                       <Clock className="h-3 w-3 text-secondary" />
@@ -441,8 +391,8 @@ export default function HomeClient({
                 Key Government MSME Schemes
               </h2>
             </div>
-            <Link 
-              href="/sc-st-support" 
+            <Link
+              href="/sc-st-support"
               className="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white text-xs font-bold rounded-xl transition-all shadow-md flex items-center gap-2 shrink-0"
             >
               <span>See Eligibility Guide</span>
@@ -452,7 +402,7 @@ export default function HomeClient({
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {schemes.map((scheme: any) => (
-              <div 
+              <div
                 key={scheme._id}
                 className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm flex flex-col justify-between"
               >
@@ -464,7 +414,7 @@ export default function HomeClient({
                   <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">{scheme.description}</p>
                 </div>
                 {scheme.link && (
-                  <a 
+                  <a
                     href={scheme.link}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -491,7 +441,7 @@ export default function HomeClient({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {testimonials.map((test: any) => (
-            <div 
+            <div
               key={test._id}
               className="bg-white border border-slate-100 rounded-3xl p-6 md:p-8 shadow-md relative flex flex-col justify-between min-h-[220px]"
             >
@@ -499,7 +449,7 @@ export default function HomeClient({
               <p className="text-xs md:text-sm text-slate-600 leading-relaxed italic z-10">
                 "{test.content}"
               </p>
-              
+
               <div className="flex items-center gap-3 pt-6 border-t border-slate-100 mt-6 shrink-0">
                 {test.avatar && (
                   <div className="w-10 h-10 rounded-full overflow-hidden bg-slate-100 shrink-0">
@@ -536,7 +486,7 @@ export default function HomeClient({
           </div>
         </div>
       </section>
-      
+
     </div>
   );
 }

@@ -1,9 +1,4 @@
-import dynamic from 'next/dynamic';
-const Check = dynamic(() => import('lucide-react').then(mod => mod.Check), { ssr: false });
-const Building = dynamic(() => import('lucide-react').then(mod => mod.Building), { ssr: false });
-const ShieldCheck = dynamic(() => import('lucide-react').then(mod => mod.ShieldCheck), { ssr: false });
-const FileText = dynamic(() => import('lucide-react').then(mod => mod.FileText), { ssr: false });
-const HelpCircle = dynamic(() => import('lucide-react').then(mod => mod.HelpCircle), { ssr: false });
+import { Check, Building, ShieldCheck, FileText, HelpCircle } from 'lucide-react';
 
 export const revalidate = 0;
 
@@ -11,7 +6,7 @@ export default function MembershipPage() {
   const tiers = [
     {
       name: 'Startup',
-      price: '?7,500',
+      price: 'Rs. 7,500',
       period: 'per year',
       description: 'Ideal for early-stage ventures seeking mentorship, funding awareness, and business network access.',
       features: ['Mentorship connectivity desk', 'Credit pathway guidance', 'Pitch review support', 'Digital webinar access'],
@@ -19,7 +14,7 @@ export default function MembershipPage() {
     },
     {
       name: 'MSME',
-      price: '?12,500',
+      price: 'Rs. 12,500',
       period: 'per year',
       description: 'Designed for micro and small manufacturers looking to scale, handle delayed payment issues, and explore PSU bidding.',
       features: ['PSU vendor meet information', 'Delayed payment guidance', 'Trade expo support information', 'ZED and ISO awareness'],
@@ -28,7 +23,7 @@ export default function MembershipPage() {
     },
     {
       name: 'Corporate',
-      price: '?50,000',
+      price: 'Rs. 50,000',
       period: 'per year',
       description: 'For medium-to-large organizations seeking policy advocacy, B2B procurement visibility, and industry roundtable participation.',
       features: ['Dedicated secretariat coordination', 'Policy roundtable invitations', 'Buyer delegation access', 'Corporate-to-MSME connect'],
@@ -37,9 +32,9 @@ export default function MembershipPage() {
   ];
 
   const process = [
-    'Contact the secretariat by phone or email.',
+    'Start the application through the membership desk or connect with the secretariat.',
     'Receive the latest membership brochure and fee details.',
-    'Submit documents directly to the office team offline.',
+    'Submit PAN, GST, Udyam, company profile, and supporting documents for verification.',
     'The chamber panel reviews and confirms membership status.'
   ];
 
@@ -51,7 +46,7 @@ export default function MembershipPage() {
           Chamber Membership Tiers
         </h1>
         <p className="text-sm text-slate-500">
-          Explore MSECCIA membership categories, benefits, and offline onboarding process. Online application and login features are currently disabled.
+          Explore MSECCIA membership categories, benefits, onboarding flow, and chamber support available for startups, MSMEs, and corporate partners.
         </p>
       </div>
 
@@ -99,7 +94,7 @@ export default function MembershipPage() {
             How Membership Works
           </h2>
           <p className="text-sm text-slate-500 leading-relaxed">
-            For now, membership is handled directly by the secretariat team. Please use phone or email for brochure, eligibility, document checklist, and payment instructions.
+            Membership applications are reviewed by the secretariat team with clear document checks, category validation, payment guidance, and confirmation support.
           </p>
           <div className="p-5 bg-white border border-slate-100 rounded-2xl text-xs text-slate-600 space-y-2">
             <p className="font-bold text-primary flex items-center gap-2">
@@ -141,3 +136,4 @@ export default function MembershipPage() {
     </div>
   );
 }
+
