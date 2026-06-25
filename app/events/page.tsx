@@ -2,7 +2,7 @@ import dbConnect from '@/lib/db';
 import Event from '@/models/Event';
 import EventsClient from '@/components/EventsClient';
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 export default async function EventsPage() {
   let events = [];

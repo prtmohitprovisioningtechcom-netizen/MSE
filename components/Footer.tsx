@@ -1,4 +1,4 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 import { Building2, Mail, MapPin, Phone } from 'lucide-react';
 import { initiatives, organization, serviceDesks } from '@/lib/siteContent';
 
@@ -51,7 +51,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10 py-4 px-6 text-center text-[11px] text-slate-300">
-        Copyright {new Date().getFullYear()} {organization.name}. All rights reserved.
+        Designed by Provisioningtech
       </div>
     </footer>
   );

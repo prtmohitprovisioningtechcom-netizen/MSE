@@ -5,7 +5,7 @@ import Testimonial from '@/models/Testimonial';
 import GovernmentScheme from '@/models/GovernmentScheme';
 import HomeClient from '@/components/HomeClient';
 
-export const revalidate = 0; // Dynamic rendering to capture new events/news instantly
+export const revalidate = 60;
 
 export default async function Home() {
   let events = [];

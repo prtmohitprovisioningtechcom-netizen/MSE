@@ -1,6 +1,6 @@
 import { Check, Building, ShieldCheck, FileText, HelpCircle } from 'lucide-react';
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 export default function MembershipPage() {
   const tiers = [

@@ -3,7 +3,7 @@ import News from '@/models/News';
 import Gallery from '@/models/Gallery';
 import NewsClient from '@/components/NewsClient';
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 export default async function NewsPage() {
   let news = [];
