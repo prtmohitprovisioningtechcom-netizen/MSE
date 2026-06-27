@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "seed": "ts-node scripts/seed.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
