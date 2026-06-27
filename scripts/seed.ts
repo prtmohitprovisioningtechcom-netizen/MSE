@@ -77,7 +77,7 @@ async function seed(options: SeedOptions = { clear: false }) {
   // Sample News
   await News.insertMany([
     {
-      title: 'MSECCIA Launches New Credit Scheme',
+      title: 'MSE Launches New Credit Scheme',
       content: 'The Chamber announces a new low‑interest credit scheme for emerging MSMEs.',
       type: 'Press Release',
       mediaUrl: '',

@@ -84,7 +84,7 @@ export default function Navbar() {
 
       <nav className="glass-nav shadow-sm px-4 md:px-8 py-3 flex items-center justify-between">
         <a href="/" onClick={(e) => handleNav(e, '/')} className="flex items-center gap-3 group min-w-0 cursor-pointer">
-            <Image src="/mse.jpeg" alt="MSECCIA Logo" width={128} height={96} className="h-24 w-32 md:h-28 md:w-36 object-contain" priority />
+            <Image src="/mse.jpeg" alt="MSE Logo" width={128} height={96} className="h-24 w-32 md:h-28 md:w-36 object-contain" priority />
             <span className="ml-2 text-sm font-semibold text-primary">MSE Chamber of Commerce And Industry Association</span>
         </a>
 

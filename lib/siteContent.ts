@@ -1,10 +1,10 @@
 export const organization = {
-  shortName: 'MSECCIA',
+  shortName: 'MSE',
   name: 'MSE Chambers of Commerce & Industry Association',
   tagline: 'Partners In Growth, Nation In Progress',
-  email: 'info@mseccia.org.in',
+  email: 'info@mse.org.in',
   phone: '+91 (22) 2623-1111',
-  address: 'MSECCIA House, Bandra Kurla Complex, Mumbai, Maharashtra 400051',
+  address: 'MSE House, Bandra Kurla Complex, Mumbai, Maharashtra 400051',
   hours: 'Monday to Friday, 9:30 AM to 6:00 PM',
 };
 
@@ -69,7 +69,7 @@ export const officeContacts = [
     title: 'Regional Facilitation Office',
     address: 'Industrial Facilitation Center, Phase II GIDC, Gandhinagar, Gujarat 382016',
     phone: '+91 (79) 4567-8910',
-    email: 'gujarat@mseccia.org.in',
+    email: 'gujarat@mse.org.in',
     hours: 'Monday to Friday, 10:00 AM to 5:30 PM',
   },
 ];

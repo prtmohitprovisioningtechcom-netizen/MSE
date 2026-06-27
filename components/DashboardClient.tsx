@@ -37,7 +37,7 @@ export default function DashboardClient({
     <div className="py-12 px-6 max-w-7xl mx-auto space-y-8">
       
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-primary to-slate-900 text-white rounded-3xl p-6 md:p-8 shadow-lg relative overflow-hidden">
+      <div className="bg-linear-to-r from-primary to-slate-900 text-white rounded-3xl p-6 md:p-8 shadow-lg relative overflow-hidden">
         <div className="absolute top-0 right-0 w-48 h-48 bg-secondary/10 rounded-full blur-3xl" />
         <div className="relative z-10 space-y-1">
           <span className="text-[10px] font-bold text-secondary uppercase tracking-widest block">User Dashboard</span>

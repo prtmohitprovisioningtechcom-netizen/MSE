@@ -1,4 +1,4 @@
-﻿import { Handshake, Landmark, ArrowUpRight, ShieldCheck, Award, Building2, CheckSquare } from 'lucide-react';
+import { Handshake, Landmark, ArrowUpRight, ShieldCheck, Award, Building2, CheckSquare } from 'lucide-react';
 
 export default function VendorDevelopmentPage() {
   const psuMandates = [
@@ -94,7 +94,7 @@ export default function VendorDevelopmentPage() {
 
           <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10 text-xs text-primary leading-relaxed space-y-2">
             <strong className="font-bold block">Need GeM Portal Help?</strong>
-            <p className="text-slate-600">Contact the MSECCIA office for offline guidance on vendor registration, catalogue preparation, and tender awareness.</p>
+            <p className="text-slate-600">Contact the MSE office for offline guidance on vendor registration, catalogue preparation, and tender awareness.</p>
             <a href="https://gem.gov.in" target="_blank" rel="noopener noreferrer" className="font-bold uppercase tracking-wider text-[10px] text-secondary hover:text-secondary-hover flex items-center gap-1">
               Visit GeM Portal <ArrowUpRight className="h-3.5 w-3.5" />
             </a>

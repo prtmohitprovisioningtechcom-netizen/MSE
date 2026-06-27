@@ -38,7 +38,7 @@ export async function GET(request: Request) {
       <html lang="en">
       <head>
         <meta charset="UTF-8">
-        <title>MSECCIA Membership Certificate - ${companyName}</title>
+        <title>MSE Membership Certificate - ${companyName}</title>
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Montserrat:wght@400;500;600;700&display=swap');
           

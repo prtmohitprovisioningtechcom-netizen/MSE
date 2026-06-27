@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
         <div className="space-y-4 md:col-span-1">
           <div className="flex items-center gap-3">
-            <img src="/mse.jpeg" alt="MSECCIA Logo" className="h-14 w-20 object-contain bg-white rounded-lg p-1" />
+            <img src="/mse.jpeg" alt="MSE Logo" className="h-14 w-20 object-contain bg-white rounded-lg p-1" />
             <div>
               <h3 className="font-extrabold font-display leading-tight">{organization.shortName}</h3>
               <p className="text-[10px] text-slate-300 uppercase tracking-wider">{organization.tagline}</p>

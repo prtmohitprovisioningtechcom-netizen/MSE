@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import { Calendar, MapPin, Users, Clock, BookOpen } from 'lucide-react';
@@ -28,7 +28,7 @@ export default function EventsClient({ events: initialEvents }: EventsClientProp
       title: 'Workshop on Government Credit Schemes & Subsidies',
       description: 'An interactive training session about CGTMSE, Mudra loans, and technology upgradation subsidy awareness.',
       date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
-      location: 'MSECCIA Conference Hall, Mumbai',
+      location: 'MSE Conference Hall, Mumbai',
       category: 'Workshop',
       capacity: 150,
       image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2070&auto=format&fit=crop',
@@ -115,7 +115,7 @@ export default function EventsClient({ events: initialEvents }: EventsClientProp
                   </div>
                 )}
 
-                <div className="p-6 space-y-4 flex-grow">
+                <div className="p-6 space-y-4 grow">
                   <div className="flex flex-col gap-1">
                     <span className="text-[10px] font-bold text-secondary uppercase tracking-wider block">
                       {new Date(event.date).toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}

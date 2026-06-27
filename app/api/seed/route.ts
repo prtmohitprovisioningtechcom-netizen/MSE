@@ -36,28 +36,28 @@ export async function GET() {
 
     const admin = await User.create({
       name: 'Dr. Ramesh Kumar (IAS Retd.)',
-      email: 'admin@mseccia.org.in',
+      email: 'admin@mse.org.in',
       password: hashedAdminPassword,
       role: 'Admin'
     });
 
     const memberUser = await User.create({
       name: 'Rajesh Shah',
-      email: 'member@mseccia.org.in',
+      email: 'member@mse.org.in',
       password: hashedMemberPassword,
       role: 'Member'
     });
 
     const vendorUser = await User.create({
       name: 'Sunita Sharma',
-      email: 'vendor@mseccia.org.in',
+      email: 'vendor@mse.org.in',
       password: hashedVendorPassword,
       role: 'Vendor'
     });
 
     const entrepreneurUser = await User.create({
       name: 'Amit Patel',
-      email: 'entrepreneur@mseccia.org.in',
+      email: 'entrepreneur@mse.org.in',
       password: hashedEntrepreneurPassword,
       role: 'Entrepreneur'
     });
@@ -94,7 +94,7 @@ export async function GET() {
         title: 'Workshop on Government Credit Schemes & Subsidies',
         description: 'An interactive training session detailing how to apply for CGTMSE, Mudra loans, and technology upgradation subsidies. Guest speakers include bank directors and MSME facilitators.',
         date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
-        location: 'MSECCIA Conference Hall, Mumbai & Live Streamed',
+        location: 'MSE Conference Hall, Mumbai & Live Streamed',
         category: 'Workshop',
         capacity: 150,
         image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2070&auto=format&fit=crop',
@@ -115,7 +115,7 @@ export async function GET() {
     // 4. Create News
     const news = [
       {
-        title: 'MSECCIA Submits Pre-Budget Memorandum to Finance Ministry',
+        title: 'MSE Submits Pre-Budget Memorandum to Finance Ministry',
         summary: 'Proposals highlight credit flow improvements, GST simplification, and special export incentives for micro-enterprises.',
         content: 'The MSE Chamber of Commerce & Industry Association has officially submitted a comprehensive Pre-Budget Memorandum to the Ministry of Finance. Our President, in a delegation, pressed for lowering interest rates for CGTMSE backed credit, enhancing the threshold of corporate invoice auditing, and providing specific logistics subsidies for micro-enterprises. These interventions are critical to bolster domestic manufacturing and double MSME export contributions.',
         type: 'Press Release',
@@ -125,7 +125,7 @@ export async function GET() {
       {
         title: 'Skill Development Initiative for SC/ST Entrepreneurs Launched',
         summary: 'A new 6-month specialized entrepreneurship certification program launched in association with NSDC.',
-        content: 'In our endeavor to support marginalized communities, MSECCIA in partnership with National Skill Development Corporation (NSDC) has launched the Stand-Up India Digital training portal. This program offers free courses in advanced corporate finance, tax compliances, supply chain operations, and e-procurement portals. Over 500 SC/ST startup founders have already enrolled in the first cohort.',
+        content: 'In our endeavor to support marginalized communities, MSE in partnership with National Skill Development Corporation (NSDC) has launched the Stand-Up India Digital training portal. This program offers free courses in advanced corporate finance, tax compliances, supply chain operations, and e-procurement portals. Over 500 SC/ST startup founders have already enrolled in the first cohort.',
         type: 'News Article',
         mediaUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop',
         publishedAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000)
@@ -168,7 +168,7 @@ export async function GET() {
         name: 'Vikas Mandlewala',
         role: 'Founder & CEO',
         company: 'Vikas Tech-Forgings',
-        content: 'MSECCIA is a fantastic partner. Through their Buyer-Seller meets, we secured our first procurement contract with Indian Railways, boosting our company turnover by 40% in a single year.',
+        content: 'MSE is a fantastic partner. Through their Buyer-Seller meets, we secured our first procurement contract with Indian Railways, boosting our company turnover by 40% in a single year.',
         rating: 5,
         avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2070&auto=format&fit=crop',
         isFeatured: true
@@ -198,7 +198,7 @@ export async function GET() {
       user: memberUser._id,
       trackingId: 'MSE-260623-H3K9',
       name: 'Rajesh Shah',
-      email: 'member@mseccia.org.in',
+      email: 'member@mse.org.in',
       phone: '+91 98765 43210',
       title: 'Delayed payment from Public Sector Corporation',
       description: 'Our enterprise supplied engineering components worth ₹14.5 Lakhs. The invoice is overdue by 120 days. Under MSMED Act, payment must be released within 45 days. Requesting chamber mediation.',
@@ -206,14 +206,14 @@ export async function GET() {
       status: 'In Progress',
       updates: [
         { status: 'Pending', comment: 'Grievance registered. Tracking ID: MSE-260623-H3K9.' },
-        { status: 'In Progress', comment: 'Notice has been dispatched to the respondent PSU under MSECCIA arbitration guidelines.' }
+        { status: 'In Progress', comment: 'Notice has been dispatched to the respondent PSU under MSE arbitration guidelines.' }
       ]
     });
 
     console.log('Database successfully seeded!');
     return NextResponse.json({ 
       success: true, 
-      message: 'Database seeded successfully. You can log in using admin@mseccia.org.in / admin123, member@mseccia.org.in / member123, vendor@mseccia.org.in / vendor123, or entrepreneur@mseccia.org.in / entrepreneur123' 
+      message: 'Database seeded successfully. You can log in using admin@mse.org.in / admin123, member@mse.org.in / member123, vendor@mse.org.in / vendor123, or entrepreneur@mse.org.in / entrepreneur123' 
     });
   } catch (error: any) {
     console.error('Seed API error:', error);

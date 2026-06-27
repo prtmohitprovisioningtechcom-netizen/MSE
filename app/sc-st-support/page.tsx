@@ -116,7 +116,7 @@ export default async function ScStSupportPage() {
         </div>
 
         {/* Success Case study */}
-        <div className="lg:col-span-5 bg-gradient-to-br from-primary to-slate-900 text-white rounded-3xl p-6 shadow-xl space-y-4 relative overflow-hidden">
+        <div className="lg:col-span-5 bg-linear-to-br from-primary to-slate-900 text-white rounded-3xl p-6 shadow-xl space-y-4 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-full blur-3xl" />
           <span className="text-secondary text-[10px] font-bold uppercase tracking-widest block">NSSH Success Story</span>
           
@@ -124,7 +124,7 @@ export default async function ScStSupportPage() {
             How Harish Sonawane expanded Sonawane Engineering by ₹1.2 Crore
           </h4>
           <p className="text-[11px] text-slate-300 leading-relaxed">
-            "We applied for Stand-Up India credit using the MSECCIA facilitation helpdesk. They guided us on creating the project report and connecting with Union Bank of India. Not only did we get the credit sanctioned within 30 days, but they also helped us register on GeM to secure central PSU orders under the SC/ST quota."
+            "We applied for Stand-Up India credit using the MSE facilitation helpdesk. They guided us on creating the project report and connecting with Union Bank of India. Not only did we get the credit sanctioned within 30 days, but they also helped us register on GeM to secure central PSU orders under the SC/ST quota."
           </p>
           
           <div className="pt-4 border-t border-white/10 text-xs">

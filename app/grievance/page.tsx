@@ -48,7 +48,7 @@ export default function GrievancePage() {
           </div>
         </div>
 
-        <div className="lg:col-span-5 bg-gradient-to-br from-primary to-slate-900 text-white rounded-3xl p-6 md:p-8 shadow-xl space-y-5">
+        <div className="lg:col-span-5 bg-linear-to-br from-primary to-slate-900 text-white rounded-3xl p-6 md:p-8 shadow-xl space-y-5">
           <div className="flex items-center gap-2 text-secondary text-xs font-bold uppercase tracking-widest">
             <AlertCircle className="h-4 w-4" />
             Priority Cases

@@ -46,7 +46,7 @@ export default function MembershipPage() {
           Chamber Membership Tiers
         </h1>
         <p className="text-sm text-slate-500">
-          Explore MSECCIA membership categories, benefits, onboarding flow, and chamber support available for startups, MSMEs, and corporate partners.
+          Explore MSE membership categories, benefits, onboarding flow, and chamber support available for startups, MSMEs, and corporate partners.
         </p>
       </div>
 
@@ -101,7 +101,7 @@ export default function MembershipPage() {
               <HelpCircle className="h-4 w-4 text-secondary" /> Secretariat Contact
             </p>
             <p>Phone: +91 (22) 2623-1111</p>
-            <p>Email: info@mseccia.org.in</p>
+            <p>Email: info@mse.org.in</p>
           </div>
         </div>
 

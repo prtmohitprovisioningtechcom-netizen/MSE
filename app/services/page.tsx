@@ -58,7 +58,7 @@ export default function ServicesPage() {
           Services & Facilitation Desks
         </h1>
         <p className="text-sm text-slate-500">
-          MSECCIA provides structured support for business processes, policy representation, credit access, digital readiness, procurement facilitation, and industrial coordination through its chamber desks.
+          MSE provides structured support for business processes, policy representation, credit access, digital readiness, procurement facilitation, and industrial coordination through its chamber desks.
         </p>
       </div>
 
@@ -99,7 +99,7 @@ export default function ServicesPage() {
         </div>
         <div className="bg-white/10 border border-white/10 rounded-2xl p-5 text-xs text-slate-100 space-y-2">
           <p><strong className="text-white">Phone:</strong> +91 (22) 2623-1111</p>
-          <p><strong className="text-white">Email:</strong> info@mseccia.org.in</p>
+          <p><strong className="text-white">Email:</strong> info@mse.org.in</p>
           <p><strong className="text-white">Hours:</strong> Mon - Fri, 9:30 AM to 6:00 PM</p>
         </div>
       </section>
