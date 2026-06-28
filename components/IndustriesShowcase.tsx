@@ -18,7 +18,7 @@ const industries = [
 ];
 
 function IndustryPhotos({ name, slug }: { name: string; slug: string }) {
-  const photos = [1, 2, 3, 4, 5].map((n) => `/industries/${slug}/${n}.jpg`);
+  const photos = [1, 2, 3, 4, 5].map((n) => `/industries/${slug}/${n}.jpeg`);
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
