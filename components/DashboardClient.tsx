@@ -42,7 +42,7 @@ export default function DashboardClient({
         <div className="relative z-10 space-y-1">
           <span className="text-[10px] font-bold text-secondary uppercase tracking-widest block">User Dashboard</span>
           <h1 className="text-2xl md:text-3xl font-extrabold font-display">Welcome Back, {user.name}</h1>
-          <p className="text-xs text-slate-300 mt-1">Classification Role: <strong className="text-secondary">{user.role}</strong> | Portal ID: {user.id.slice(18).toUpperCase()}</p>
+          <p className="text-xs text-slate-300 mt-1">Classification : <strong className="text-secondary">{user.role}</strong> | Portal ID: {user.id.slice(18).toUpperCase()}</p>
         </div>
       </div>
 
