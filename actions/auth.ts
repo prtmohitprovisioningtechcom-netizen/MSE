@@ -58,10 +58,23 @@ export async function loginAction(formData: any) {
   }
 }
 
+export async function adminLoginAction(formData: { email: string; password: string }) {
+  const result = await loginAction(formData);
+  if (result.error) return result;
+
+  const role = result.user?.role;
+  if (role !== 'Admin' && role !== 'Super Admin') {
+    await removeSessionCookie();
+    return { error: 'Admin access only. Invalid admin credentials.' };
+  }
+
+  return result;
+}
+
 export async function registerAction(formData: any) {
   try {
     await dbConnect();
-    const { name, email, password, role } = formData;
+    const { name, email, password } = formData;
 
     if (!name || !email || !password) {
       return { error: 'Please fill in all fields' };
@@ -82,7 +95,7 @@ export async function registerAction(formData: any) {
       name,
       email: email.toLowerCase(),
       password: hashedPassword,
-      role: role || 'Member'
+      role: 'Member'
     });
 
     // Automatically log user in after registration
@@ -134,6 +147,94 @@ export async function forgotPasswordAction(formData: { email: string }) {
     };
   } catch (error: any) {
     return { error: error.message || 'An error occurred.' };
+  }
+}
+
+export async function updateProfileAction(formData: { name: string; email: string }) {
+  try {
+    const session = await getSession();
+    if (!session) return { error: 'Not authenticated' };
+
+    const { name, email } = formData;
+    if (!name?.trim() || !email?.trim()) {
+      return { error: 'Name and email are required' };
+    }
+
+    await dbConnect();
+
+    const existing = await User.findOne({
+      email: email.toLowerCase(),
+      _id: { $ne: session.id },
+    });
+    if (existing) {
+      return { error: 'This email is already in use by another account' };
+    }
+
+    const user = await User.findByIdAndUpdate(
+      session.id,
+      { name: name.trim(), email: email.toLowerCase().trim() },
+      { new: true }
+    );
+    if (!user) return { error: 'User not found' };
+
+    await setSessionCookie({
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    });
+
+    revalidatePath('/admin');
+    revalidatePath('/admin/settings');
+
+    return {
+      success: true,
+      message: 'Profile updated successfully',
+      user: { id: user._id.toString(), name: user.name, email: user.email, role: user.role },
+    };
+  } catch (error: any) {
+    return { error: error.message || 'Failed to update profile' };
+  }
+}
+
+export async function changePasswordAction(formData: {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}) {
+  try {
+    const session = await getSession();
+    if (!session) return { error: 'Not authenticated' };
+
+    const { currentPassword, newPassword, confirmPassword } = formData;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return { error: 'Please fill in all password fields' };
+    }
+
+    if (newPassword.length < 6) {
+      return { error: 'New password must be at least 6 characters' };
+    }
+
+    if (newPassword !== confirmPassword) {
+      return { error: 'New passwords do not match' };
+    }
+
+    await dbConnect();
+    const user = await User.findById(session.id);
+    if (!user) return { error: 'User not found' };
+
+    const isMatch = await comparePassword(currentPassword, user.password);
+    if (!isMatch) {
+      return { error: 'Current password is incorrect' };
+    }
+
+    user.password = await hashPassword(newPassword);
+    await user.save();
+
+    return { success: true, message: 'Password changed successfully' };
+  } catch (error: any) {
+    return { error: error.message || 'Failed to change password' };
   }
 }
 

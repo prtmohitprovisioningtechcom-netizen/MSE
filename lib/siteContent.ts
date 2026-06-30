@@ -40,6 +40,12 @@ export const serviceDesks = [
     points: ['GeM and tender awareness', 'PSU buyer connect', 'Vendor registration guidance'],
   },
   {
+    title: 'Job & Business Support',
+    slug: '/job-business-support',
+    summary: 'Official job creation guidelines, business support circulars, employment schemes, and enterprise facilitation documents for MSMEs.',
+    points: ['Job creation & employment schemes', 'Business support circulars', 'MS Word document library', 'Enterprise facilitation guides'],
+  },
+  {
     title: 'SC/ST Entrepreneur Support',
     slug: '/sc-st-support',
     summary: 'Dedicated guidance for SC/ST-owned enterprises through credit schemes, procurement readiness, mentoring, and market access.',
@@ -54,6 +60,7 @@ export const initiatives = [
   'Industrial Grievance Resolution',
   'Vendor Development Programs',
   'Government Scheme Awareness',
+  'Job & Business Support',
   'Trade Fairs & Exhibitions',
 ];
 

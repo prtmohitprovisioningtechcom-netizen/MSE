@@ -135,3 +135,109 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--secondary);
 }
 
+/* Word document inline preview */
+.docx-preview-host {
+  padding: 8px;
+}
+
+.docx-preview-host .docx-wrapper {
+  background: #f8fafc !important;
+  padding: 12px !important;
+}
+
+.docx-preview-host .docx-wrapper > section.docx {
+  background: white !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
+  margin: 0 auto 16px !important;
+  padding: 24px !important;
+}
+
+.docx-preview-host section.docx img {
+  max-width: 100% !important;
+  height: auto !important;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.docx-preview-host--full {
+  height: auto !important;
+  min-height: 24rem;
+  overflow: visible !important;
+}
+
+.docx-preview-host--fit {
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.docx-preview-host--fit .docx-wrapper {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.docx-preview-host--fit .docx-wrapper > section.docx {
+  margin: 0 auto !important;
+  padding: 24px !important;
+  box-shadow: none !important;
+}
+
+.doc-page-canvas {
+  background: #ffffff;
+}
+
+.doc-page-canvas-inner {
+  background: #ffffff;
+}
+
+.doc-page-scale {
+  will-change: transform;
+}
+
+.doc-page-iframe {
+  pointer-events: none;
+}
+
+.docx-preview-host--full .docx-wrapper {
+  min-height: auto !important;
+}
+
+/* Protected document viewing */
+.protected-document {
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.protected-document img,
+.protected-document iframe {
+  -webkit-user-drag: none;
+  pointer-events: auto;
+}
+
+.protected-document-shield {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+
+@media print {
+  .protected-document,
+  .protected-document * {
+    visibility: hidden !important;
+    display: none !important;
+  }
+
+  body::before {
+    content: 'Printing is disabled for protected documents.';
+    visibility: visible;
+    display: block;
+    position: fixed;
+    inset: 0;
+    padding: 2rem;
+    font-size: 1.25rem;
+    text-align: center;
+  }
+}
+

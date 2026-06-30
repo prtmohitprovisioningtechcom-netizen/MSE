@@ -10,6 +10,7 @@ import GovernmentScheme from '@/models/GovernmentScheme';
 import Testimonial from '@/models/Testimonial';
 import Partner from '@/models/Partner';
 import Contact from '@/models/Contact';
+import JobBusinessDocument from '@/models/JobBusinessDocument';
 import { getSession } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 
@@ -44,6 +45,7 @@ export async function getAdminDashboardStats() {
 
     const totalNews = await News.countDocuments();
     const totalSchemes = await GovernmentScheme.countDocuments();
+    const totalJobBusinessDocs = await JobBusinessDocument.countDocuments();
 
     // Fetch lists for rendering management tables
     const membersList = await Membership.find({}).populate('user', 'name email role').sort({ createdAt: -1 });
@@ -52,6 +54,7 @@ export async function getAdminDashboardStats() {
     const newsList = await News.find({}).sort({ publishedAt: -1 });
     const schemesList = await GovernmentScheme.find({}).sort({ createdAt: -1 });
     const contactsList = await Contact.find({}).sort({ createdAt: -1 });
+    const jobBusinessList = await JobBusinessDocument.find({}).sort({ createdAt: -1 });
 
     return {
       success: true,
@@ -61,7 +64,8 @@ export async function getAdminDashboardStats() {
         events: { total: totalEvents },
         complaints: { total: totalComplaints, pending: pendingComplaints, progress: progressComplaints, resolved: resolvedComplaints },
         newsCount: totalNews,
-        schemesCount: totalSchemes
+        schemesCount: totalSchemes,
+        jobBusinessCount: totalJobBusinessDocs,
       },
       data: {
         members: JSON.parse(JSON.stringify(membersList)),
@@ -69,7 +73,8 @@ export async function getAdminDashboardStats() {
         events: JSON.parse(JSON.stringify(eventsList)),
         news: JSON.parse(JSON.stringify(newsList)),
         schemes: JSON.parse(JSON.stringify(schemesList)),
-        contacts: JSON.parse(JSON.stringify(contactsList))
+        contacts: JSON.parse(JSON.stringify(contactsList)),
+        jobBusinessDocuments: JSON.parse(JSON.stringify(jobBusinessList)),
       }
     };
   } catch (error: any) {

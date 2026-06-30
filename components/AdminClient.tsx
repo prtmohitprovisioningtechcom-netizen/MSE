@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   Users, Building2, Calendar, ShieldAlert, Newspaper, BookOpen, 
-  Mail, ShieldCheck, Clock, Check, X, Trash2, Plus, ArrowUpRight, CheckCircle2
+  Mail, ShieldCheck, Clock, Check, X, Trash2, Plus, ArrowUpRight, CheckCircle2, Briefcase
 } from 'lucide-react';
 
 // Actions
@@ -12,6 +12,8 @@ import { approveMembership, rejectMembership } from '@/actions/membership';
 import { updateComplaintStatusAction } from '@/actions/grievance';
 import { createEventAction, deleteEventAction } from '@/actions/events';
 import { createNewsAction, deleteNewsAction, createSchemeAction, deleteSchemeAction, deleteContactAction } from '@/actions/admin';
+import ImageUploadField from '@/components/ImageUploadField';
+import AdminJobBusinessPanel from '@/components/AdminJobBusinessPanel';
 
 interface AdminClientProps {
   stats: any;
@@ -22,13 +24,14 @@ interface AdminClientProps {
     news: any[];
     schemes: any[];
     contacts: any[];
+    jobBusinessDocuments: any[];
   };
   adminUser: any;
 }
 
 export default function AdminClient({ stats, initialData, adminUser }: AdminClientProps) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'memberships' | 'grievances' | 'events' | 'news' | 'schemes' | 'contacts'>('memberships');
+  const [activeTab, setActiveTab] = useState<'memberships' | 'grievances' | 'events' | 'news' | 'schemes' | 'contacts' | 'jobBusiness'>('memberships');
 
   // Form Modals
   const [showEventModal, setShowEventModal] = useState(false);
@@ -58,6 +61,7 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
     { id: 'events', name: 'Events Manager', icon: Calendar, count: initialData.events.length },
     { id: 'news', name: 'News & Media', icon: Newspaper, count: initialData.news.length },
     { id: 'schemes', name: 'Govt Schemes', icon: BookOpen, count: initialData.schemes.length },
+    { id: 'jobBusiness', name: 'Job & Business', icon: Briefcase, count: initialData.jobBusinessDocuments?.length || 0 },
     { id: 'contacts', name: 'Contact Inbox', icon: Mail, count: initialData.contacts.length }
   ];
 
@@ -522,6 +526,11 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
             </div>
           )}
 
+          {/* JOB & BUSINESS SUPPORT PANEL */}
+          {activeTab === 'jobBusiness' && (
+            <AdminJobBusinessPanel documents={initialData.jobBusinessDocuments || []} />
+          )}
+
           {/* CONTACTS PANEL */}
           {activeTab === 'contacts' && (
             <div className="space-y-6">
@@ -724,13 +733,10 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
               </div>
 
               <div className="space-y-1">
-                <label className="font-bold text-slate-600">Image Cover URL (Optional)</label>
-                <input
-                  type="url"
-                  placeholder="https://images.unsplash.com/photo-..."
+                <ImageUploadField
+                  label="Event Cover Image (Optional)"
                   value={eventForm.image}
-                  onChange={(e) => setEventForm({ ...eventForm, image: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none"
+                  onChange={(url) => setEventForm({ ...eventForm, image: url })}
                 />
               </div>
 
@@ -801,13 +807,10 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
               </div>
 
               <div className="space-y-1">
-                <label className="font-bold text-slate-600">Featured Image URL</label>
-                <input
-                  type="url"
-                  placeholder="https://images.unsplash.com/photo-..."
+                <ImageUploadField
+                  label="Featured Image"
                   value={newsForm.mediaUrl}
-                  onChange={(e) => setNewsForm({ ...newsForm, mediaUrl: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none"
+                  onChange={(url) => setNewsForm({ ...newsForm, mediaUrl: url })}
                 />
               </div>
 

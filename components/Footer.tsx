@@ -27,6 +27,7 @@ export default function Footer() {
             <Link href="/membership" className="block hover:text-white">Membership</Link>
             <Link href="/events" className="block hover:text-white">News & Events</Link>
             <Link href="/grievance" className="block hover:text-white">Grievance Desk</Link>
+            <Link href="/job-business-support" className="block hover:text-white">Job & Business Support</Link>
             <Link href="/contact" className="block hover:text-white">Contact Us</Link>
           </nav>
         </div>

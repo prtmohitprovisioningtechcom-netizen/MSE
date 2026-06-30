@@ -19,17 +19,16 @@ const navGroups = [
     path: '/sc-st-support',
     children: initiatives.map((name) => ({
       name,
-      path: name.includes('SC/ST') ? '/sc-st-support' : name.includes('Vendor') ? '/vendor-development' : name.includes('Grievance') ? '/grievance' : '/services',
+      path: name.includes('SC/ST') ? '/sc-st-support' : name.includes('Vendor') ? '/vendor-development' : name.includes('Grievance') ? '/grievance' : name.includes('Job') ? '/job-business-support' : '/services',
     })),
   },
   { name: 'Membership', path: '/membership' },
   { name: 'Events', path: '/events' },
+  { name: 'Job & Business Support', path: '/job-business-support' },
   { name: 'News & Media', path: '/news' },
-
   { name: 'Contact', path: '/contact' },
 ];
 
-// Collect all unique paths for prefetching
 const allPaths = Array.from(new Set(
   navGroups.flatMap((g) => [g.path, ...(g.children?.map((c) => c.path) || [])])
 ));
@@ -41,7 +40,6 @@ export default function Navbar() {
   const [isPending, startTransition] = useTransition();
   const [clickedPath, setClickedPath] = useState<string | null>(null);
 
-  // Prefetch all nav routes on mount so clicks are instant
   useEffect(() => {
     allPaths.forEach((path) => {
       router.prefetch(path);
@@ -59,7 +57,6 @@ export default function Navbar() {
     });
   };
 
-  // Reset clickedPath when navigation completes
   if (!isPending && clickedPath) {
     setClickedPath(null);
   }
@@ -80,12 +77,10 @@ export default function Navbar() {
         </div>
       </div>
 
-
-
       <nav className="glass-nav shadow-sm px-4 md:px-8 py-3 flex items-center justify-between">
         <a href="/" onClick={(e) => handleNav(e, '/')} className="flex items-center gap-3 group min-w-0 cursor-pointer">
-            <Image src="/mse.jpeg" alt="MSE Logo" width={128} height={96} className="h-24 w-32 md:h-28 md:w-36 object-contain" priority />
-            <span className="ml-2 text-sm font-semibold text-primary">MSE Chamber of Commerce And Industry Association</span>
+          <Image src="/mse.jpeg" alt="MSE Logo" width={128} height={96} className="h-24 w-32 md:h-28 md:w-36 object-contain" priority />
+          <span className="ml-2 text-sm font-semibold text-primary">MSE Chamber of Commerce And Industry Association</span>
         </a>
 
         <div className="hidden xl:flex items-center gap-1.5">
@@ -168,4 +163,3 @@ export default function Navbar() {
     </header>
   );
 }
-

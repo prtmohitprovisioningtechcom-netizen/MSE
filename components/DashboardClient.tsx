@@ -76,7 +76,12 @@ export default function DashboardClient({
           {/* PROFILE TAB */}
           {activeTab === 'profile' && (
             <div className="space-y-6 text-xs">
-              <h3 className="text-lg font-bold text-primary font-display border-b border-slate-100 pb-2">Profile Details</h3>
+              <div className="flex justify-between items-center border-b border-slate-100 pb-2">
+                <h3 className="text-lg font-bold text-primary font-display">Profile Details</h3>
+                <Link href="/settings" className="px-3 py-1.5 border border-slate-200 hover:bg-slate-50 text-primary rounded-xl font-bold uppercase tracking-wider text-[10px]">
+                  Edit Settings
+                </Link>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-1">
                   <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wide">Full Name</span>
