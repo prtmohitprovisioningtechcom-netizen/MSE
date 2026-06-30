@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { Loader2 } from 'lucide-react';
 
 const DocxPreview = dynamic(() => import('@/components/DocxPreview'), {
@@ -43,11 +44,13 @@ export default function DocumentFitViewer({
   return (
     <div className="absolute inset-0 overflow-hidden bg-white">
       {image ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           src={viewUrl}
           alt=""
-          className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none"
+          fill
+          unoptimized
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-fill pointer-events-none select-none"
           draggable={false}
         />
       ) : pdf ? (

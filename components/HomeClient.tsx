@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { User } from 'lucide-react';
 
@@ -43,7 +44,14 @@ export default function HomeClient() {
             className="lg:col-span-4 bg-white/10 border border-white/25 rounded-3xl p-6 backdrop-blur-md shadow-2xl relative"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-full blur-3xl" />
-            <img src="/mse.jpeg" alt="MSE Logo" className="h-64 w-80 md:h-72 md:w-96 object-contain rounded-lg mx-auto p-2" />
+            <Image
+              src="/mse.jpeg"
+              alt="MSE Logo"
+              width={384}
+              height={288}
+              priority
+              className="h-64 w-80 md:h-72 md:w-96 object-contain rounded-lg mx-auto p-2"
+            />
           </motion.div>
         </div>
       </section>

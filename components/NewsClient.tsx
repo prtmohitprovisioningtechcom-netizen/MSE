@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import NextImage from 'next/image';
 import { 
   Newspaper, Image, Film, FileText, ArrowRight, 
   Calendar, Tag, Clock, Globe, X, ZoomIn, Play
@@ -127,8 +128,8 @@ export default function NewsClient({ news: initialNews, gallery: initialGallery 
                 >
                   <div className="space-y-3">
                     {item.mediaUrl && (
-                      <div className="h-36 w-full rounded-2xl overflow-hidden bg-slate-100 mb-2">
-                        <img src={item.mediaUrl} alt={item.title} className="object-cover w-full h-full" />
+                      <div className="h-36 w-full rounded-2xl overflow-hidden bg-slate-100 mb-2 relative">
+                        <NextImage src={item.mediaUrl} alt={item.title} fill unoptimized className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
                       </div>
                     )}
                     
@@ -173,7 +174,7 @@ export default function NewsClient({ news: initialNews, gallery: initialGallery 
                 >
                   <div className="h-40 w-full bg-slate-100 relative overflow-hidden">
                     {item.type === 'Photo' ? (
-                      <img src={item.url} alt={item.title} className="object-cover w-full h-full group-hover:scale-[1.05] transition-transform duration-300" />
+                      <NextImage src={item.url} alt={item.title} fill unoptimized className="object-cover group-hover:scale-[1.05] transition-transform duration-300" sizes="(max-width: 768px) 100vw, 33vw" />
                     ) : (
                       <div className="w-full h-full relative bg-slate-900 flex items-center justify-center">
                         {/* Video thumbnail simulation */}
@@ -227,7 +228,7 @@ export default function NewsClient({ news: initialNews, gallery: initialGallery 
 
             {selectedNews.mediaUrl && (
               <div className="h-60 w-full rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 relative">
-                <img src={selectedNews.mediaUrl} alt={selectedNews.title} className="object-cover w-full h-full" />
+                <NextImage src={selectedNews.mediaUrl} alt={selectedNews.title} fill unoptimized className="object-cover" sizes="800px" />
               </div>
             )}
 
@@ -256,7 +257,9 @@ export default function NewsClient({ news: initialNews, gallery: initialGallery 
             </button>
 
             {selectedMedia.type === 'Photo' ? (
-              <img src={selectedMedia.url} alt={selectedMedia.title} className="object-contain max-h-[70vh] rounded-lg shadow-2xl border border-white/10" />
+              <div className="relative w-full max-h-[70vh] h-[70vh]">
+                <NextImage src={selectedMedia.url} alt={selectedMedia.title} fill unoptimized className="object-contain rounded-lg shadow-2xl border border-white/10" sizes="100vw" />
+              </div>
             ) : (
               <video src={selectedMedia.url} controls autoPlay className="object-contain max-h-[70vh] rounded-lg shadow-2xl border border-white/10 w-full" />
             )}

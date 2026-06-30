@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Calendar, MapPin, Users, Clock, BookOpen } from 'lucide-react';
 
 interface EventsClientProps {
@@ -108,7 +109,7 @@ export default function EventsClient({ events: initialEvents }: EventsClientProp
               <div key={event._id} className="bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-lg transition-all">
                 {event.image && (
                   <div className="h-48 w-full overflow-hidden bg-slate-100 relative">
-                    <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
+                    <Image src={event.image} alt={event.title} fill unoptimized className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
                     <div className="absolute top-4 left-4">
                       <span className="px-3 py-1 rounded-full bg-primary/90 text-white text-[10px] font-bold uppercase tracking-wide backdrop-blur-sm">{event.category}</span>
                     </div>

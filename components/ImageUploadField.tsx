@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import Image from 'next/image';
 import { Upload, X, Loader2, ImageIcon } from 'lucide-react';
 
 interface ImageUploadFieldProps {
@@ -43,8 +44,8 @@ export default function ImageUploadField({ label = 'Upload Image', value, onChan
       <label className="font-bold text-slate-600 text-xs">{label}</label>
 
       {value ? (
-        <div className="relative rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
-          <img src={value} alt="Preview" className="w-full h-40 object-cover" />
+        <div className="relative rounded-xl overflow-hidden border border-slate-200 bg-slate-50 h-40">
+          <Image src={value} alt="Preview" fill unoptimized className="object-cover" sizes="400px" />
           <button
             type="button"
             onClick={() => onChange('')}
