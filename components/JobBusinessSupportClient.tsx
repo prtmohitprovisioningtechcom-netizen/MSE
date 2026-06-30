@@ -94,17 +94,19 @@ export default function JobBusinessSupportClient({ documents }: JobBusinessSuppo
                 key={doc._id}
                 className="flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_12px_40px_rgba(10,47,107,0.08)]"
               >
-                <div className="shrink-0 px-4 py-2.5 border-b border-slate-100 bg-linear-to-r from-slate-50 to-white flex items-center justify-between gap-2">
-                  <div className="min-w-0">
-                    <p className="text-[9px] font-bold text-primary uppercase tracking-widest">
-                      {fileTypeLabel(doc)}
-                    </p>
-                    <h2 className="font-bold text-slate-900 text-xs md:text-sm font-display truncate">
-                      {doc.fileName}
-                    </h2>
+                {!isImage(doc) && (
+                  <div className="shrink-0 px-4 py-2.5 border-b border-slate-100 bg-linear-to-r from-slate-50 to-white flex items-center justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="text-[9px] font-bold text-primary uppercase tracking-widest">
+                        {fileTypeLabel(doc)}
+                      </p>
+                      <h2 className="font-bold text-slate-900 text-xs md:text-sm font-display truncate">
+                        {doc.fileName}
+                      </h2>
+                    </div>
+                    <span className="text-[9px] text-slate-400 font-semibold shrink-0">{formatSize(doc.fileSize)}</span>
                   </div>
-                  <span className="text-[9px] text-slate-400 font-semibold shrink-0">{formatSize(doc.fileSize)}</span>
-                </div>
+                )}
 
                 <div className="relative w-full aspect-210/297 overflow-hidden bg-[#e8edf2]">
                   <DocumentFitViewer

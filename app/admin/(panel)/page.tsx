@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { getSession } from '@/lib/auth';
+import { getSession, isAdminRole, removeSessionCookie } from '@/lib/auth';
 import { getAdminDashboardStats } from '@/actions/admin';
 import AdminClient from '@/components/AdminClient';
 
@@ -7,10 +7,9 @@ export const metadata = { title: 'Admin Dashboard' };
 
 export default async function AdminPage() {
   const session = await getSession();
-  if (!session) redirect('/admin/login?redirect=/admin');
-
-  if (session.role !== 'Admin' && session.role !== 'Super Admin') {
-    redirect('/admin/login');
+  if (!session || !isAdminRole(session.role)) {
+    await removeSessionCookie();
+    redirect('/admin/login?redirect=/admin');
   }
 
   const result = await getAdminDashboardStats();

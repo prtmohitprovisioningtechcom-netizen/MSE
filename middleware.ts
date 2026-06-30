@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { isAdminRole, verifyJWT } from '@/lib/jwt';
 
 const ADMIN_PUBLIC_ROUTES = [
   '/admin/login',
+  '/admin/register',
   '/admin/forgot-password',
   '/admin/reset-password',
 ];
@@ -12,51 +14,81 @@ function isAdminPublicRoute(pathname: string) {
 }
 
 function isAdminProtectedRoute(pathname: string) {
-  return pathname.startsWith('/admin') && !isAdminPublicRoute(pathname);
+  return pathname === '/admin' || (pathname.startsWith('/admin/') && !isAdminPublicRoute(pathname));
 }
 
-export function middleware(request: NextRequest) {
+async function getAdminSession(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
-  const { pathname } = request.nextUrl;
+  if (!token) return null;
 
-  if (pathname.startsWith('/uploads/documents/') && !token) {
+  const session = await verifyJWT(token);
+  if (!session || !isAdminRole(session.role)) return null;
+
+  return session;
+}
+
+function redirectToLogin(request: NextRequest, pathname: string) {
+  const loginUrl = new URL('/admin/login', request.url);
+  loginUrl.searchParams.set('redirect', pathname);
+  const response = NextResponse.redirect(loginUrl);
+  response.cookies.delete('token');
+  return response;
+}
+
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const token = request.cookies.get('token')?.value;
+  const adminSession = await getAdminSession(request);
+
+  if (pathname.startsWith('/uploads/documents/') && !adminSession) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  // Redirect old member routes to admin routes
   if (pathname === '/login' || pathname.startsWith('/login/')) {
     const url = new URL('/admin/login', request.url);
     const redirect = request.nextUrl.searchParams.get('redirect');
-    if (redirect) url.searchParams.set('redirect', redirect.replace('/dashboard', '/admin').replace('/settings', '/admin/settings'));
+    if (redirect) {
+      url.searchParams.set(
+        'redirect',
+        redirect.replace('/dashboard', '/admin').replace('/settings', '/admin/settings')
+      );
+    }
     return NextResponse.redirect(url);
   }
+
   if (pathname === '/register' || pathname.startsWith('/register/')) {
-    return NextResponse.redirect(new URL('/admin/login', request.url));
+    return NextResponse.redirect(new URL('/admin/register', request.url));
   }
-  if (pathname === '/admin/register' || pathname.startsWith('/admin/register/')) {
-    return NextResponse.redirect(new URL('/admin/login', request.url));
-  }
+
   if (pathname === '/dashboard' || pathname.startsWith('/dashboard/')) {
-    return NextResponse.redirect(new URL(token ? '/admin' : '/admin/login', request.url));
+    return NextResponse.redirect(new URL(adminSession ? '/admin' : '/admin/login', request.url));
   }
+
   if (pathname === '/settings' || pathname.startsWith('/settings/')) {
     return NextResponse.redirect(new URL('/admin/settings', request.url));
   }
+
   if (pathname === '/forgot-password') {
     return NextResponse.redirect(new URL('/admin/forgot-password', request.url));
   }
+
   if (pathname === '/reset-password') {
     return NextResponse.redirect(new URL('/admin/reset-password', request.url));
   }
 
-  if (isAdminProtectedRoute(pathname) && !token) {
-    const loginUrl = new URL('/admin/login', request.url);
-    loginUrl.searchParams.set('redirect', pathname);
-    return NextResponse.redirect(loginUrl);
+  if (isAdminProtectedRoute(pathname) && !adminSession) {
+    return redirectToLogin(request, pathname);
   }
 
-  if (isAdminPublicRoute(pathname) && token) {
+  if (isAdminPublicRoute(pathname) && adminSession) {
     return NextResponse.redirect(new URL('/admin', request.url));
+  }
+
+  // Invalid or non-admin token on public admin pages — clear so login/register works
+  if (isAdminPublicRoute(pathname) && token && !adminSession) {
+    const response = NextResponse.next();
+    response.cookies.delete('token');
+    return response;
   }
 
   return NextResponse.next();
@@ -64,6 +96,7 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    '/admin',
     '/admin/:path*',
     '/login',
     '/register',

@@ -150,6 +150,64 @@ export async function forgotPasswordAction(formData: { email: string }) {
   }
 }
 
+export async function registerAdminAction(formData: {
+  name: string;
+  email: string;
+  password: string;
+}) {
+  try {
+    await dbConnect();
+    const { name, email, password } = formData;
+
+    if (!name?.trim() || !email?.trim() || !password) {
+      return { error: 'Please fill in all fields' };
+    }
+
+    if (password.length < 6) {
+      return { error: 'Password must be at least 6 characters' };
+    }
+
+    const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
+    if (existingUser) {
+      return { error: 'An account with this email already exists' };
+    }
+
+    const adminCount = await User.countDocuments({ role: { $in: ['Admin', 'Super Admin'] } });
+    const role = adminCount === 0 ? 'Super Admin' : 'Admin';
+
+    const hashedPassword = await hashPassword(password);
+    const newUser = await User.create({
+      name: name.trim(),
+      email: email.toLowerCase().trim(),
+      password: hashedPassword,
+      role,
+    });
+
+    await setSessionCookie({
+      id: newUser._id.toString(),
+      name: newUser.name,
+      email: newUser.email,
+      role: newUser.role,
+    });
+
+    revalidatePath('/admin');
+
+    return {
+      success: true,
+      message: 'Admin account created successfully',
+      user: {
+        id: newUser._id.toString(),
+        name: newUser.name,
+        email: newUser.email,
+        role: newUser.role,
+      },
+    };
+  } catch (error: any) {
+    console.error('Admin registration error:', error);
+    return { error: error.message || 'An error occurred during admin registration' };
+  }
+}
+
 export async function updateProfileAction(formData: { name: string; email: string }) {
   try {
     const session = await getSession();

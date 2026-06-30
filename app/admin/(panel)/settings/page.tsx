@@ -1,15 +1,14 @@
 import { redirect } from 'next/navigation';
-import { getSession } from '@/lib/auth';
+import { getSession, isAdminRole, removeSessionCookie } from '@/lib/auth';
 import SettingsClient from '@/components/SettingsClient';
 
 export const metadata = { title: 'Admin Settings' };
 
 export default async function AdminSettingsPage() {
   const session = await getSession();
-  if (!session) redirect('/admin/login?redirect=/admin/settings');
-
-  if (session.role !== 'Admin' && session.role !== 'Super Admin') {
-    redirect('/admin/login');
+  if (!session || !isAdminRole(session.role)) {
+    await removeSessionCookie();
+    redirect('/admin/login?redirect=/admin/settings');
   }
 
   const user = {

@@ -1,10 +1,23 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/MSE';
+function getMongoUri(): string {
+  const uri = process.env.MONGODB_URI?.trim();
 
-if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable inside .env');
+  if (uri) {
+    return uri;
+  }
+
+  // Vercel/serverless has no local MongoDB — require Atlas (or other hosted) URI
+  if (process.env.VERCEL === '1' || process.env.NODE_ENV === 'production') {
+    throw new Error(
+      'MONGODB_URI is missing. In Vercel: Project → Settings → Environment Variables → add MONGODB_URI with your MongoDB Atlas connection string, then redeploy.'
+    );
+  }
+
+  return 'mongodb://localhost:27017/MSE';
 }
+
+const MONGODB_URI = getMongoUri();
 
 /**
  * Global is used here to maintain a cached connection across hot reloads
@@ -30,9 +43,10 @@ async function dbConnect() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 10000,
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
       maxPoolSize: 10,
+      dbName: process.env.MONGODB_DB_NAME || 'mse',
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {

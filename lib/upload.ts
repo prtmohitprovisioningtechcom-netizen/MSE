@@ -1,6 +1,11 @@
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 import { randomUUID } from 'crypto';
+import { saveFileToGridFS } from '@/lib/gridfs';
+
+function useMongoStorage() {
+  return process.env.VERCEL === '1' || process.env.MONGODB_STORAGE === 'gridfs';
+}
 
 export async function saveUploadedFile(
   file: File,
@@ -8,6 +13,17 @@ export async function saveUploadedFile(
 ): Promise<{ url: string; fileName: string; fileSize: number; mimeType: string }> {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
+  const mimeType = file.type || 'application/octet-stream';
+
+  if (useMongoStorage()) {
+    const stored = await saveFileToGridFS(buffer, file.name, mimeType);
+    return {
+      url: stored.url,
+      fileName: file.name,
+      fileSize: file.size,
+      mimeType,
+    };
+  }
 
   const originalExt = path.extname(file.name).toLowerCase();
   const ext = originalExt || (subdir === 'images' ? '.jpg' : '.docx');
@@ -21,6 +37,6 @@ export async function saveUploadedFile(
     url: `/uploads/${subdir}/${safeName}`,
     fileName: file.name,
     fileSize: file.size,
-    mimeType: file.type || 'application/octet-stream',
+    mimeType,
   };
 }

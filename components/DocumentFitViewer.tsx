@@ -39,7 +39,7 @@ export default function DocumentFitViewer({ documentId, fileName, mimeType }: Do
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={viewUrl}
-          alt={fileName}
+          alt=""
           className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none"
           draggable={false}
         />

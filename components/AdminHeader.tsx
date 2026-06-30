@@ -42,7 +42,7 @@ export default async function AdminHeader() {
 
         <div className="flex items-center gap-2 shrink-0">
           <span className="hidden sm:inline text-xs text-slate-400 truncate max-w-40">
-            {session.name} · {session.role}
+            {String(session.name)} · {String(session.role)}
           </span>
           <Link
             href="/"

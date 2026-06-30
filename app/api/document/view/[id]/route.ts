@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readFile } from 'fs/promises';
-import path from 'path';
 import dbConnect from '@/lib/db';
 import JobBusinessDocument from '@/models/JobBusinessDocument';
+import { resolveStoredFile } from '@/lib/fileServe';
 
 export async function GET(
   _req: NextRequest,
@@ -17,13 +16,10 @@ export async function GET(
       return NextResponse.json({ error: 'Document not found' }, { status: 404 });
     }
 
-    const relativePath = doc.fileUrl.replace(/^\//, '');
-    const filePath = path.join(process.cwd(), 'public', relativePath);
+    const { buffer, contentType } = await resolveStoredFile(doc.fileUrl);
+    const mimeType = contentType || doc.mimeType || 'application/octet-stream';
 
-    const buffer = await readFile(filePath);
-    const mimeType = doc.mimeType || 'application/octet-stream';
-
-    return new NextResponse(buffer, {
+    return new NextResponse(new Uint8Array(buffer), {
       status: 200,
       headers: {
         'Content-Type': mimeType,
