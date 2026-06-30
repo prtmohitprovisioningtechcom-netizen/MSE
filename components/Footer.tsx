@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Building2, Mail, MapPin, Phone } from 'lucide-react';
-import { initiatives, organization, serviceDesks } from '@/lib/siteContent';
+import { initiatives, organization, navServiceLinks } from '@/lib/siteContent';
 
 export default function Footer() {
   return (
@@ -36,7 +36,7 @@ export default function Footer() {
         <div>
           <h4 className="text-sm font-bold text-secondary mb-3">Services</h4>
           <nav className="space-y-2 text-xs text-slate-300">
-            {serviceDesks.slice(0, 5).map((service) => (
+            {navServiceLinks.map((service) => (
               <Link key={service.title} href={service.slug} className="block hover:text-white">{service.title}</Link>
             ))}
           </nav>

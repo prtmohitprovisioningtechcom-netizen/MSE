@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import SocialWorkShowcase from '@/components/SocialWorkShowcase';
+import OtherIndustriesShowcase from '@/components/OtherIndustriesShowcase';
 
 const industries = [
   { name: 'Garments Industry', slug: 'garments' },
@@ -65,8 +67,11 @@ export default function IndustriesShowcase() {
               {industry.name}
             </h3>
             <IndustryPhotos name={industry.name} slug={industry.slug} />
+            {industry.slug === 'electricity' ? <OtherIndustriesShowcase /> : null}
           </motion.div>
         ))}
+
+        <SocialWorkShowcase />
       </div>
     </section>
   );

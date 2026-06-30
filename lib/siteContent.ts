@@ -1,3 +1,5 @@
+import { homeInitiatives } from './homeInitiatives';
+
 export const organization = {
   shortName: 'MSE',
   name: 'MSE Chambers of Commerce & Industry Association',
@@ -17,7 +19,7 @@ export const homeHero = {
 };
 
 export const homeIntroParagraph =
-  'Promotion of MSMEs SC/ST entrepreneur support Skill development, Industrial grievance resolution, Vendor development programs, Government scheme awareness, Trade fairs & exhibitions. MSME support, Industrial development, Training & awareness, Government liaison, Vendor development. State and National Share and Exhibation. MSE-CCIA';
+  'Promotion of MSMEs SC/ST entrepreneur support Skill development, Industrial grievance resolution, Vendor development programs, Government scheme awareness, Trade fairs & exhibitions. MSME support, Industrial development, Training & awareness, Government liaison, Vendor development. State and National Fair and Exhibation.';
 
 export const serviceDesks = [
   {
@@ -64,22 +66,17 @@ export const serviceDesks = [
   },
 ];
 
-export const initiatives = [
-  'Promotion of MSMEs',
-  'SC/ST entrepreneur support',
-  'Skill development',
-  'Industrial grievance resolution',
-  'Vendor development programs',
-  'Government scheme awareness',
-  'Trade fairs & exhibitions',
-  'MSME support',
-  'Industrial development',
-  'Training & awareness',
-  'Government liaison',
-  'Vendor development',
-  'State and National Share and Exhibation',
-  'Job & Business Support',
+export const navServiceLinks = [
+  ...serviceDesks.slice(0, 5),
+  {
+    title: 'State and National Fair and Exhibation',
+    slug: '/initiatives/state-national-share-exhibation',
+    summary: 'State and national level fair and exhibition participation for MSME product visibility and market reach.',
+    points: ['State exhibition coordination', 'National fair programs', 'Showcase platform guidance'],
+  },
 ];
+
+export const initiatives = homeInitiatives.map((item) => item.title);
 
 export const officeContacts = [
   {

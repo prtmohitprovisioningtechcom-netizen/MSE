@@ -1,4 +1,5 @@
-import { Building2, HardHat, GraduationCap, Scale, Handshake, ShieldAlert, Sparkles, Milestone, HeartHandshake, CheckCircle2 } from 'lucide-react';
+import Link from 'next/link';
+import { Building2, GraduationCap, Scale, Handshake, HeartHandshake, Milestone, Sparkles, CheckCircle2, Store } from 'lucide-react';
 import { organization } from '@/lib/siteContent';
 
 export default function ServicesPage() {
@@ -39,7 +40,14 @@ export default function ServicesPage() {
       title: 'Trade Fairs & Exhibitions',
       description: 'Supporting chamber participation in domestic and international trade fairs, delegations, and industrial exhibitions.',
       icon: Milestone,
-      benefits: ['Exhibition information', 'B2B delegation meets', 'Product showcase platforms']
+      benefits: ['Exhibition information', 'B2B delegation meets', 'Product showcase platforms'],
+    },
+    {
+      title: 'State and National Fair and Exhibation',
+      description: 'State and national level fair and exhibition participation for MSME product visibility, delegation support, and showcase platforms.',
+      icon: Store,
+      benefits: ['State exhibition coordination', 'National fair programs', 'Delegation support desk'],
+      href: '/initiatives/state-national-share-exhibation',
     },
     {
       title: 'Skill Development Center',
@@ -66,8 +74,8 @@ export default function ServicesPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {services.map((service) => {
           const Icon = service.icon;
-          return (
-            <div key={service.title} className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-slate-200 transition-all flex flex-col justify-between">
+          const card = (
+            <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-slate-200 transition-all flex flex-col justify-between h-full">
               <div className="space-y-4">
                 <div className="p-3 bg-primary/5 text-primary rounded-2xl w-fit shadow-sm">
                   <Icon className="h-6 w-6" />
@@ -85,7 +93,18 @@ export default function ServicesPage() {
                   ))}
                 </div>
               </div>
+              {'href' in service && service.href ? (
+                <p className="mt-4 text-[11px] font-bold text-primary uppercase tracking-wider">View program details →</p>
+              ) : null}
             </div>
+          );
+
+          return 'href' in service && service.href ? (
+            <Link key={service.title} href={service.href} className="block h-full">
+              {card}
+            </Link>
+          ) : (
+            <div key={service.title}>{card}</div>
           );
         })}
       </div>
