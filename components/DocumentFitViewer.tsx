@@ -15,7 +15,9 @@ const DocxPreview = dynamic(() => import('@/components/DocxPreview'), {
 interface DocumentFitViewerProps {
   documentId: string;
   fileName: string;
+  fileUrl: string;
   mimeType: string;
+  mediaUrl: string;
 }
 
 function isPdf(mimeType: string, fileName: string) {
@@ -28,10 +30,15 @@ function isImage(mimeType: string, fileName: string) {
   return ['.jpg', '.jpeg', '.png', '.webp', '.gif'].some((ext) => lower.endsWith(ext));
 }
 
-export default function DocumentFitViewer({ documentId, fileName, mimeType }: DocumentFitViewerProps) {
+export default function DocumentFitViewer({
+  documentId,
+  fileName,
+  mimeType,
+  mediaUrl,
+}: DocumentFitViewerProps) {
   const pdf = isPdf(mimeType, fileName);
   const image = isImage(mimeType, fileName);
-  const viewUrl = `/api/document/view/${documentId}`;
+  const viewUrl = mediaUrl || `/api/document/view/${documentId}`;
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-white">

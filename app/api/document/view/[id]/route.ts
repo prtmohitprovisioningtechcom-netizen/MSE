@@ -3,6 +3,9 @@ import dbConnect from '@/lib/db';
 import JobBusinessDocument from '@/models/JobBusinessDocument';
 import { resolveStoredFile } from '@/lib/fileServe';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -24,12 +27,18 @@ export async function GET(
       headers: {
         'Content-Type': mimeType,
         'Content-Disposition': 'inline',
-        'Cache-Control': 'private, no-store, no-cache, must-revalidate',
+        'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400',
         'X-Content-Type-Options': 'nosniff',
       },
     });
   } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to load document';
     console.error('Document view error:', error);
+
+    if (message.includes('not found') || message.includes('Invalid file') || message.includes('re-upload')) {
+      return NextResponse.json({ error: message }, { status: 404 });
+    }
+
     return NextResponse.json({ error: 'Failed to load document' }, { status: 500 });
   }
 }

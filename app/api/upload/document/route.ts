@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { saveUploadedFile } from '@/lib/upload';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 const DOC_TYPES = [
   'application/msword',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

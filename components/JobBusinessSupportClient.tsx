@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { FileText, Search, FolderOpen } from 'lucide-react';
+import { getPublicFileUrl } from '@/lib/fileUrls';
 import ProtectedDocumentShell from '@/components/ProtectedDocumentShell';
 import DocumentFitViewer from '@/components/DocumentFitViewer';
 
@@ -9,6 +10,7 @@ interface JobBusinessDoc {
   _id: string;
   title?: string;
   fileName: string;
+  fileUrl: string;
   fileSize: number;
   mimeType: string;
   createdAt: string;
@@ -112,7 +114,9 @@ export default function JobBusinessSupportClient({ documents }: JobBusinessSuppo
                   <DocumentFitViewer
                     documentId={doc._id}
                     fileName={doc.fileName}
+                    fileUrl={doc.fileUrl}
                     mimeType={doc.mimeType}
+                    mediaUrl={getPublicFileUrl(doc.fileUrl, doc._id)}
                   />
                 </div>
               </article>

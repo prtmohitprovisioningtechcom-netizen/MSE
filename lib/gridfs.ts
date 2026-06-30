@@ -2,12 +2,27 @@ import mongoose from 'mongoose';
 import { GridFSBucket, ObjectId } from 'mongodb';
 import dbConnect from '@/lib/db';
 
-export async function getGridFSBucket() {
+export function getMongoDbName() {
+  return process.env.MONGODB_DB_NAME || 'mse';
+}
+
+export async function getGridFsDb() {
   await dbConnect();
-  const db = mongoose.connection.db;
-  if (!db) {
-    throw new Error('Database not connected');
+
+  if (mongoose.connection.readyState !== 1) {
+    await mongoose.connection.asPromise();
   }
+
+  const client = mongoose.connection.getClient();
+  if (!client) {
+    throw new Error('MongoDB client not available');
+  }
+
+  return client.db(getMongoDbName());
+}
+
+export async function getGridFSBucket() {
+  const db = await getGridFsDb();
   return new GridFSBucket(db, { bucketName: 'mse_files' });
 }
 
@@ -35,37 +50,41 @@ export async function saveFileToGridFS(
   });
 }
 
+function parseGridFsId(fileId: string) {
+  const clean = fileId.trim().split('?')[0];
+  if (!ObjectId.isValid(clean)) {
+    throw new Error('Invalid file reference');
+  }
+  return new ObjectId(clean);
+}
+
 export async function readFileFromGridFS(fileId: string) {
   const bucket = await getGridFSBucket();
-  const _id = new ObjectId(fileId);
+  const _id = parseGridFsId(fileId);
 
   const files = await bucket.find({ _id }).toArray();
   if (!files.length) {
-    throw new Error('File not found');
+    throw new Error('File not found in storage');
   }
 
   const chunks: Buffer[] = [];
   const downloadStream = bucket.openDownloadStream(_id);
 
   const buffer = await new Promise<Buffer>((resolve, reject) => {
-    downloadStream.on('data', (chunk) => chunks.push(chunk));
+    downloadStream.on('data', (chunk: Buffer) => chunks.push(chunk));
     downloadStream.on('error', reject);
     downloadStream.on('end', () => resolve(Buffer.concat(chunks)));
   });
 
+  const metadata = files[0].metadata as { contentType?: string } | undefined;
+
   return {
     buffer,
-    contentType:
-      (files[0].metadata as { contentType?: string } | undefined)?.contentType ||
-      'application/octet-stream',
+    contentType: metadata?.contentType || 'application/octet-stream',
     fileName: files[0].filename,
   };
 }
 
-export function isGridFsUrl(url: string) {
-  return url.startsWith('/api/files/');
-}
-
 export function gridFsIdFromUrl(url: string) {
-  return url.replace(/^\/api\/files\//, '');
+  return url.replace(/^\/api\/files\//, '').split('?')[0].trim();
 }

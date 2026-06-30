@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { saveUploadedFile } from '@/lib/upload';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/jpg'];
 const MAX_SIZE = 5 * 1024 * 1024;
 

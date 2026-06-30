@@ -14,6 +14,7 @@ export default async function JobBusinessSupportPage() {
     _id: string;
     title?: string;
     fileName: string;
+    fileUrl: string;
     fileSize: number;
     mimeType: string;
     createdAt: string;
@@ -26,6 +27,7 @@ export default async function JobBusinessSupportPage() {
       _id: doc._id.toString(),
       title: doc.title,
       fileName: doc.fileName,
+      fileUrl: doc.fileUrl,
       fileSize: doc.fileSize,
       mimeType: doc.mimeType,
       createdAt: doc.createdAt instanceof Date ? doc.createdAt.toISOString() : String(doc.createdAt),
