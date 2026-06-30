@@ -1,4 +1,5 @@
 import { Check, Building, ShieldCheck, FileText, HelpCircle } from 'lucide-react';
+import { organization } from '@/lib/siteContent';
 
 export const revalidate = 60;
 
@@ -100,8 +101,8 @@ export default function MembershipPage() {
             <p className="font-bold text-primary flex items-center gap-2">
               <HelpCircle className="h-4 w-4 text-secondary" /> Secretariat Contact
             </p>
-            <p>Phone: +91 (22) 2623-1111</p>
-            <p>Email: info@mse.org.in</p>
+            <p>Phone: {organization.phone}</p>
+            <p>Email: {organization.email}</p>
           </div>
         </div>
 

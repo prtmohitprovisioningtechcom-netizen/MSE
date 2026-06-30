@@ -1,4 +1,5 @@
 import { Building2, HardHat, GraduationCap, Scale, Handshake, ShieldAlert, Sparkles, Milestone, HeartHandshake, CheckCircle2 } from 'lucide-react';
+import { organization } from '@/lib/siteContent';
 
 export default function ServicesPage() {
   const services = [
@@ -98,9 +99,9 @@ export default function ServicesPage() {
           </p>
         </div>
         <div className="bg-white/10 border border-white/10 rounded-2xl p-5 text-xs text-slate-100 space-y-2">
-          <p><strong className="text-white">Phone:</strong> +91 (22) 2623-1111</p>
-          <p><strong className="text-white">Email:</strong> info@mse.org.in</p>
-          <p><strong className="text-white">Hours:</strong> Mon - Fri, 9:30 AM to 6:00 PM</p>
+          <p><strong className="text-white">Phone:</strong> {organization.phone}</p>
+          <p><strong className="text-white">Email:</strong> {organization.email}</p>
+          <p><strong className="text-white">Hours:</strong> {organization.hours}</p>
         </div>
       </section>
     </div>

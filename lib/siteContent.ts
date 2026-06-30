@@ -1,12 +1,23 @@
 export const organization = {
   shortName: 'MSE',
   name: 'MSE Chambers of Commerce & Industry Association',
-  tagline: 'Partners In Growth, Nation In Progress',
-  email: 'info@mse.org.in',
-  phone: '+91 (22) 2623-1111',
-  address: 'MSE House, Bandra Kurla Complex, Mumbai, Maharashtra 400051',
+  tagline: 'MSE-CCIA',
+  email: 'msmeindus.association@gmail.com',
+  phone: '+91 92584 10701',
+  address: 'Head Office, 14/396 Arya Nagar, Firozabad',
   hours: 'Monday to Friday, 9:30 AM to 6:00 PM',
 };
+
+export const homeHero = {
+  lines: [
+    'Upgrade Your Skills development and industries development',
+    'Seminar awareness government scheme and other programs',
+    'and skill development and any program.',
+  ],
+};
+
+export const homeIntroParagraph =
+  'Promotion of MSMEs SC/ST entrepreneur support Skill development, Industrial grievance resolution, Vendor development programs, Government scheme awareness, Trade fairs & exhibitions. MSME support, Industrial development, Training & awareness, Government liaison, Vendor development. State and National Share and Exhibation. MSE-CCIA';
 
 export const serviceDesks = [
   {
@@ -55,28 +66,27 @@ export const serviceDesks = [
 
 export const initiatives = [
   'Promotion of MSMEs',
-  'SC/ST Entrepreneur Support',
-  'Skill Development',
-  'Industrial Grievance Resolution',
-  'Vendor Development Programs',
-  'Government Scheme Awareness',
+  'SC/ST entrepreneur support',
+  'Skill development',
+  'Industrial grievance resolution',
+  'Vendor development programs',
+  'Government scheme awareness',
+  'Trade fairs & exhibitions',
+  'MSME support',
+  'Industrial development',
+  'Training & awareness',
+  'Government liaison',
+  'Vendor development',
+  'State and National Share and Exhibation',
   'Job & Business Support',
-  'Trade Fairs & Exhibitions',
 ];
 
 export const officeContacts = [
   {
-    title: 'Secretariat Headquarters',
+    title: 'Head Office',
     address: organization.address,
     phone: organization.phone,
     email: organization.email,
     hours: organization.hours,
-  },
-  {
-    title: 'Regional Facilitation Office',
-    address: 'Industrial Facilitation Center, Phase II GIDC, Gandhinagar, Gujarat 382016',
-    phone: '+91 (79) 4567-8910',
-    email: 'gujarat@mse.org.in',
-    hours: 'Monday to Friday, 10:00 AM to 5:30 PM',
   },
 ];

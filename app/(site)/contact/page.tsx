@@ -1,29 +1,13 @@
 import { MapPin, Phone, Mail, Clock, Building2, Globe, HeartHandshake } from 'lucide-react';
+import { officeContacts } from '@/lib/siteContent';
 
 export default function ContactPage() {
-  const offices = [
-    {
-      title: 'Secretariat Headquarters',
-      address: 'Plot No. C-12, G-Block, MSE House, Bandra Kurla Complex (BKC), Mumbai, MH 400051',
-      phone: '+91 (22) 2623-1111',
-      email: 'info@mse.org.in',
-      hours: 'Mon - Fri: 9:30 AM to 6:00 PM'
-    },
-    {
-      title: 'Regional Facilitation Office',
-      address: 'Industrial Facilitation Center, Phase II GIDC, Sector 15, Gandhinagar, GJ 382016',
-      phone: '+91 (79) 4567-8910',
-      email: 'gujarat@mse.org.in',
-      hours: 'Mon - Fri: 10:00 AM to 5:30 PM'
-    }
-  ];
-
   const desks = [
     'Membership and chamber information',
     'Government scheme guidance',
     'Vendor development and GeM awareness',
     'Industrial grievance coordination',
-    'Training, events, and exhibition information'
+    'Training, events, and exhibition information',
   ];
 
   return (
@@ -40,10 +24,10 @@ export default function ContactPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         <div className="lg:col-span-7 space-y-6">
-          <h3 className="text-xl font-bold text-primary font-display border-b border-slate-100 pb-2">Chamber Directories</h3>
+          <h3 className="text-xl font-bold text-primary font-display border-b border-slate-100 pb-2">Chamber Directory</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {offices.map((office, idx) => (
-              <div key={idx} className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-4 text-xs">
+            {officeContacts.map((office) => (
+              <div key={office.title} className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-4 text-xs md:col-span-2">
                 <h4 className="font-bold text-slate-900 text-sm font-display flex items-center gap-1.5">
                   <Building2 className="h-4.5 w-4.5 text-secondary" /> {office.title}
                 </h4>
@@ -54,11 +38,15 @@ export default function ContactPage() {
                   </li>
                   <li className="flex items-center gap-2.5">
                     <Phone className="h-4 w-4 text-secondary shrink-0" />
-                    <span className="text-slate-600">{office.phone}</span>
+                    <a href={`tel:${office.phone.replace(/\s/g, '')}`} className="text-slate-600 hover:text-primary">
+                      {office.phone}
+                    </a>
                   </li>
                   <li className="flex items-center gap-2.5">
                     <Mail className="h-4 w-4 text-secondary shrink-0" />
-                    <span className="text-slate-600">{office.email}</span>
+                    <a href={`mailto:${office.email}`} className="text-slate-600 hover:text-primary break-all">
+                      {office.email}
+                    </a>
                   </li>
                   <li className="flex items-center gap-2.5">
                     <Clock className="h-4 w-4 text-secondary shrink-0" />
@@ -77,7 +65,7 @@ export default function ContactPage() {
               <HeartHandshake className="h-5 w-5 text-secondary" /> Secretariat Helpdesk
             </h4>
             <p className="text-slate-300 leading-relaxed">
-              Please call or email the relevant office for details. The team can guide visitors about schemes, memberships, event participation, and industry support desks.
+              Please call or email the head office for details. The team can guide visitors about schemes, memberships, event participation, and industry support desks.
             </p>
           </div>
 
@@ -97,19 +85,20 @@ export default function ContactPage() {
 
       <div className="space-y-4">
         <h3 className="text-lg font-bold text-primary font-display flex items-center gap-2">
-          <Globe className="h-5 w-5 text-secondary" /> Office Locations Map
+          <Globe className="h-5 w-5 text-secondary" /> Office Location
         </h3>
         <div className="w-full h-80 rounded-3xl bg-slate-200 relative overflow-hidden shadow-sm border border-slate-100 flex items-center justify-center text-center p-6 text-slate-500">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-slate-200/50 via-slate-300 to-slate-400 opacity-80" />
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop')] mix-blend-overlay opacity-30 bg-cover bg-center" />
           <div className="relative z-10 space-y-3 max-w-sm">
             <Building2 className="h-10 w-10 text-primary mx-auto opacity-70" />
-            <h4 className="font-bold text-slate-900 text-sm">MSE BKC Office Complex</h4>
-            <p className="text-[11px] leading-relaxed text-slate-600">Central office information for visitors and partner organizations.</p>
+            <h4 className="font-bold text-slate-900 text-sm">MSE Head Office, Firozabad</h4>
+            <p className="text-[11px] leading-relaxed text-slate-600">
+              14/396 Arya Nagar, Firozabad — central office for visitors and partner organizations.
+            </p>
           </div>
         </div>
       </div>
     </div>
   );
 }
-

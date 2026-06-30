@@ -4,115 +4,33 @@ export type Course = {
   description: string;
 };
 
+const fallbackImage = '/Course/Industries training.jpeg';
+
 export const courses: Course[] = [
-  {
-    title: 'Fashion Designing',
-    image: '/Course/Fashion designing.jpeg',
-    description: 'Practical training in garment design, pattern making, styling, and production for fashion and apparel MSME units.',
-  },
-  {
-    title: 'Leather Goods Products Training',
-    image: '/Course/Leather goods products.jpeg',
-    description: 'Hands-on leather product making, finishing, quality control, and small-scale manufacturing for export-ready units.',
-  },
-  {
-    title: 'Leather Stitching Operator',
-    image: '/Course/Leather stitching opretor.jpeg',
-    description: 'Skill training for leather stitching operators covering machine handling, cutting, and assembly line production.',
-  },
-  {
-    title: 'Garments Manufacturing',
-    image: '/Course/Garments manufacturing.jpeg',
-    description: 'End-to-end garment manufacturing training including cutting, stitching, finishing, and factory workflow management.',
-  },
-  {
-    title: 'Jute Product Training',
-    image: '/Course/Juet product training.jpeg',
-    description: 'Training on jute-based handicrafts, diversified jute products, packaging, and eco-friendly manufacturing techniques.',
-  },
-  {
-    title: 'Glass Art',
-    image: '/Course/Glass art.jpeg',
-    description: 'Creative glass art workshops covering painting, decoration, finishing, and artisan product development.',
-  },
-  {
-    title: 'Glass Designing',
-    image: '/Course/Glass designing.jpeg',
-    description: 'Technical glass designing and workshop training for decorative, industrial, and utility glass product units.',
-  },
-  {
-    title: 'Computer Education',
-    image: '/Course/Computer education.jpeg',
-    description: 'Digital literacy, office applications, accounting software, and computer skills for entrepreneurs and youth.',
-  },
-  {
-    title: 'Mobile Repairing',
-    image: '/Course/Mobile repairing.jpeg',
-    description: 'Smartphone and mobile device repair training covering hardware, software troubleshooting, and service setup.',
-  },
-  {
-    title: 'Solar Panel Installation',
-    image: '/Course/Sollar pannal stolation.jpeg',
-    description: 'Solar panel installation, maintenance, wiring, and renewable energy entrepreneurship skill development.',
-  },
-  {
-    title: 'Makeup Artist',
-    image: '/Course/Makeup artist.jpeg',
-    description: 'Professional makeup artistry training for bridal, fashion, salon, and personal grooming service businesses.',
-  },
-  {
-    title: 'Motor Car Repairing',
-    image: '/Course/Motar car repairing .jpeg',
-    description: 'Automobile repair and servicing training covering engine, electrical systems, diagnostics, and workshop management.',
-  },
-  {
-    title: 'Industries MDP ESDP Training Program',
-    image: '/Course/Industries Mdp esdp training program.jpeg',
-    description: 'Management development and entrepreneurship skill programs for MSME owners, supervisors, and industrial workers.',
-  },
-  {
-    title: 'Skill Development Training',
-    image: '/Course/Skill development training.jpeg',
-    description: 'Industry-aligned skill development programs to improve employability, productivity, and enterprise readiness.',
-  },
-  {
-    title: 'Industries Seminar',
-    image: '/Course/Industries seminar.jpeg',
-    description: 'Seminars on industrial policy, compliance, technology adoption, finance access, and market linkage for MSMEs.',
-  },
-  {
-    title: 'Beautician',
-    image: '/Course/Beautician.jpeg',
-    description: 'Beautician and personal care training covering skincare, haircare, salon services, and customer handling.',
-  },
-  {
-    title: 'Fitter Training Program',
-    image: '/Course/Fitter training program.jpeg',
-    description: 'Industrial fitter training for mechanical assembly, machine maintenance, tools handling, and workshop safety.',
-  },
-  {
-    title: 'Industries Development Training',
-    image: '/Course/Industries development training.jpeg',
-    description: 'Training for industrial growth, cluster development, quality systems, and scale-up support for manufacturing units.',
-  },
-  {
-    title: 'Khadi Product',
-    image: '/Course/Khadi product.jpeg',
-    description: 'Khadi spinning, weaving, product development, branding, and marketing support for village and rural enterprises.',
-  },
-  {
-    title: 'Stitching Operator',
-    image: '/Course/Stitching opretor.jpeg',
-    description: 'Stitching operator training for garments and textile units with focus on speed, accuracy, and machine efficiency.',
-  },
-  {
-    title: 'Industries Training',
-    image: '/Course/Industries training.jpeg',
-    description: 'General industrial training covering production systems, safety, quality, and workforce skill enhancement.',
-  },
-  {
-    title: 'Freeze Repairing',
-    image: '/Course/Freeze repairing .jpeg',
-    description: 'Refrigeration and freezer repair training covering cooling systems, gas charging, servicing, and business setup.',
-  },
+  { title: 'Fashion designing', image: '/Course/Fashion designing.jpeg', description: 'Fashion designing training program.' },
+  { title: 'Leather goods products training', image: '/Course/Leather goods products.jpeg', description: 'Leather goods products training program.' },
+  { title: 'Leather stitching opretor', image: '/Course/Leather stitching opretor.jpeg', description: 'Leather stitching opretor training program.' },
+  { title: 'Garments manufacturing', image: '/Course/Garments manufacturing.jpeg', description: 'Garments manufacturing training program.' },
+  { title: 'Juet product training', image: '/Course/Juet product training.jpeg', description: 'Juet product training program.' },
+  { title: 'Glass art', image: '/Course/Glass art.jpeg', description: 'Glass art training program.' },
+  { title: 'Glass designing', image: '/Course/Glass designing.jpeg', description: 'Glass designing training program.' },
+  { title: 'Computer education', image: '/Course/Computer education.jpeg', description: 'Computer education training program.' },
+  { title: 'Beautician', image: '/Course/Beautician.jpeg', description: 'Beautician training program.' },
+  { title: 'Make up artist', image: '/Course/Makeup artist.jpeg', description: 'Make up artist training program.' },
+  { title: 'Khadi product training', image: '/Course/Khadi product.jpeg', description: 'Khadi product training program.' },
+  { title: 'Stitching opretor', image: '/Course/Stitching opretor.jpeg', description: 'Stitching opretor training program.' },
+  { title: 'Skill development training program', image: '/Course/Skill development training.jpeg', description: 'Skill development training program.' },
+  { title: 'Industries training', image: '/Course/Industries training.jpeg', description: 'Industries training program.' },
+  { title: 'Industries development training', image: '/Course/Industries development training.jpeg', description: 'Industries development training program.' },
+  { title: 'Industries seminar', image: '/Course/Industries seminar.jpeg', description: 'Industries seminar program.' },
+  { title: 'Industries Mdp and ESDP training program', image: '/Course/Industries Mdp esdp training program.jpeg', description: 'Industries Mdp and ESDP training program.' },
+  { title: 'Electricians', image: fallbackImage, description: 'Electricians training program.' },
+  { title: 'Mobile repairing', image: '/Course/Mobile repairing.jpeg', description: 'Mobile repairing training program.' },
+  { title: 'Ac repairing', image: fallbackImage, description: 'Ac repairing training program.' },
+  { title: 'Sollar pannal stolation', image: '/Course/Sollar pannal stolation.jpeg', description: 'Sollar pannal stolation training program.' },
+  { title: 'Fitter training program', image: '/Course/Fitter training program.jpeg', description: 'Fitter training program.' },
+  { title: 'Motar car repairing', image: '/Course/Motar car repairing .jpeg', description: 'Motar car repairing training program.' },
+  { title: 'Freeze repairing', image: '/Course/Freeze repairing .jpeg', description: 'Freeze repairing training program.' },
+  { title: 'Belding machine training program', image: fallbackImage, description: 'Belding machine training program.' },
+  { title: 'Food Proceising', image: fallbackImage, description: 'Food Proceising training program.' },
 ];

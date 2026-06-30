@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Shield, UserPlus, Mail, Lock, User, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { registerAdminAction } from '@/actions/auth';
-
+0
 export default function AdminRegisterClient() {
   const router = useRouter();
   const [name, setName] = useState('');

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     template: '%s | MSE',
   },
   description:
-    'MSE Chamber of Commerce & Industry Association - Partners In Growth, Nation In Progress. Supporting MSMEs, vendor development, SC/ST entrepreneurship, training, and government liaison.',
+    'MSE Chambers of Commerce & Industry Association (MSE-CCIA). Skill development, industries development, government scheme awareness, MSME support, training programs and industrial programs.',
   keywords: [
     'MSME Support',
     'Industrial Development',
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'MSE Chamber of Commerce & Industry Association',
     description:
-      "Empowering MSMEs, Strengthening India's Industrial Future. Connecting enterprises, industries, and government for sustainable growth.",
+      'Upgrade Your Skills development and industries development. Seminar awareness, government scheme and skill development programs by MSE-CCIA.',
     url: '/',
     siteName: 'MSE Portal',
     locale: 'en_IN',
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'MSE - Partners In Growth, Nation In Progress',
-    description: 'Advocacy, Vendor Development, and Grievance Resolution for MSMEs.',
+    title: 'MSE-CCIA | Skill & Industries Development',
+    description: 'MSME support, skill development, government scheme awareness and training programs.',
   },
   robots: {
     index: true,
