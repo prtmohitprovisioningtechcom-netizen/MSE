@@ -2,6 +2,8 @@ export const MEMBERSHIP_WHATSAPP_PHONE = '919258410701';
 
 export type MembershipWhatsAppPayload = {
   type: string;
+  price?: string;
+  period?: string;
   ownerName: string;
   companyName: string;
   email: string;
@@ -24,6 +26,7 @@ export function buildMembershipApplicationMessage(data: MembershipWhatsAppPayloa
     '*MSE Chamber Membership Application*',
     '',
     `*Membership Tier:* ${data.type}`,
+    data.price ? `*Membership Fee:* ${data.price}${data.period ? ` (${data.period})` : ''}` : null,
     `*Owner / Contact Name:* ${data.ownerName}`,
     `*Company / Business Name:* ${data.companyName}`,
     `*Email:* ${data.email}`,

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { fontVariables } from '@/lib/fonts';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
     'Industrial Development',
     'Vendor Development',
     'SC/ST Entrepreneurs',
-    'Government Liaison',
+    'Government License',
     'Trade Fairs',
     'MSE',
     'Chamber of Commerce India',
@@ -52,7 +53,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className={`${fontVariables} antialiased`}>{children}</body>
     </html>
   );
 }

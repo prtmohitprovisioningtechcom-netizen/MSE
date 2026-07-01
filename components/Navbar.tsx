@@ -3,39 +3,28 @@
 import { useState, useTransition, useEffect } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { ChevronDown, Globe, Mail, MapPin, Menu, Phone, X } from 'lucide-react';
+import { Globe, Mail, MapPin, Menu, Phone, Users, X } from 'lucide-react';
 import { FacebookIcon, YoutubeIcon } from '@/components/icons/SocialIcons';
-import { organization, navServiceLinks } from '@/lib/siteContent';
+import { organization } from '@/lib/siteContent';
 import { homeInitiatives } from '@/lib/homeInitiatives';
 
 const navGroups = [
   { name: 'Home', path: '/' },
-  {
-    name: 'About',
-    path: '/about/director-message',
-    children: [{ name: 'Director Message', path: '/about/director-message' }],
-  },
-  {
-    name: 'Services',
-    path: '/services',
-    children: navServiceLinks.map((desk) => ({
-      name: desk.title.replace(' Desk', ''),
-      path: desk.slug,
-    })),
-  },
+  { name: 'AIM', path: '/aim' },
+  { name: 'MISSION', path: '/mission' },
+  { name: 'VISION', path: '/vision' },
+  { name: 'Director Message', path: '/about/director-message' },
   { name: 'Membership', path: '/membership' },
   { name: 'Events', path: '/events' },
   { name: 'Job & Business Support', path: '/job-business-support' },
   { name: 'News & Media', path: '/news' },
+  { name: 'May I Help You', path: '/may-i-help-you' },
   { name: 'Contact', path: '/contact' },
 ];
 
-const initiativePaths = homeInitiatives.map((item) => `/initiatives/${item.slug}`);
+const ourMembersPath = '/our-members';
 
-const allPaths = Array.from(new Set([
-  ...navGroups.flatMap((g) => [g.path, ...(g.children?.map((c) => c.path) || [])]),
-  ...initiativePaths,
-]));
+const mainNavPaths = navGroups.map((g) => g.path);
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,9 +34,17 @@ export default function Navbar() {
   const [clickedPath, setClickedPath] = useState<string | null>(null);
 
   useEffect(() => {
-    allPaths.forEach((path) => {
-      router.prefetch(path);
-    });
+    const prefetchMainNav = () => {
+      mainNavPaths.forEach((path) => router.prefetch(path));
+    };
+
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(prefetchMainNav, { timeout: 2500 });
+      return () => window.cancelIdleCallback(id);
+    }
+
+    const timer = setTimeout(prefetchMainNav, 1500);
+    return () => clearTimeout(timer);
   }, [router]);
 
   const isActive = (path: string) => (path === '/' ? pathname === '/' : pathname.startsWith(path));
@@ -84,6 +81,27 @@ export default function Navbar() {
       : base;
   };
 
+  const renderOurMembersButton = (compact = false) => {
+    const active = isActive(ourMembersPath);
+    return (
+      <a
+        key="our-members"
+        href={ourMembersPath}
+        onClick={(e) => handleNav(e, ourMembersPath)}
+        className={`our-members-pill-btn inline-flex items-center gap-1.5 rounded-full border-2 font-bold cursor-pointer shadow-sm transition-all ml-1 sm:ml-1.5 ${
+          compact ? 'px-2.5 py-1 text-[9px] sm:text-[10px]' : 'px-3 py-1.5 text-[9px] sm:text-[10px] xl:text-[11px]'
+        } ${
+          active
+            ? 'border-amber-500 bg-linear-to-r from-amber-500 to-secondary text-white shadow-md scale-[1.02]'
+            : 'border-secondary/70 bg-linear-to-r from-amber-50 via-white to-emerald-50 text-primary hover:border-secondary hover:shadow-md hover:from-amber-100'
+        }`}
+      >
+        <Users className={`shrink-0 ${compact ? 'h-3 w-3' : 'h-3.5 w-3.5'}`} />
+        Our Members
+      </a>
+    );
+  };
+
   const renderInitiativeButton = (
     item: (typeof homeInitiatives)[number],
     index: number,
@@ -96,6 +114,7 @@ export default function Navbar() {
         key={item.slug}
         href={path}
         onClick={(e) => handleNav(e, path)}
+        onMouseEnter={() => router.prefetch(path)}
         style={{ animationDelay: `${index * 55}ms, ${index * 0.2}s` }}
         className={`initiative-pill-btn inline-flex items-center rounded-full border font-semibold cursor-pointer ${
           compact ? 'px-2 py-1 text-[9px] sm:text-[10px]' : 'px-2.5 py-1.5 text-[9px] sm:text-[10px] xl:text-[11px]'
@@ -109,6 +128,15 @@ export default function Navbar() {
       </a>
     );
   };
+
+  const renderInitiativeRow = (compact = false) =>
+    homeInitiatives.flatMap((item, index) => {
+      const buttons = [renderInitiativeButton(item, index, compact)];
+      if (item.slug === 'mse-ccia') {
+        buttons.push(renderOurMembersButton(compact));
+      }
+      return buttons;
+    });
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
@@ -217,39 +245,22 @@ export default function Navbar() {
           </div>
 
           <div className="hidden xl:flex flex-col flex-1 min-w-0 gap-2.5 w-full xl:pt-1">
-            <nav className="flex flex-wrap xl:flex-nowrap xl:justify-between items-center gap-x-1 gap-y-1.5 xl:gap-1 w-full">
+            <nav className="flex flex-wrap items-center justify-start gap-x-1.5 gap-y-1.5 w-full">
               {navGroups.map((link) => (
-                <div key={link.name} className="relative group shrink-0">
+                <div key={link.name} className="relative shrink-0">
                   <a
                     href={link.path}
                     onClick={(e) => handleNav(e, link.path)}
                     className={navLinkClass(link.path, 'main')}
                   >
                     {link.name}
-                    {link.children && <ChevronDown className="h-3 w-3 shrink-0 hidden xl:block" />}
                   </a>
-                  {link.children && (
-                    <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 hidden xl:block">
-                      <div className="w-72 rounded-2xl bg-white border border-slate-100 shadow-xl p-2">
-                        {link.children.map((child) => (
-                          <a
-                            key={`${link.name}-${child.name}`}
-                            href={child.path}
-                            onClick={(e) => handleNav(e, child.path)}
-                            className="block rounded-xl px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-primary/5 hover:text-primary cursor-pointer active:scale-95 active:text-secondary transition-all duration-100"
-                          >
-                            {child.name}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
                 </div>
               ))}
             </nav>
 
-            <div className="flex flex-wrap gap-2 w-full">
-              {homeInitiatives.map((item, index) => renderInitiativeButton(item, index))}
+            <div className="flex flex-wrap gap-2 w-full items-center">
+              {renderInitiativeRow()}
             </div>
           </div>
         </div>
@@ -273,26 +284,12 @@ export default function Navbar() {
                 >
                   {link.name}
                 </a>
-                {link.children && (
-                  <div className="ml-4 mt-1 space-y-1 border-l border-slate-100 pl-3">
-                    {link.children.map((child) => (
-                      <a
-                        key={`${link.name}-${child.name}`}
-                        href={child.path}
-                        onClick={(e) => handleNav(e, child.path)}
-                        className="block py-1.5 text-xs font-semibold text-slate-500 cursor-pointer hover:text-primary active:text-secondary transition-all duration-100"
-                      >
-                        {child.name}
-                      </a>
-                    ))}
-                  </div>
-                )}
               </div>
             ))}
             <div className="pt-3 mt-2 border-t border-slate-100">
               <p className="px-3 pb-2 text-[10px] font-bold uppercase tracking-widest text-secondary">Initiatives</p>
-              <div className="flex flex-wrap gap-1.5 px-1">
-                {homeInitiatives.map((item, index) => renderInitiativeButton(item, index, true))}
+              <div className="flex flex-wrap gap-1.5 px-1 items-center">
+                {renderInitiativeRow(true)}
               </div>
             </div>
           </div>

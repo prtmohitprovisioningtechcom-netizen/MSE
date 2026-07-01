@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import { courses } from '@/lib/courses';
 
 export default function CoursesShowcase() {
@@ -19,13 +18,9 @@ export default function CoursesShowcase() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {courses.map((course, idx) => (
-            <motion.article
+          {courses.map((course) => (
+            <article
               key={course.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.35, delay: (idx % 4) * 0.06 }}
               className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] border border-slate-100 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-shadow"
             >
               <div className="relative aspect-4/3 bg-slate-100">
@@ -34,6 +29,7 @@ export default function CoursesShowcase() {
                   alt={course.title}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  loading="lazy"
                   className="object-cover"
                 />
               </div>
@@ -46,7 +42,7 @@ export default function CoursesShowcase() {
                   {course.description}
                 </p>
               </div>
-            </motion.article>
+            </article>
           ))}
         </div>
       </div>

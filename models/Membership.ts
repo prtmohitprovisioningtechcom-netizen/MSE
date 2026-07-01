@@ -29,7 +29,7 @@ const MembershipSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ['Individual', 'MSME', 'Startup', 'Corporate', 'Institutional'],
+      enum: ['Individual', 'MSME', 'Startup', 'Corporate', 'Institutional', 'Lifetime Member', 'Patron Member', 'General Member'],
       required: [true, 'Membership type is required'],
     },
     phone: {

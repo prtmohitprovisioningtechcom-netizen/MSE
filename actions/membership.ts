@@ -156,7 +156,13 @@ export async function submitMembershipApplication(data: any) {
     // Update user role if they applied for specific role, or keep as Member
     const user = await User.findById(session.id);
     if (user) {
-      if (type === 'Corporate' || type === 'MSME') {
+      if (
+        type === 'Corporate' ||
+        type === 'MSME' ||
+        type === 'Lifetime Member' ||
+        type === 'Patron Member' ||
+        type === 'General Member'
+      ) {
         user.role = 'Member';
       } else if (type === 'Startup') {
         user.role = 'Entrepreneur';

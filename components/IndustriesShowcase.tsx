@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import SocialWorkShowcase from '@/components/SocialWorkShowcase';
 import OtherIndustriesShowcase from '@/components/OtherIndustriesShowcase';
 import PartnerLogoCarousel from '@/components/PartnerLogoCarousel';
@@ -35,6 +34,7 @@ function IndustryPhotos({ name, slug }: { name: string; slug: string }) {
             alt={`${name} - ${photoIdx + 1}`}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
+            loading="lazy"
             className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
           <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors" />
@@ -57,21 +57,17 @@ export default function IndustriesShowcase() {
           </h2>
         </div>
 
-        {industries.map((industry, idx) => (
-          <motion.div
+        {industries.map((industry) => (
+          <div
             key={industry.slug}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.4, delay: idx * 0.05 }}
-            className="space-y-4"
+            className="space-y-4 [content-visibility:auto] [contain-intrinsic-size:auto_420px]"
           >
             <h3 className="text-lg md:text-xl font-bold text-primary border-l-4 border-secondary pl-4 font-display">
               {industry.name}
             </h3>
             <IndustryPhotos name={industry.name} slug={industry.slug} />
             {industry.slug === 'electricity' ? <OtherIndustriesShowcase /> : null}
-          </motion.div>
+          </div>
         ))}
 
         <SocialWorkShowcase />

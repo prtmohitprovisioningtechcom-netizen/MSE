@@ -1,12 +1,83 @@
 export const directorMessage = {
   title: 'Director Message',
   badge: 'Leadership Desk',
-  name: 'Director',
-  organization: 'MSE Chambers of Commerce & Industry Association',
-  message: [
-    'India\'s journey toward a self-reliant and globally competitive industrial economy is powered directly by our micro, small and medium enterprises. MSE-CCIA is committed to connecting members with procurement opportunities, credit pathways, skill development programs and a strong voice in policy advocacy.',
-    'Through promotion of MSMEs, SC/ST entrepreneur support, vendor development, government scheme awareness and state and national fair participation, we work to resolve industrial constraints and support sustainable enterprise growth.',
-    'We invite entrepreneurs, manufacturers and service providers to engage with the chamber for training, grievance facilitation, exhibition participation and membership support. Together we can strengthen domestic manufacturing, employment and export readiness across our industrial communities.',
+  organization: 'MSE Chamber of Commerce & Industry Association',
+  salutation: 'प्रिय उद्यमियों, उद्योगपतियों एवं सम्मानित सदस्यों,',
+  paragraphs: [
+    'MSE Chamber of Commerce & Industry Association में आपका हार्दिक स्वागत है।',
+    'हमारा उद्देश्य सूक्ष्म, लघु एवं मध्यम उद्यमों (MSMEs) को सशक्त बनाना, उद्यमिता को प्रोत्साहित करना तथा उद्योगों के सतत विकास के लिए अनुकूल वातावरण तैयार करना है। हमारा विश्वास है कि MSME क्षेत्र भारत की अर्थव्यवस्था की रीढ़ है, जो रोजगार सृजन, नवाचार और आर्थिक विकास में महत्वपूर्ण योगदान देता है।',
+    'हम अपने सदस्यों को सरकारी योजनाओं, प्रशिक्षण कार्यक्रमों, कौशल विकास, वित्तीय सहायता, बाजार विस्तार, तकनीकी उन्नयन, व्यापार मेलों, निवेश अवसरों तथा उद्योगों से संबंधित आवश्यक जानकारी और मार्गदर्शन उपलब्ध कराने के लिए निरंतर कार्यरत हैं। हमारा प्रयास है कि प्रत्येक उद्यमी को सही समय पर उचित जानकारी, सहयोग और अवसर प्राप्त हों, जिससे वह अपने व्यवसाय को नई ऊँचाइयों तक पहुँचा सके।',
+    'हम सभी उद्यमियों, उद्योग संगठनों, सरकारी विभागों, वित्तीय संस्थानों तथा अन्य हितधारकों के साथ मिलकर आत्मनिर्भर भारत के निर्माण और औद्योगिक विकास में सक्रिय योगदान देने के लिए प्रतिबद्ध हैं।',
+    'मैं आप सभी से आग्रह करता हूँ कि इस संस्था से जुड़कर अपने अनुभव, सुझाव और सहयोग से हमारे साझा प्रयासों को और अधिक प्रभावी बनाएँ। आइए, हम सब मिलकर नवाचार, गुणवत्ता, पारदर्शिता और सहयोग के साथ एक सशक्त, प्रतिस्पर्धी और समृद्ध औद्योगिक भविष्य का निर्माण करें।',
   ],
-  closing: 'MSE-CCIA remains dedicated to partners in growth and nation in progress.',
+  thanks: 'आपके विश्वास और सहयोग के लिए हार्दिक धन्यवाद।',
+  signOff: 'सादर,',
+  designation: 'MANAGING DIRECTOR',
+  name: 'DR. SUNIL KUMAR JAIN',
+};
+
+export const mayIHelpYou = {
+  title: 'May I Help You',
+  badge: 'Help Desk',
+  services: [
+    'MSME UDYAM REGISTRATION',
+    'PAN',
+    'TAN',
+    'DIN',
+    'GST',
+    'ITR',
+    'PROJECT REPORT',
+    'DPR',
+    'AUDIT BALANCESHEET',
+    'NITI AYOAG REGISTRATION',
+    'ISO',
+    'IAF',
+    'QUALITY REGISTRATION',
+    'TRADE MARK',
+    'COPYRIGHT',
+    '80 G',
+    '12 A',
+    'MCA COMPANY REGISTRATION',
+    'SECTION 8 REGISTRATION',
+    'SOCIETY , NGO,TRUST REGISTRATION',
+  ],
+};
+
+export const aim = {
+  title: 'AIM',
+  pageTitle: 'एमएसई चेम्बर ऑफ कॉमर्स इंडस्ट्री एसोसिएशन का उद्देश्य.',
+  badge: 'Our Purpose',
+  intro:
+    'MSE Chamber of Commerce & Industry Association (एमएसई चैंबर ऑफ कॉमर्स एंड इंडस्ट्री एसोसिएशन) का उद्देश्य सूक्ष्म एवं लघु उद्यमों (MSEs/MSMEs) के विकास, संरक्षण और सशक्तिकरण के लिए कार्य करना है।',
+  sectionTitle: 'प्रमुख उद्देश्य',
+  objectives: [
+    'सूक्ष्म, लघु एवं मध्यम उद्यमों (MSMEs) के विकास को बढ़ावा देना।',
+    'नए उद्यमियों को उद्योग स्थापित करने में मार्गदर्शन और सहायता प्रदान करना।',
+    'सरकारी योजनाओं, सब्सिडी, ऋण और प्रोत्साहन की जानकारी उपलब्ध कराना।',
+    'उद्यमियों के लिए प्रशिक्षण, कार्यशालाएँ और जागरूकता कार्यक्रम आयोजित करना।',
+    'उद्योगों की समस्याओं और शिकायतों को संबंधित सरकारी विभागों तक पहुँचाकर उनके समाधान में सहयोग करना।',
+    'व्यापार मेले, प्रदर्शनियाँ, Buyer–Seller Meet और Vendor Development Program आयोजित करना।',
+    'कौशल विकास, तकनीकी उन्नयन और गुणवत्ता सुधार को बढ़ावा देना।',
+    'उद्योगों को राष्ट्रीय एवं अंतरराष्ट्रीय बाज़ारों से जोड़ने में सहायता करना।',
+    'सरकार, बैंक, वित्तीय संस्थानों और उद्योगों के बीच समन्वय स्थापित करना।',
+    'रोजगार सृजन, आत्मनिर्भरता और औद्योगिक विकास को प्रोत्साहित करना।',
+  ],
+};
+
+export const mission = {
+  title: 'MISSION',
+  pageTitle: 'मिशन (Mission)',
+  badge: 'What We Do',
+  statement:
+    'उद्यमियों को प्रशिक्षण, मार्गदर्शन, नेटवर्किंग, सरकारी योजनाओं तक पहुँच और व्यावसायिक सहयोग प्रदान करके उद्योगों के सतत विकास को बढ़ावा देना।',
+  highlights: ['प्रशिक्षण', 'मार्गदर्शन', 'नेटवर्किंग', 'सरकारी योजनाओं तक पहुँच', 'व्यावसायिक सहयोग'],
+};
+
+export const vision = {
+  title: 'VISION',
+  pageTitle: 'विज़न (Vision)',
+  badge: 'Our Future',
+  statement:
+    'भारत में MSMEs को मजबूत, प्रतिस्पर्धी और आत्मनिर्भर बनाकर देश के आर्थिक विकास में उनकी महत्वपूर्ण भूमिका सुनिश्चित करना।',
+  highlights: ['मजबूत MSMEs', 'प्रतिस्पर्धी', 'आत्मनिर्भर', 'आर्थिक विकास'],
 };

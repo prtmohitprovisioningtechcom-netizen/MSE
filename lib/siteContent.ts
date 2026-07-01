@@ -18,6 +18,13 @@ export const homeHero = {
     line1: 'हमारी राष्ट्रभाषा, हमारी मातृभाषा है।',
     line2: 'आओ, हम अपना कार्य हिंदी में करें।',
   },
+  industrialSlogan:
+    'उद्योग से सिर्फ एक व्यक्ति ,परिवार ही नहीं समाज ,राज्य,और हमारा देश भी मजबूत होता है आओ उद्योग लगाए और देश की अर्थिक स्थिति को और भी अधिक मजबूत, सुदृढ़ और सुनिश्चित करने में अपना सहयोग प्रदान करे',
+  hindiTypingCredit: {
+    prefix: '-----',
+    text: 'हिंखोज बोलो लिखो ऐप से हिंदी टाइपिंग',
+    url: 'https://bololikho.page.link/hp',
+  },
   lines: [
     'Upgrade Your Skills development and industries development',
     'Seminar awareness government scheme and other programs',
@@ -26,7 +33,7 @@ export const homeHero = {
 };
 
 export const homeIntroParagraph =
-  'Promotion of MSMEs SC/ST entrepreneur support Skill development, Industrial grievance resolution, Vendor development programs, Government scheme awareness, Trade fairs & exhibitions. MSME support, Industrial development, Training & awareness, Government liaison, Vendor development. State and National Fair and Exhibation.';
+  'Promotion of MSMEs SC/ST entrepreneur support Skill development, Industrial grievance resolution, Vendor development programs, Government scheme awareness, Trade fairs & exhibitions. MSME support, Industrial development, Training & awareness, Government License, Vendor development. State and National Fair and Exhibation.';
 
 export const serviceDesks = [
   {

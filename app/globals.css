@@ -1,11 +1,10 @@
 /* stylelint-disable at-rule-no-unknown */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Inter', sans-serif;
-  --font-display: 'Outfit', sans-serif;
-  --font-hindi: 'Noto Sans Devanagari', sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, sans-serif;
+  --font-display: var(--font-outfit), ui-sans-serif, sans-serif;
+  --font-hindi: var(--font-noto-devanagari), ui-sans-serif, sans-serif;
   --color-primary: #0A2F6B;
   --color-primary-hover: #072049;
   --color-secondary: #FF9933;
