@@ -29,18 +29,19 @@ interface MongooseCache {
   promise: Promise<typeof mongoose> | null;
 }
 
-let cached: MongooseCache = (global as any).mongoose;
+const globalWithMongoose = globalThis as typeof globalThis & {
+  mongoose?: MongooseCache;
+};
 
-if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
-}
+const cache: MongooseCache = globalWithMongoose.mongoose ?? { conn: null, promise: null };
+globalWithMongoose.mongoose = cache;
 
 async function dbConnect() {
-  if (cached.conn) {
-    return cached.conn;
+  if (cache.conn) {
+    return cache.conn;
   }
 
-  if (!cached.promise) {
+  if (!cache.promise) {
     const opts = {
       bufferCommands: false,
       serverSelectionTimeoutMS: 10000,
@@ -49,21 +50,21 @@ async function dbConnect() {
       dbName: process.env.MONGODB_DB_NAME || 'mse',
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
+    cache.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
       console.log('Connected to MongoDB database successfully');
       return mongooseInstance;
     });
   }
 
   try {
-    cached.conn = await cached.promise;
+    cache.conn = await cache.promise;
   } catch (e) {
-    cached.promise = null;
+    cache.promise = null;
     console.error('Error connecting to MongoDB:', e);
     throw e;
   }
 
-  return cached.conn;
+  return cache.conn;
 }
 
 export default dbConnect;

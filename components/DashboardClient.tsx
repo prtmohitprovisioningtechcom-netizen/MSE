@@ -1,5 +1,4 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, react/no-unescaped-entities, @next/next/no-img-element */
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -8,12 +7,46 @@ import {
   Clock, ShieldCheck, Download, ExternalLink, ArrowRight, CheckCircle2, Info
 } from 'lucide-react';
 
+type DashboardTab = 'profile' | 'membership' | 'events' | 'grievances' | 'schemes';
+
+interface DashboardMembership {
+  _id: string;
+  companyName: string;
+  type: string;
+  status: string;
+}
+
+interface DashboardEvent {
+  _id: string;
+  title: string;
+  date: string;
+  location: string;
+  category: string;
+}
+
+interface DashboardGrievance {
+  _id: string;
+  trackingId: string;
+  title: string;
+  description: string;
+  category: string;
+  status: string;
+}
+
+interface DashboardScheme {
+  _id: string;
+  title: string;
+  description: string;
+  category: string;
+  link?: string;
+}
+
 interface DashboardClientProps {
   user: { id: string; name: string; email: string; role: string };
-  membership: any;
-  events: any[];
-  grievances: any[];
-  schemes: any[];
+  membership: DashboardMembership | null;
+  events: DashboardEvent[];
+  grievances: DashboardGrievance[];
+  schemes: DashboardScheme[];
 }
 
 export default function DashboardClient({
@@ -23,9 +56,9 @@ export default function DashboardClient({
   grievances,
   schemes
 }: DashboardClientProps) {
-  const [activeTab, setActiveTab] = useState<'profile' | 'membership' | 'events' | 'grievances' | 'schemes'>('profile');
+  const [activeTab, setActiveTab] = useState<DashboardTab>('profile');
 
-  const tabs = [
+  const tabs: { id: DashboardTab; name: string; icon: typeof UserIcon }[] = [
     { id: 'profile', name: 'Profile Summary', icon: UserIcon },
     { id: 'membership', name: 'Membership Application', icon: Building2 },
     { id: 'events', name: 'Event Bookings', icon: Calendar },
@@ -56,7 +89,7 @@ export default function DashboardClient({
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold transition-all uppercase tracking-wider text-left border ${
                   activeTab === tab.id
                     ? 'border-primary bg-primary text-white shadow-md'

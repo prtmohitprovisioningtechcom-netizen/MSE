@@ -4,8 +4,20 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Calendar, MapPin, Users, Clock, BookOpen } from 'lucide-react';
 
+interface EventItem {
+  _id: string;
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  category: string;
+  capacity: number;
+  image?: string;
+  registrationDeadline?: string;
+}
+
 interface EventsClientProps {
-  events: any[];
+  events: EventItem[];
 }
 
 export default function EventsClient({ events: initialEvents }: EventsClientProps) {
@@ -51,7 +63,7 @@ export default function EventsClient({ events: initialEvents }: EventsClientProp
   const now = new Date();
   const categories = ['All', 'Workshop', 'Vendor Meet', 'Exhibitions & Fairs'];
 
-  const filteredEvents = events.filter((event: any) => {
+  const filteredEvents = events.filter((event: EventItem) => {
     const eventDate = new Date(event.date);
     const matchesTab = activeTab === 'upcoming' ? eventDate >= now : eventDate < now;
     const matchesCategory = activeCategory === 'All'
@@ -103,7 +115,7 @@ export default function EventsClient({ events: initialEvents }: EventsClientProp
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredEvents.map((event: any) => {
+          {filteredEvents.map((event: EventItem) => {
             const isPast = new Date(event.date) < now;
             return (
               <div key={event._id} className="bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-lg transition-all">

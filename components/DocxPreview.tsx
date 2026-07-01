@@ -22,7 +22,6 @@ export default function DocxPreview({
   interactive = false,
   fullPage = false,
   fitToPage = false,
-  pageIndex = 0,
   onPageCount,
 }: DocxPreviewProps) {
   const outerRef = useRef<HTMLDivElement>(null);

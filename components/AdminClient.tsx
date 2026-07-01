@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   Users, Building2, Calendar, ShieldAlert, Newspaper, BookOpen, 
-  Mail, ShieldCheck, Clock, Check, X, Trash2, Plus, ArrowUpRight, CheckCircle2, Briefcase
+  Mail, X, Trash2, Plus, ArrowUpRight, Briefcase
 } from 'lucide-react';
 
 // Actions
@@ -15,23 +15,107 @@ import { createNewsAction, deleteNewsAction, createSchemeAction, deleteSchemeAct
 import ImageUploadField from '@/components/ImageUploadField';
 import AdminJobBusinessPanel from '@/components/AdminJobBusinessPanel';
 
+type AdminTab = 'memberships' | 'grievances' | 'events' | 'news' | 'schemes' | 'contacts' | 'jobBusiness';
+
+interface AdminStats {
+  users: { total: number; members: number; vendors: number; entrepreneurs: number };
+  memberships: { total: number; pending: number; approved: number };
+  events: { total: number };
+  complaints: { total: number; pending: number; progress: number; resolved: number };
+  newsCount: number;
+  schemesCount: number;
+  jobBusinessCount: number;
+}
+
+interface AdminMember {
+  _id: string;
+  companyName: string;
+  ownerName?: string;
+  email?: string;
+  panNumber?: string;
+  industryType?: string;
+  type: string;
+  status: string;
+}
+
+interface AdminComplaint {
+  _id: string;
+  trackingId: string;
+  title: string;
+  category: string;
+  name: string;
+  email: string;
+  phone: string;
+  status: string;
+}
+
+interface AdminEvent {
+  _id: string;
+  title: string;
+  date: string;
+  location: string;
+  category: string;
+  capacity: number;
+  registrations?: unknown[];
+}
+
+interface AdminNewsItem {
+  _id: string;
+  title: string;
+  summary: string;
+  type: string;
+  publishedAt: string;
+}
+
+interface AdminScheme {
+  _id: string;
+  title: string;
+  description: string;
+  category: string;
+}
+
+interface AdminContact {
+  _id: string;
+  subject: string;
+  name: string;
+  email: string;
+  phone?: string;
+  message: string;
+  createdAt: string;
+}
+
+interface JobBusinessDoc {
+  _id: string;
+  fileName: string;
+  fileUrl: string;
+  fileSize: number;
+  mimeType?: string;
+  isPublished: boolean;
+  createdAt: string;
+}
+
+interface AdminSession {
+  name: string;
+  role: string;
+}
+
 interface AdminClientProps {
-  stats: any;
+  stats: AdminStats;
   initialData: {
-    members: any[];
-    complaints: any[];
-    events: any[];
-    news: any[];
-    schemes: any[];
-    contacts: any[];
-    jobBusinessDocuments: any[];
+    members: AdminMember[];
+    complaints: AdminComplaint[];
+    events: AdminEvent[];
+    news: AdminNewsItem[];
+    schemes: AdminScheme[];
+    contacts: AdminContact[];
+    jobBusinessDocuments: JobBusinessDoc[];
   };
-  adminUser: any;
+  adminUser: AdminSession;
 }
 
 export default function AdminClient({ stats, initialData, adminUser }: AdminClientProps) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'memberships' | 'grievances' | 'events' | 'news' | 'schemes' | 'contacts' | 'jobBusiness'>('memberships');
+  const [activeTab, setActiveTab] = useState<AdminTab>('memberships');
 
   // Form Modals
   const [showEventModal, setShowEventModal] = useState(false);
@@ -53,9 +137,8 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
 
   // Status indicators
   const [loading, setLoading] = useState(false);
-  const [statusMsg, setStatusMsg] = useState<{ success?: string; error?: string }>({});
 
-  const tabs = [
+  const tabs: { id: AdminTab; name: string; icon: typeof Building2; count: number }[] = [
     { id: 'memberships', name: 'Memberships', icon: Building2, count: initialData.members.length },
     { id: 'grievances', name: 'Grievances', icon: ShieldAlert, count: initialData.complaints.length },
     { id: 'events', name: 'Events Manager', icon: Calendar, count: initialData.events.length },
@@ -234,7 +317,7 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id)}
                 className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-bold transition-all uppercase tracking-wider text-left border ${
                   activeTab === tab.id
                     ? 'border-primary bg-primary text-white shadow-md'

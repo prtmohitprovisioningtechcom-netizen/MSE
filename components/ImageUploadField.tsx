@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import Image from 'next/image';
-import { Upload, X, Loader2, ImageIcon } from 'lucide-react';
+import { X, Loader2, ImageIcon } from 'lucide-react';
 
 interface ImageUploadFieldProps {
   label?: string;

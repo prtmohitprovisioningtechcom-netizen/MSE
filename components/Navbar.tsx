@@ -2,6 +2,7 @@
 
 import { useState, useTransition, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Globe, Mail, MapPin, Menu, Phone, Users, X } from 'lucide-react';
 import { FacebookIcon, YoutubeIcon } from '@/components/icons/SocialIcons';
@@ -157,7 +158,7 @@ export default function Navbar() {
     <>
       <div
         ref={topBarRef}
-        className="fixed top-0 left-0 right-0 z-[60] w-full shadow-sm"
+        className="fixed top-0 left-0 right-0 z-60 w-full shadow-sm"
       >
         <div className="tricolor-bar" />
 
@@ -184,8 +185,8 @@ export default function Navbar() {
       >
       <div className="border-b border-slate-100 px-4 md:px-6 xl:px-8 py-3 xl:py-4 bg-white">
         <div className="max-w-360 mx-auto flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4 xl:gap-6">
-          <div className="flex items-start gap-3 w-full xl:w-auto xl:max-w-[20rem] 2xl:max-w-[22rem] xl:shrink-0">
-            <a
+          <div className="flex items-start gap-3 w-full xl:w-auto xl:max-w-80 2xl:max-w-88 xl:shrink-0">
+            <Link
               href="/"
               onClick={(e) => handleNav(e, '/')}
               className="shrink-0 cursor-pointer self-center sm:self-start"
@@ -199,16 +200,16 @@ export default function Navbar() {
                 className="h-24 w-auto sm:h-28 md:h-32 lg:h-36 xl:h-40 object-contain"
                 priority
               />
-            </a>
+            </Link>
             <div className="min-w-0 flex-1 space-y-1.5">
-              <a
+              <Link
                 href="/"
                 onClick={(e) => handleNav(e, '/')}
                 className="block text-[10px] sm:text-[11px] md:text-xs xl:text-[12px] font-extrabold text-primary leading-tight font-display uppercase hover:text-primary/80 transition-colors cursor-pointer"
               >
                 <span className="block whitespace-nowrap">MSE Chamber of Commerce</span>
                 <span className="block whitespace-nowrap">And Industry Association</span>
-              </a>
+              </Link>
               <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.16em] text-secondary">
                 {organization.tagline}
               </p>
