@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useTransition, useEffect } from 'react';
+import { useState, useTransition, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { Globe, Mail, MapPin, Menu, Phone, Users, X } from 'lucide-react';
 import { FacebookIcon, YoutubeIcon } from '@/components/icons/SocialIcons';
+import OrganizationAddress from '@/components/OrganizationAddress';
 import { organization } from '@/lib/siteContent';
 import { homeInitiatives } from '@/lib/homeInitiatives';
 
@@ -28,6 +29,8 @@ const mainNavPaths = navGroups.map((g) => g.path);
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const topBarRef = useRef<HTMLDivElement>(null);
+  const [topBarHeight, setTopBarHeight] = useState(40);
   const pathname = usePathname();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -47,6 +50,18 @@ export default function Navbar() {
     return () => clearTimeout(timer);
   }, [router]);
 
+  useEffect(() => {
+    const el = topBarRef.current;
+    if (!el) return;
+
+    const updateHeight = () => setTopBarHeight(el.offsetHeight);
+    updateHeight();
+
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const isActive = (path: string) => (path === '/' ? pathname === '/' : pathname.startsWith(path));
 
   const handleNav = (e: React.MouseEvent, path: string) => {
@@ -65,7 +80,7 @@ export default function Navbar() {
   const navLinkClass = (path: string, size: 'main' | 'sub' = 'main') => {
     const base =
       size === 'main'
-        ? 'px-2 py-1.5 rounded-md text-[10px] sm:text-[11px] font-semibold tracking-wide uppercase transition-all duration-100 flex items-center gap-1 cursor-pointer'
+        ? 'px-1.5 xl:px-2 py-1.5 rounded-md text-[10px] xl:text-[10px] 2xl:text-[11px] font-semibold tracking-wide uppercase transition-all duration-100 flex items-center gap-1 cursor-pointer whitespace-nowrap'
         : 'px-2 py-1 rounded-full border border-slate-200 text-[9px] sm:text-[10px] font-semibold text-slate-600 hover:border-primary/40 hover:text-primary hover:bg-primary/5 cursor-pointer transition-all';
 
     if (clickedPath === path) {
@@ -139,35 +154,49 @@ export default function Navbar() {
     });
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
-      <div className="tricolor-bar" />
+    <>
+      <div
+        ref={topBarRef}
+        className="fixed top-0 left-0 right-0 z-[60] w-full shadow-sm"
+      >
+        <div className="tricolor-bar" />
 
-      <div className="flex flex-col gap-1.5 sm:flex-row sm:justify-between sm:items-center bg-primary py-2.5 sm:py-3 px-4 md:px-6 text-[10px] sm:text-xs text-white/95">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
-          <span>{organization.tagline}</span>
-          <span className="text-secondary font-semibold">MSME | Industry | Vendor Development</span>
-        </div>
-        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
-          <span>Helpline: {organization.phone}</span>
-          <span className="hidden sm:inline">|</span>
-          <span className="break-all sm:break-normal">{organization.email}</span>
+        <div className="bg-primary py-2 sm:py-2.5 px-3 sm:px-4 md:px-6 text-[9px] sm:text-[10px] md:text-xs text-white/95">
+          <div className="max-w-360 mx-auto flex flex-nowrap items-center justify-between gap-3 sm:gap-4 overflow-x-auto scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex flex-nowrap items-center gap-2 sm:gap-4 shrink-0">
+              <span className="whitespace-nowrap font-semibold">{organization.tagline}</span>
+              <span className="whitespace-nowrap text-secondary font-semibold">
+                MSME | Industry | Vendor Development
+              </span>
+            </div>
+            <div className="flex flex-nowrap items-center gap-2 sm:gap-3 shrink-0 ml-auto">
+              <span className="whitespace-nowrap">Helpline: {organization.phone}</span>
+              <span className="whitespace-nowrap opacity-70">|</span>
+              <span className="whitespace-nowrap">{organization.email}</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="border-b border-slate-100 px-4 md:px-6 xl:px-8 py-3 xl:py-4">
-        <div className="max-w-360 mx-auto flex flex-col xl:flex-row xl:items-start gap-4 xl:gap-8">
-          <div className="flex items-start gap-3 w-full xl:w-[34%] xl:max-w-88 xl:shrink-0">
+      <header
+        className="w-full bg-white shadow-sm relative z-40"
+        style={{ paddingTop: topBarHeight }}
+      >
+      <div className="border-b border-slate-100 px-4 md:px-6 xl:px-8 py-3 xl:py-4 bg-white">
+        <div className="max-w-360 mx-auto flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4 xl:gap-6">
+          <div className="flex items-start gap-3 w-full xl:w-auto xl:max-w-[20rem] 2xl:max-w-[22rem] xl:shrink-0">
             <a
               href="/"
               onClick={(e) => handleNav(e, '/')}
-              className="shrink-0 cursor-pointer"
+              className="shrink-0 cursor-pointer self-center sm:self-start"
             >
               <Image
                 src="/mse.jpeg"
                 alt="MSE Logo"
-                width={260}
-                height={200}
-                className="h-20 w-auto sm:h-24 md:h-28 xl:h-34 object-contain"
+                width={320}
+                height={246}
+                sizes="(max-width: 640px) 96px, (max-width: 768px) 112px, (max-width: 1024px) 128px, 160px"
+                className="h-24 w-auto sm:h-28 md:h-32 lg:h-36 xl:h-40 object-contain"
                 priority
               />
             </a>
@@ -175,7 +204,7 @@ export default function Navbar() {
               <a
                 href="/"
                 onClick={(e) => handleNav(e, '/')}
-                className="block text-xs md:text-sm xl:text-[15px] font-extrabold text-primary leading-snug font-display uppercase hover:text-primary/80 transition-colors cursor-pointer"
+                className="block text-[10px] sm:text-[11px] md:text-xs xl:text-[12px] font-extrabold text-primary leading-tight font-display uppercase hover:text-primary/80 transition-colors cursor-pointer"
               >
                 <span className="block whitespace-nowrap">MSE Chamber of Commerce</span>
                 <span className="block whitespace-nowrap">And Industry Association</span>
@@ -200,7 +229,7 @@ export default function Navbar() {
                 </a>
                 <p className="flex items-center gap-1.5 min-w-0">
                   <MapPin className="h-3 w-3 text-secondary shrink-0" />
-                  <span className="font-medium whitespace-nowrap text-[9px] sm:text-[10px]">{organization.address}</span>
+                  <OrganizationAddress className="font-medium text-[9px] sm:text-[10px]" />
                 </p>
                 <a
                   href={organization.website}
@@ -244,14 +273,14 @@ export default function Navbar() {
             </button>
           </div>
 
-          <div className="hidden xl:flex flex-col flex-1 min-w-0 gap-2.5 w-full xl:pt-1">
-            <nav className="flex flex-wrap items-center justify-start gap-x-1.5 gap-y-1.5 w-full">
+          <div className="hidden xl:flex flex-col items-end justify-start flex-1 min-w-0 gap-2.5 ml-auto pl-6 2xl:pl-10 border-l border-slate-100">
+            <nav className="flex flex-nowrap items-center justify-end gap-x-1.5 2xl:gap-x-2 w-full overflow-x-auto scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
               {navGroups.map((link) => (
                 <div key={link.name} className="relative shrink-0">
                   <a
                     href={link.path}
                     onClick={(e) => handleNav(e, link.path)}
-                    className={navLinkClass(link.path, 'main')}
+                    className={`${navLinkClass(link.path, 'main')} whitespace-nowrap`}
                   >
                     {link.name}
                   </a>
@@ -259,7 +288,7 @@ export default function Navbar() {
               ))}
             </nav>
 
-            <div className="flex flex-wrap gap-2 w-full items-center">
+            <div className="flex flex-wrap gap-1.5 w-full items-center justify-end">
               {renderInitiativeRow()}
             </div>
           </div>
@@ -267,7 +296,7 @@ export default function Navbar() {
       </div>
 
       {isOpen && (
-        <div className="xl:hidden border-b border-slate-200 bg-white py-4 px-4 z-40 max-h-[75vh] overflow-y-auto">
+        <div className="xl:hidden border-b border-slate-200 bg-white py-4 px-4 z-40 max-h-[calc(100dvh-10rem)] overflow-y-auto">
           <div className="flex flex-col gap-2">
             {navGroups.map((link) => (
               <div key={link.name}>
@@ -295,6 +324,7 @@ export default function Navbar() {
           </div>
         </div>
       )}
-    </header>
+      </header>
+    </>
   );
 }

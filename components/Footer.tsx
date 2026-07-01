@@ -1,13 +1,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Building2, Mail, MapPin, Phone } from 'lucide-react';
+import OrganizationAddress from '@/components/OrganizationAddress';
 import { initiatives, organization, navServiceLinks } from '@/lib/siteContent';
 
 export default function Footer() {
   return (
     <footer className="mt-12 bg-primary text-white border-t border-primary/20">
       <div className="tricolor-bar" />
-      <div className="max-w-7xl mx-auto px-6 md:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <div className="space-y-4 md:col-span-1">
           <div className="flex items-center gap-3">
             <Image src="/mse.jpeg" alt="MSE Logo" width={80} height={56} className="h-14 w-20 object-contain bg-white rounded-lg p-1" />
@@ -45,7 +46,7 @@ export default function Footer() {
         <div>
           <h4 className="text-sm font-bold text-secondary mb-3">Contact Details</h4>
           <div className="space-y-3 text-xs text-slate-300">
-            <p className="flex gap-2"><MapPin className="h-4 w-4 text-secondary shrink-0" />{organization.address}</p>
+            <p className="flex gap-2 items-start"><MapPin className="h-4 w-4 text-secondary shrink-0 mt-0.5" /><OrganizationAddress /></p>
             <p className="flex gap-2"><Phone className="h-4 w-4 text-secondary shrink-0" />{organization.phone}</p>
             <p className="flex gap-2"><Mail className="h-4 w-4 text-secondary shrink-0" />{organization.email}</p>
             <p className="flex gap-2"><Building2 className="h-4 w-4 text-secondary shrink-0" />{initiatives.length} active support initiatives</p>

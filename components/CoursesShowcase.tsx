@@ -3,9 +3,9 @@
 import Image from 'next/image';
 import { courses } from '@/lib/courses';
 
-export default function CoursesShowcase() {
+export default function CoursesShowcase({ className }: { className?: string }) {
   return (
-    <section className="bg-[#f5f7fa] border-t border-slate-200 py-14 px-6">
+    <section className={`bg-[#f5f7fa] border-t border-slate-200 py-10 sm:py-14 px-4 sm:px-6 ${className ?? ''}`}>
       <div className="max-w-6xl mx-auto space-y-10">
         <div className="text-center space-y-2">
           <h2 className="text-3xl md:text-4xl font-bold text-[#1a2b4a] font-display tracking-tight">

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, Phone, Mail, MapPin } from 'lucide-react';
+import OrganizationAddress from '@/components/OrganizationAddress';
 import { organization } from '@/lib/siteContent';
 import type { HomeInitiative } from '@/lib/homeInitiatives';
 
@@ -39,7 +40,7 @@ export default function InitiativePageContent({ initiative }: { initiative: Home
             ))}
           </ul>
           <div className="pt-4 border-t border-white/10 space-y-2 text-xs text-slate-300">
-            <p className="flex items-center gap-2"><MapPin className="h-3.5 w-3.5 text-secondary" /> {organization.address}</p>
+            <p className="flex items-center gap-2"><MapPin className="h-3.5 w-3.5 text-secondary shrink-0" /><OrganizationAddress /></p>
             <p className="flex items-center gap-2"><Phone className="h-3.5 w-3.5 text-secondary" /> {organization.phone}</p>
             <p className="flex items-center gap-2"><Mail className="h-3.5 w-3.5 text-secondary" /> {organization.email}</p>
           </div>

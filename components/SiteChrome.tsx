@@ -10,12 +10,12 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
 
   return (
     <div
-      className={`flex flex-col bg-corp-bg text-corp-text ${
+      className={`flex flex-col bg-corp-bg text-corp-text overflow-x-hidden ${
         isDocumentViewer ? 'h-dvh overflow-hidden' : 'min-h-screen'
       }`}
     >
       <Navbar />
-      <main className={isDocumentViewer ? 'flex-1 min-h-0 overflow-y-auto' : 'grow'}>
+      <main className={`${isDocumentViewer ? 'flex-1 min-h-0 overflow-y-auto' : 'grow'} w-full min-w-0 overflow-x-hidden`}>
         {children}
       </main>
       {!isDocumentViewer && <Footer />}

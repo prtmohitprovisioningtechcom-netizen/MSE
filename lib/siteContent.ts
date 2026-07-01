@@ -7,6 +7,8 @@ export const organization = {
   email: 'msmeindus.association@gmail.com',
   phone: '+91 92584 10701',
   address: 'Head Office, 14/396 Arya Nagar, Firozabad',
+  addressLine1: 'Head Office, 14/396 Arya Nagar,',
+  addressLine2: 'Firozabad',
   website: 'https://www.mseindustryassociation.com/',
   facebook: 'https://www.facebook.com/',
   youtube: 'https://www.youtube.com/',

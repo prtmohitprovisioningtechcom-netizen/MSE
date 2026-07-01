@@ -1,6 +1,7 @@
 'use client';
 
 import { Mail, MapPin, Phone, Quote, UserRound } from 'lucide-react';
+import OrganizationAddress from '@/components/OrganizationAddress';
 import { directorMessage } from '@/lib/aboutContent';
 import { organization } from '@/lib/siteContent';
 
@@ -72,7 +73,7 @@ export default function DirectorMessagePageContent() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-slate-200">
             <p className="flex items-start gap-2.5">
               <MapPin className="h-4 w-4 text-secondary shrink-0 mt-0.5" />
-              <span className="font-hindi leading-relaxed wrap-anywhere">{organization.address}</span>
+              <OrganizationAddress className="font-hindi" />
             </p>
             <p className="flex items-center gap-2.5">
               <Phone className="h-4 w-4 text-secondary shrink-0" />
