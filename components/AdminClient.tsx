@@ -14,6 +14,7 @@ import { createEventAction, deleteEventAction } from '@/actions/events';
 import { createNewsAction, deleteNewsAction, createSchemeAction, deleteSchemeAction, deleteContactAction } from '@/actions/admin';
 import ImageUploadField from '@/components/ImageUploadField';
 import AdminJobBusinessPanel from '@/components/AdminJobBusinessPanel';
+import type { SessionPayload } from '@/lib/auth';
 
 type AdminTab = 'memberships' | 'grievances' | 'events' | 'news' | 'schemes' | 'contacts' | 'jobBusiness';
 
@@ -94,11 +95,6 @@ interface JobBusinessDoc {
   createdAt: string;
 }
 
-interface AdminSession {
-  name: string;
-  role: string;
-}
-
 interface AdminClientProps {
   stats: AdminStats;
   initialData: {
@@ -110,7 +106,7 @@ interface AdminClientProps {
     contacts: AdminContact[];
     jobBusinessDocuments: JobBusinessDoc[];
   };
-  adminUser: AdminSession;
+  adminUser: Pick<SessionPayload, 'name' | 'role'>;
 }
 
 export default function AdminClient({ stats, initialData, adminUser }: AdminClientProps) {
