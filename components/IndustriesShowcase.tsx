@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import SocialWorkShowcase from '@/components/SocialWorkShowcase';
 import OtherIndustriesShowcase from '@/components/OtherIndustriesShowcase';
+import PartnerLogoCarousel from '@/components/PartnerLogoCarousel';
 
 const industries = [
   { name: 'Garments Industry', slug: 'garments' },
@@ -45,8 +46,10 @@ function IndustryPhotos({ name, slug }: { name: string; slug: string }) {
 
 export default function IndustriesShowcase() {
   return (
-    <section className="bg-white border-t border-slate-200 py-16 px-6">
-      <div className="max-w-6xl mx-auto space-y-14">
+    <section className="bg-white border-t border-slate-200 py-16">
+      <PartnerLogoCarousel />
+
+      <div className="max-w-6xl mx-auto space-y-14 px-6">
         <div className="text-center space-y-2">
           <span className="text-secondary font-bold text-xs uppercase tracking-widest block">Industrial Sectors</span>
           <h2 className="text-2xl md:text-3xl font-extrabold text-primary font-display">

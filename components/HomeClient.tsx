@@ -62,6 +62,24 @@ export default function HomeClient() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-7 space-y-5 md:space-y-6 text-left"
           >
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55 }}
+              className="relative overflow-hidden rounded-xl border border-white/25 bg-linear-to-br from-white/12 via-white/6 to-white/3 backdrop-blur-md px-3.5 py-3 md:px-4 md:py-3.5 shadow-lg max-w-xl"
+            >
+              <div className="absolute inset-x-0 top-0 h-0.5 bg-linear-to-r from-secondary via-white to-accent" />
+
+              <div className="relative space-y-1 md:space-y-1.5">
+                <p className="font-hindi text-sm sm:text-base md:text-lg font-semibold text-white leading-snug">
+                  {homeHero.hindiSlogan.line1}
+                </p>
+                <p className="font-hindi text-xs sm:text-sm md:text-base font-medium text-secondary leading-snug">
+                  {homeHero.hindiSlogan.line2}
+                </p>
+              </div>
+            </motion.div>
+
             <h1 className="text-base sm:text-lg md:text-xl font-bold text-white leading-relaxed tracking-normal">
               {homeHero.lines.map((line, index) => (
                 <span key={index} className="block mb-1 last:mb-0">

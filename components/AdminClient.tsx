@@ -276,7 +276,11 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
                       <tr key={member._id} className="border-b border-slate-50 hover:bg-slate-50/50">
                         <td className="py-3.5 pr-2">
                           <strong className="text-slate-900 block font-semibold">{member.companyName}</strong>
-                          <span className="text-[10px] text-slate-400 block mt-0.5">PAN: {member.panNumber} | Sector: {member.industryType}</span>
+                          <span className="text-[10px] text-slate-400 block mt-0.5">
+                            {member.ownerName ? `${member.ownerName} | ` : ''}
+                            {member.email ? `${member.email} | ` : ''}
+                            PAN: {member.panNumber} | Sector: {member.industryType}
+                          </span>
                         </td>
                         <td className="py-3.5 pr-2">
                           <span className="font-semibold text-primary">{member.type}</span>

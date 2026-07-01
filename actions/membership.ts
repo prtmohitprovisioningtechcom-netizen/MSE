@@ -19,6 +19,71 @@ export async function getMembershipDetails() {
   }
 }
 
+export async function submitPublicMembershipApplication(data: {
+  ownerName: string;
+  email: string;
+  companyName: string;
+  type: string;
+  phone: string;
+  address: string;
+  industryType: string;
+  panNumber: string;
+  gstNumber?: string;
+  udyamNumber?: string;
+  website?: string;
+  message?: string;
+}) {
+  try {
+    await dbConnect();
+
+    const {
+      ownerName,
+      email,
+      companyName,
+      type,
+      phone,
+      address,
+      industryType,
+      panNumber,
+      gstNumber,
+      udyamNumber,
+      website,
+      message,
+    } = data;
+
+    if (!ownerName || !email || !companyName || !type || !phone || !address || !industryType || !panNumber) {
+      return { error: 'Please fill in all required fields' };
+    }
+
+    const membership = await Membership.create({
+      ownerName,
+      email,
+      companyName,
+      type,
+      phone,
+      address,
+      industryType,
+      panNumber,
+      gstNumber: gstNumber || '',
+      udyamNumber: udyamNumber || '',
+      applicationNotes: message || '',
+      website: website || '',
+      documents: [],
+      status: 'Pending',
+    });
+
+    revalidatePath('/admin');
+    return {
+      success: true,
+      message: 'Your membership application has been submitted. Our team will contact you shortly.',
+      data: membership,
+    };
+  } catch (error: any) {
+    console.error('Public membership application error:', error);
+    return { error: error.message || 'Failed to submit application' };
+  }
+}
+
 export async function submitMembershipApplication(data: any) {
   try {
     const session = await getSession();

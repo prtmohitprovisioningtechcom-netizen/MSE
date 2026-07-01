@@ -11,8 +11,16 @@ const MembershipSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
-      unique: true, // A user can only have one membership application
+      required: false,
+    },
+    ownerName: {
+      type: String,
+      trim: true,
+    },
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
     },
     companyName: {
       type: String,
@@ -49,6 +57,14 @@ const MembershipSchema = new mongoose.Schema(
     gstNumber: {
       type: String,
       uppercase: true,
+      trim: true,
+    },
+    udyamNumber: {
+      type: String,
+      trim: true,
+    },
+    applicationNotes: {
+      type: String,
       trim: true,
     },
     documents: [DocumentSchema],

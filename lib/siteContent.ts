@@ -7,10 +7,17 @@ export const organization = {
   email: 'msmeindus.association@gmail.com',
   phone: '+91 92584 10701',
   address: 'Head Office, 14/396 Arya Nagar, Firozabad',
+  website: 'https://www.mseindustryassociation.com/',
+  facebook: 'https://www.facebook.com/',
+  youtube: 'https://www.youtube.com/',
   hours: 'Monday to Friday, 9:30 AM to 6:00 PM',
 };
 
 export const homeHero = {
+  hindiSlogan: {
+    line1: 'हमारी राष्ट्रभाषा, हमारी मातृभाषा है।',
+    line2: 'आओ, हम अपना कार्य हिंदी में करें।',
+  },
   lines: [
     'Upgrade Your Skills development and industries development',
     'Seminar awareness government scheme and other programs',

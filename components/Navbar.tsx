@@ -3,7 +3,8 @@
 import { useState, useTransition, useEffect } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { ChevronDown, Mail, MapPin, Menu, Phone, X } from 'lucide-react';
+import { ChevronDown, Globe, Mail, MapPin, Menu, Phone, X } from 'lucide-react';
+import { FacebookIcon, YoutubeIcon } from '@/components/icons/SocialIcons';
 import { organization, navServiceLinks } from '@/lib/siteContent';
 import { homeInitiatives } from '@/lib/homeInitiatives';
 
@@ -64,6 +65,25 @@ export default function Navbar() {
     setClickedPath(null);
   }
 
+  const navLinkClass = (path: string, size: 'main' | 'sub' = 'main') => {
+    const base =
+      size === 'main'
+        ? 'px-2 py-1.5 rounded-md text-[10px] sm:text-[11px] font-semibold tracking-wide uppercase transition-all duration-100 flex items-center gap-1 cursor-pointer'
+        : 'px-2 py-1 rounded-full border border-slate-200 text-[9px] sm:text-[10px] font-semibold text-slate-600 hover:border-primary/40 hover:text-primary hover:bg-primary/5 cursor-pointer transition-all';
+
+    if (clickedPath === path) {
+      return `${base} text-secondary bg-secondary/10 scale-95`;
+    }
+    if (isActive(path)) {
+      return size === 'main'
+        ? `${base} text-primary bg-primary/5 border-b-2 border-secondary font-bold`
+        : `${base} border-primary bg-primary/5 text-primary`;
+    }
+    return size === 'main'
+      ? `${base} text-corp-text hover:text-primary hover:bg-slate-50 active:scale-95 active:text-secondary`
+      : base;
+  };
+
   const renderInitiativeButton = (
     item: (typeof homeInitiatives)[number],
     index: number,
@@ -78,7 +98,7 @@ export default function Navbar() {
         onClick={(e) => handleNav(e, path)}
         style={{ animationDelay: `${index * 55}ms, ${index * 0.2}s` }}
         className={`initiative-pill-btn inline-flex items-center rounded-full border font-semibold cursor-pointer ${
-          compact ? 'px-2.5 py-1 text-[10px]' : 'px-2.5 py-1.5 text-[10px] xl:text-[11px]'
+          compact ? 'px-2 py-1 text-[9px] sm:text-[10px]' : 'px-2.5 py-1.5 text-[9px] sm:text-[10px] xl:text-[11px]'
         } ${
           active
             ? 'is-active border-primary text-white'
@@ -94,21 +114,21 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
       <div className="tricolor-bar" />
 
-      <div className="hidden md:flex bg-primary py-3 px-6 justify-between items-center text-xs text-white/95">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col gap-1.5 sm:flex-row sm:justify-between sm:items-center bg-primary py-2.5 sm:py-3 px-4 md:px-6 text-[10px] sm:text-xs text-white/95">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
           <span>{organization.tagline}</span>
           <span className="text-secondary font-semibold">MSME | Industry | Vendor Development</span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
           <span>Helpline: {organization.phone}</span>
-          <span>|</span>
-          <span>{organization.email}</span>
+          <span className="hidden sm:inline">|</span>
+          <span className="break-all sm:break-normal">{organization.email}</span>
         </div>
       </div>
 
       <div className="border-b border-slate-100 px-4 md:px-6 xl:px-8 py-3 xl:py-4">
-        <div className="max-w-360 mx-auto flex items-start gap-5 xl:gap-8">
-          <div className="flex items-center gap-3 shrink-0 w-[34%] max-w-88 xl:max-w-[24rem]">
+        <div className="max-w-360 mx-auto flex flex-col xl:flex-row xl:items-start gap-4 xl:gap-8">
+          <div className="flex items-start gap-3 w-full xl:w-[34%] xl:max-w-88 xl:shrink-0">
             <a
               href="/"
               onClick={(e) => handleNav(e, '/')}
@@ -119,17 +139,18 @@ export default function Navbar() {
                 alt="MSE Logo"
                 width={260}
                 height={200}
-                className="h-28 w-auto md:h-32 xl:h-34 object-contain"
+                className="h-20 w-auto sm:h-24 md:h-28 xl:h-34 object-contain"
                 priority
               />
             </a>
-            <div className="min-w-0 space-y-1.5">
+            <div className="min-w-0 flex-1 space-y-1.5">
               <a
                 href="/"
                 onClick={(e) => handleNav(e, '/')}
                 className="block text-xs md:text-sm xl:text-[15px] font-extrabold text-primary leading-snug font-display uppercase hover:text-primary/80 transition-colors cursor-pointer"
               >
-                MSE Chamber of Commerce And Industry Association
+                <span className="block whitespace-nowrap">MSE Chamber of Commerce</span>
+                <span className="block whitespace-nowrap">And Industry Association</span>
               </a>
               <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.16em] text-secondary">
                 {organization.tagline}
@@ -149,34 +170,66 @@ export default function Navbar() {
                   <Mail className="h-3 w-3 text-secondary shrink-0 mt-0.5" />
                   <span className="font-medium leading-snug break-all">{organization.email}</span>
                 </a>
-                <p className="flex items-start gap-1.5">
-                  <MapPin className="h-3 w-3 text-secondary shrink-0 mt-0.5" />
-                  <span className="font-medium leading-snug">{organization.address}</span>
+                <p className="flex items-center gap-1.5 min-w-0">
+                  <MapPin className="h-3 w-3 text-secondary shrink-0" />
+                  <span className="font-medium whitespace-nowrap text-[9px] sm:text-[10px]">{organization.address}</span>
                 </p>
+                <a
+                  href={organization.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-1.5 hover:text-primary transition-colors"
+                >
+                  <Globe className="h-3 w-3 text-secondary shrink-0 mt-0.5" />
+                  <span className="font-medium leading-snug break-all">www.mseindustryassociation.com</span>
+                </a>
+                <div className="flex items-center gap-2 pt-0.5">
+                  <a
+                    href={organization.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                    className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 text-[#1877F2] hover:bg-[#1877F2]/10 hover:border-[#1877F2]/40 transition-colors"
+                  >
+                    <FacebookIcon className="h-3.5 w-3.5" />
+                  </a>
+                  <a
+                    href={organization.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="YouTube"
+                    className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 text-[#FF0000] hover:bg-[#FF0000]/10 hover:border-[#FF0000]/40 transition-colors"
+                  >
+                    <YoutubeIcon className="h-3.5 w-3.5" />
+                  </a>
+                </div>
               </div>
             </div>
+            <button
+              type="button"
+              onClick={() => setIsOpen((open) => !open)}
+              className="xl:hidden shrink-0 p-2 text-primary hover:bg-slate-100 rounded-lg transition-all"
+              aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isOpen}
+            >
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
           </div>
 
-          <div className="hidden xl:flex flex-col flex-1 min-w-0 gap-2.5 pt-1">
-            <nav className="flex items-center justify-between gap-1 flex-nowrap w-full">
+          <div className="hidden xl:flex flex-col flex-1 min-w-0 gap-2.5 w-full xl:pt-1">
+            <nav className="flex flex-wrap xl:flex-nowrap xl:justify-between items-center gap-x-1 gap-y-1.5 xl:gap-1 w-full">
               {navGroups.map((link) => (
                 <div key={link.name} className="relative group shrink-0">
                   <a
                     href={link.path}
                     onClick={(e) => handleNav(e, link.path)}
-                    className={`px-2 py-1.5 rounded-md text-[10px] font-semibold tracking-wide uppercase whitespace-nowrap transition-all duration-100 flex items-center gap-1 cursor-pointer ${
-                      clickedPath === link.path
-                        ? 'text-secondary bg-secondary/10 scale-95'
-                        : isActive(link.path)
-                          ? 'text-primary bg-primary/5 border-b-2 border-secondary font-bold'
-                          : 'text-corp-text hover:text-primary hover:bg-slate-50 active:scale-95 active:text-secondary'
-                    }`}
+                    className={navLinkClass(link.path, 'main')}
                   >
                     {link.name}
-                    {link.children && <ChevronDown className="h-3 w-3 shrink-0" />}
+                    {link.children && <ChevronDown className="h-3 w-3 shrink-0 hidden xl:block" />}
                   </a>
                   {link.children && (
-                    <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                    <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 hidden xl:block">
                       <div className="w-72 rounded-2xl bg-white border border-slate-100 shadow-xl p-2">
                         {link.children.map((child) => (
                           <a
@@ -199,19 +252,11 @@ export default function Navbar() {
               {homeInitiatives.map((item, index) => renderInitiativeButton(item, index))}
             </div>
           </div>
-
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="xl:hidden ml-auto p-2 text-primary hover:bg-slate-100 rounded-lg transition-all shrink-0"
-            aria-label="Toggle navigation menu"
-          >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
         </div>
       </div>
 
       {isOpen && (
-        <div className="xl:hidden border-b border-slate-200 bg-white py-4 px-6 z-40 max-h-[75vh] overflow-y-auto">
+        <div className="xl:hidden border-b border-slate-200 bg-white py-4 px-4 z-40 max-h-[75vh] overflow-y-auto">
           <div className="flex flex-col gap-2">
             {navGroups.map((link) => (
               <div key={link.name}>
@@ -235,7 +280,7 @@ export default function Navbar() {
                         key={`${link.name}-${child.name}`}
                         href={child.path}
                         onClick={(e) => handleNav(e, child.path)}
-                        className="block py-1.5 text-xs font-semibold text-slate-500 cursor-pointer active:text-secondary transition-all duration-100"
+                        className="block py-1.5 text-xs font-semibold text-slate-500 cursor-pointer hover:text-primary active:text-secondary transition-all duration-100"
                       >
                         {child.name}
                       </a>
