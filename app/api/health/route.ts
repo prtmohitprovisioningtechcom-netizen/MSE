@@ -16,6 +16,8 @@ export async function GET() {
       readyState: mongoose.connection.readyState,
       latencyMs: Date.now() - startedAt,
       timestamp: new Date().toISOString(),
+      buildTime: process.env.NEXT_PUBLIC_BUILD_TIME ?? 'unknown',
+      nodeEnv: process.env.NODE_ENV ?? 'unknown',
     });
   } catch (error) {
     return Response.json(

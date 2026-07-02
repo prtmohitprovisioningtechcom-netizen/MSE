@@ -1,8 +1,29 @@
 // next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  env: {
+    NEXT_PUBLIC_BUILD_TIME: new Date().toISOString(),
+  },
+  async headers() {
+    return [
+      {
+        source: '/((?!_next/static|_next/image|favicon.ico|mse.jpeg|Logo|sideimages|uploads|.*\\.(?:jpg|jpeg|png|gif|webp|svg|ico|css|js|woff2?|ttf|eot)).*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate',
+          },
+          {
+            key: 'CDN-Cache-Control',
+            value: 'no-store',
+          },
+        ],
+      },
+    ];
   },
   images: {
     formats: ['image/avif', 'image/webp'],
