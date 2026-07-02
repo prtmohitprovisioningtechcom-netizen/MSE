@@ -196,8 +196,8 @@ export default function Navbar() {
                 alt="MSE Logo"
                 width={320}
                 height={246}
-                sizes="(max-width: 640px) 96px, (max-width: 768px) 112px, (max-width: 1024px) 128px, 160px"
-                className="h-24 w-auto sm:h-28 md:h-32 lg:h-36 xl:h-40 object-contain"
+                sizes="(max-width: 640px) 112px, (max-width: 768px) 128px, (max-width: 1024px) 144px, 176px"
+                className="h-28 w-auto sm:h-32 md:h-36 lg:h-40 xl:h-44 object-contain"
                 priority
               />
             </Link>
@@ -223,24 +223,24 @@ export default function Navbar() {
                 </a>
                 <a
                   href={`mailto:${organization.email}`}
-                  className="flex items-start gap-1.5 hover:text-primary transition-colors"
+                  className="flex items-center gap-1.5 hover:text-primary transition-colors min-w-0"
                 >
-                  <Mail className="h-3 w-3 text-secondary shrink-0 mt-0.5" />
-                  <span className="font-medium leading-snug break-all">{organization.email}</span>
+                  <Mail className="h-3 w-3 text-secondary shrink-0" />
+                  <span className="font-medium whitespace-nowrap">{organization.email}</span>
                 </a>
-                <p className="flex items-center gap-1.5 min-w-0">
-                  <MapPin className="h-3 w-3 text-secondary shrink-0" />
-                  <OrganizationAddress className="font-medium text-[9px] sm:text-[10px]" />
-                </p>
                 <a
                   href={organization.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start gap-1.5 hover:text-primary transition-colors"
+                  className="flex items-center gap-1.5 hover:text-primary transition-colors min-w-0"
                 >
-                  <Globe className="h-3 w-3 text-secondary shrink-0 mt-0.5" />
-                  <span className="font-medium leading-snug break-all">www.mseindustryassociation.com</span>
+                  <Globe className="h-3 w-3 text-secondary shrink-0" />
+                  <span className="font-medium whitespace-nowrap">www.mseindustryassociation.com</span>
                 </a>
+                <p className="flex items-center gap-1.5 min-w-0 pt-0.5">
+                  <MapPin className="h-3 w-3 text-secondary shrink-0" />
+                  <OrganizationAddress className="font-medium text-[9px] sm:text-[10px] whitespace-nowrap" />
+                </p>
                 <div className="flex items-center gap-2 pt-0.5">
                   <a
                     href={organization.facebook}
@@ -274,8 +274,8 @@ export default function Navbar() {
             </button>
           </div>
 
-          <div className="hidden xl:flex flex-col items-end justify-start flex-1 min-w-0 gap-2.5 ml-auto pl-6 2xl:pl-10 border-l border-slate-100">
-            <nav className="flex flex-nowrap items-center justify-end gap-x-1.5 2xl:gap-x-2 w-full overflow-x-auto scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <div className="hidden xl:flex flex-col justify-start flex-1 min-w-0 gap-2.5 ml-auto pl-6 2xl:pl-8 border-l border-slate-100 relative">
+            <nav className="flex flex-nowrap items-center justify-start gap-x-1.5 2xl:gap-x-2 w-full overflow-x-auto scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
               {navGroups.map((link) => (
                 <div key={link.name} className="relative shrink-0">
                   <a
@@ -289,7 +289,20 @@ export default function Navbar() {
               ))}
             </nav>
 
-            <div className="flex flex-wrap gap-1.5 w-full items-center justify-end">
+            <div className="absolute top-11 left-20 inline-flex w-full max-w-xl flex-col items-start justify-start px-2 py-2">
+              <span className="text-[10px] font-extrabold tracking-[0.14em] text-slate-500 mb-0.5">
+                REGD BY-
+              </span>
+              <Image
+                src="/Logo/Gem(6).png"
+                alt="GeM"
+                width={262}
+                height={118}
+                className="h-24 w-auto object-contain"
+              />
+            </div>
+
+            <div className="flex flex-wrap gap-1 w-full max-w-5xl items-center justify-start xl:pl-52 2xl:pl-60">
               {renderInitiativeRow()}
             </div>
           </div>
