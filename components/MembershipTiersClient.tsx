@@ -136,6 +136,7 @@ const industryOptions = [
 ];
 
 const emptyForm = {
+  membershipFee: '',
   ownerName: '',
   email: '',
   companyName: '',
@@ -211,8 +212,9 @@ export default function MembershipTiersClient() {
   }, [activeTier]);
 
   const openForm = (tier: TierType) => {
+    const selected = tiers.find((item) => item.type === tier);
     setActiveTier(tier);
-    setForm(emptyForm);
+    setForm({ ...emptyForm, membershipFee: selected?.price ?? '' });
     setFeedback(null);
   };
 
@@ -234,7 +236,7 @@ export default function MembershipTiersClient() {
     const payload: MembershipWhatsAppPayload = {
       ...form,
       type: activeTier,
-      price: tier?.price,
+      price: form.membershipFee || tier?.price,
       period: tier?.period,
     };
 
@@ -390,6 +392,18 @@ export default function MembershipTiersClient() {
                 </FormSection>
 
                 <FormSection title="Business Details" subtitle="Company profile and location">
+                  <Field label="Membership Fees" required>
+                    <div className="relative">
+                      <FileText className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                      <input
+                        required
+                        value={form.membershipFee}
+                        onChange={(e) => updateField('membershipFee', e.target.value)}
+                        className={`${inputClass} pl-10`}
+                        placeholder="₹10,000"
+                      />
+                    </div>
+                  </Field>
                   <Field label="Company / Business Name" required span={2}>
                     <div className="relative">
                       <Building2 className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />

@@ -235,21 +235,6 @@ export const homeInitiatives: HomeInitiative[] = [
     services: ['Program registration support', 'Expert session orientation', 'Scheme awareness guidance', 'Industry startup facilitation'],
   },
   {
-    slug: 'state-national-share-exhibation',
-    title: 'State and National Fair and Exhibation',
-    badge: 'Exhibition Network',
-    summary: 'State and national level fair and exhibition participation for MSME product visibility.',
-    description:
-      'MSE-CCIA facilitates member participation in state and national exhibitions, fair programs and showcase platforms for wider market reach.',
-    points: [
-      'State-level exhibition participation',
-      'National showcase and fair programs',
-      'MSME product visibility support',
-      'Delegation and pavilion coordination',
-    ],
-    services: ['State exhibition coordination', 'National event participation', 'Showcase platform guidance', 'Delegation support desk'],
-  },
-  {
     slug: 'mse-ccia',
     title: 'MSE-CCIA AWARD',
     badge: 'Business Award',

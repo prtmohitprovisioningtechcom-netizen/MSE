@@ -23,7 +23,9 @@ export default function PartnerLogoCarousel() {
                 alt={logo.name}
                 fill
                 sizes="(max-width: 640px) 144px, (max-width: 1024px) 176px, 240px"
-                className="object-contain p-1 opacity-95"
+                className={`object-contain opacity-95 ${
+                  logo.name === 'Ministry of Corporate Affairs' ? 'p-0 sm:p-0.5 scale-110' : 'p-1'
+                }`}
               />
             </div>
             <p className="w-full text-center text-[10px] sm:text-[11px] md:text-xs font-medium leading-snug text-slate-600 px-1">

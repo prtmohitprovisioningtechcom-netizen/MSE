@@ -4,16 +4,15 @@ export type PartnerLogo = {
 };
 
 const logoFiles: Array<{ file: string; name: string }> = [
-  { file: 'MSME.jpeg', name: 'Ministry of Micro, Small and Medium Enterprises' },
-  { file: 'Ministry.jpeg', name: 'Ministry of Commerce and Industry' },
-  { file: 'niti.jpeg', name: 'NITI Aayog — National Institution for Transforming India' },
-  { file: 'skill india.jpeg', name: 'Skill India — National Skill Development Mission' },
+  { file: 'Ministry.jpeg', name: 'Ministry of Corporate Affairs' },
+  { file: 'niti.jpeg', name: 'NITI Aayog' },
   { file: 'UP.jpeg', name: 'Government of Uttar Pradesh' },
+  { file: 'MSME.jpeg', name: 'MSME - Government of India' },
+  { file: 'skill india.jpeg', name: 'Skill India' },
+  { file: 'Gem(6).png', name: 'GeM Portal' },
+  { file: 'ATG logo.jpeg', name: 'ATG' },
+  { file: '12A (8).jpeg', name: '12A' },
   { file: 'beti.jpeg', name: 'Beti Bachao Beti Padhao' },
-  { file: 'save.jpeg', name: 'Save Water Save Life' },
-  { file: 'save tree.jpeg', name: 'Save Tree Save Environment' },
-  { file: 'environment.jpeg', name: 'Ministry of Environment, Forest and Climate Change' },
-  { file: '1.jpeg', name: 'National Development and Industry Initiative' },
 ];
 
 export const partnerLogos: PartnerLogo[] = logoFiles.map(({ file, name }) => ({
