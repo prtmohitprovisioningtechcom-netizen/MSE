@@ -74,9 +74,11 @@ export default function Navbar() {
     });
   };
 
-  if (!isPending && clickedPath) {
-    setClickedPath(null);
-  }
+  useEffect(() => {
+    if (!isPending && clickedPath) {
+      setClickedPath(null);
+    }
+  }, [isPending, clickedPath]);
 
   const navLinkClass = (path: string, size: 'main' | 'sub' = 'main') => {
     const base =
@@ -274,7 +276,7 @@ export default function Navbar() {
             </button>
           </div>
 
-          <div className="hidden xl:flex flex-col justify-start flex-1 min-w-0 gap-2.5 ml-auto pl-6 2xl:pl-8 border-l border-slate-100 relative">
+          <div className="hidden xl:flex flex-col justify-start flex-1 min-w-0 gap-2 ml-auto pl-6 2xl:pl-8 border-l border-slate-100">
             <nav className="flex flex-nowrap items-center justify-start gap-x-1.5 2xl:gap-x-2 w-full overflow-x-auto scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
               {navGroups.map((link) => (
                 <div key={link.name} className="relative shrink-0">
@@ -289,21 +291,24 @@ export default function Navbar() {
               ))}
             </nav>
 
-            <div className="absolute top-11 left-20 inline-flex w-full max-w-xl flex-col items-start justify-start px-2 py-2">
-              <span className="text-[10px] font-extrabold tracking-[0.14em] text-slate-500 mb-0.5">
-                REGD BY-
-              </span>
-              <Image
-                src="/Logo/Gem(6).png"
-                alt="GeM"
-                width={262}
-                height={118}
-                className="h-24 w-auto object-contain"
-              />
-            </div>
+            <div className="grid w-full grid-cols-[10.5rem_1fr] 2xl:grid-cols-[12.5rem_1fr] items-start gap-x-2 2xl:gap-x-3">
+              <div className="flex flex-col items-start shrink-0 pt-0.5">
+                <span className="text-[10px] font-extrabold tracking-[0.14em] text-slate-500 mb-0.5">
+                  REGD BY-
+                </span>
+                <Image
+                  src="/Logo/Gem(6).png"
+                  alt="GeM"
+                  width={262}
+                  height={118}
+                  className="h-20 2xl:h-24 w-auto object-contain pointer-events-none select-none"
+                  draggable={false}
+                />
+              </div>
 
-            <div className="flex flex-wrap gap-1 w-full max-w-5xl items-center justify-start xl:pl-52 2xl:pl-60">
-              {renderInitiativeRow()}
+              <div className="flex flex-wrap gap-1 w-full max-w-5xl items-center justify-end ml-auto">
+                {renderInitiativeRow()}
+              </div>
             </div>
           </div>
         </div>
