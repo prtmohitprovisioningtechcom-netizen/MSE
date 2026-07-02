@@ -14,6 +14,7 @@ export const directorMessage = {
   signOff: 'सादर,',
   designation: 'MANAGING DIRECTOR',
   name: 'DR. SUNIL KUMAR JAIN',
+  photo: '/Director.jpeg',
 };
 
 export const mayIHelpYou = {

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Mail, MapPin, Phone, Quote, UserRound } from 'lucide-react';
 import OrganizationAddress from '@/components/OrganizationAddress';
 import { directorMessage } from '@/lib/aboutContent';
@@ -28,6 +29,38 @@ export default function DirectorMessagePageContent() {
         <div className="w-full rounded-3xl border border-slate-200 bg-white shadow-lg overflow-hidden">
           <div className="h-1.5 bg-linear-to-r from-secondary via-amber-300 to-accent" />
 
+          <div className="p-6 sm:p-8 md:p-10 border-b border-slate-100 bg-linear-to-br from-primary/5 via-white to-amber-50/30">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 md:gap-8">
+              <div className="relative shrink-0">
+                <div className="relative h-52 w-44 sm:h-60 sm:w-48 md:h-64 md:w-52 rounded-2xl overflow-hidden ring-4 ring-white shadow-xl border border-slate-200/80">
+                  <Image
+                    src={directorMessage.photo}
+                    alt={directorMessage.name}
+                    width={416}
+                    height={520}
+                    sizes="(max-width: 640px) 176px, 208px"
+                    priority
+                    className="h-full w-full object-cover object-top"
+                  />
+                </div>
+                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-1.5 w-24 rounded-full bg-linear-to-r from-secondary via-amber-400 to-accent shadow-sm" />
+              </div>
+
+              <div className="flex-1 min-w-0 text-center sm:text-left space-y-3 pt-1 sm:pt-2">
+                <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-secondary">
+                  {directorMessage.designation}
+                </p>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-primary font-display leading-tight wrap-break-word">
+                  {directorMessage.name}
+                </h2>
+                <p className="font-hindi text-sm md:text-base text-slate-600 leading-relaxed wrap-anywhere">
+                  {directorMessage.organization}
+                </p>
+                <div className="hidden sm:block h-px w-full max-w-xs bg-linear-to-r from-secondary/60 via-amber-300/40 to-transparent mt-2" />
+              </div>
+            </div>
+          </div>
+
           <div className="p-6 sm:p-8 md:p-10 space-y-6 md:space-y-7">
             <div className="flex items-start gap-3">
               <div className="shrink-0 h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
@@ -53,16 +86,13 @@ export default function DirectorMessagePageContent() {
               {directorMessage.thanks}
             </p>
 
-            <div className="rounded-2xl border border-primary/15 bg-linear-to-br from-primary/5 via-white to-amber-50/40 p-5 md:p-7 space-y-2">
+            <div className="rounded-2xl border border-primary/15 bg-linear-to-br from-primary/5 via-white to-amber-50/40 p-5 md:p-7 space-y-1">
               <p className="font-hindi text-sm md:text-base text-slate-600">{directorMessage.signOff}</p>
-              <p className="text-xs md:text-sm font-bold uppercase tracking-[0.14em] text-secondary">
-                {directorMessage.designation}
-              </p>
               <p className="text-lg md:text-xl font-extrabold text-primary font-display wrap-break-word">
                 {directorMessage.name}
               </p>
-              <p className="font-hindi text-xs md:text-sm text-slate-500 leading-relaxed wrap-anywhere">
-                {directorMessage.organization}
+              <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.14em] text-secondary">
+                {directorMessage.designation}
               </p>
             </div>
           </div>

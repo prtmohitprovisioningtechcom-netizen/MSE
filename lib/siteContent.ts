@@ -22,11 +22,6 @@ export const homeHero = {
   },
   industrialSlogan:
     'उद्योग से सिर्फ एक व्यक्ति ,परिवार ही नहीं समाज ,राज्य,और हमारा देश भी मजबूत होता है आओ उद्योग लगाए और देश की अर्थिक स्थिति को और भी अधिक मजबूत, सुदृढ़ और सुनिश्चित करने में अपना सहयोग प्रदान करे',
-  hindiTypingCredit: {
-    prefix: '-----',
-    text: 'हिंखोज बोलो लिखो ऐप से हिंदी टाइपिंग',
-    url: 'https://bololikho.page.link/hp',
-  },
   lines: [
     'Upgrade Your Skills development and industries development',
     'Seminar awareness government scheme and other programs',

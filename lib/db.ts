@@ -7,10 +7,9 @@ function getMongoUri(): string {
     return uri;
   }
 
-  // Vercel/serverless has no local MongoDB — require Atlas (or other hosted) URI
   if (process.env.VERCEL === '1' || process.env.NODE_ENV === 'production') {
     throw new Error(
-      'MONGODB_URI is missing. In Vercel: Project → Settings → Environment Variables → add MONGODB_URI with your MongoDB Atlas connection string, then redeploy.'
+      'MONGODB_URI is missing. Add your MongoDB Atlas connection string to environment variables and restart the app.',
     );
   }
 
@@ -19,11 +18,6 @@ function getMongoUri(): string {
 
 const MONGODB_URI = getMongoUri();
 
-/**
- * Global is used here to maintain a cached connection across hot reloads
- * in development. This prevents connections growing exponentially
- * during API Route usage.
- */
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
@@ -31,26 +25,64 @@ interface MongooseCache {
 
 const globalWithMongoose = globalThis as typeof globalThis & {
   mongoose?: MongooseCache;
+  mongooseHandlersRegistered?: boolean;
 };
 
 const cache: MongooseCache = globalWithMongoose.mongoose ?? { conn: null, promise: null };
 globalWithMongoose.mongoose = cache;
 
-async function dbConnect() {
-  if (cache.conn) {
+const CONNECT_OPTIONS = {
+  bufferCommands: false,
+  serverSelectionTimeoutMS: 20000,
+  socketTimeoutMS: 45000,
+  connectTimeoutMS: 20000,
+  heartbeatFrequencyMS: 10000,
+  maxPoolSize: 5,
+  minPoolSize: 1,
+  maxIdleTimeMS: 30000,
+  dbName: process.env.MONGODB_DB_NAME || 'mse',
+};
+
+const MAX_RETRIES = 3;
+
+function resetCache() {
+  cache.conn = null;
+  cache.promise = null;
+}
+
+function isConnected() {
+  return mongoose.connection.readyState === 1;
+}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+if (!globalWithMongoose.mongooseHandlersRegistered) {
+  mongoose.connection.on('disconnected', () => {
+    console.warn('MongoDB disconnected — will reconnect on next request');
+    resetCache();
+  });
+
+  mongoose.connection.on('error', (error) => {
+    console.error('MongoDB connection error:', error);
+    resetCache();
+  });
+
+  globalWithMongoose.mongooseHandlersRegistered = true;
+}
+
+async function connectOnce(): Promise<typeof mongoose> {
+  if (cache.conn && isConnected()) {
     return cache.conn;
   }
 
-  if (!cache.promise) {
-    const opts = {
-      bufferCommands: false,
-      serverSelectionTimeoutMS: 10000,
-      socketTimeoutMS: 45000,
-      maxPoolSize: 10,
-      dbName: process.env.MONGODB_DB_NAME || 'mse',
-    };
+  if (cache.conn && !isConnected()) {
+    resetCache();
+  }
 
-    cache.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
+  if (!cache.promise) {
+    cache.promise = mongoose.connect(MONGODB_URI, CONNECT_OPTIONS).then((mongooseInstance) => {
       console.log('Connected to MongoDB database successfully');
       return mongooseInstance;
     });
@@ -58,13 +90,30 @@ async function dbConnect() {
 
   try {
     cache.conn = await cache.promise;
-  } catch (e) {
-    cache.promise = null;
-    console.error('Error connecting to MongoDB:', e);
-    throw e;
+    return cache.conn;
+  } catch (error) {
+    resetCache();
+    throw error;
+  }
+}
+
+async function dbConnect() {
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      return await connectOnce();
+    } catch (error) {
+      lastError = error;
+      console.error(`MongoDB connect attempt ${attempt}/${MAX_RETRIES} failed:`, error);
+      if (attempt < MAX_RETRIES) {
+        await sleep(attempt * 800);
+      }
+    }
   }
 
-  return cache.conn;
+  console.error('MongoDB connection failed after all retries');
+  throw lastError;
 }
 
 export default dbConnect;

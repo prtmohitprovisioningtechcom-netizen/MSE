@@ -1,26 +1,24 @@
-import dbConnect from '@/lib/db';
 import GovernmentScheme from '@/models/GovernmentScheme';
+import { withDatabase } from '@/lib/dbQuery';
 import { 
   HeartHandshake, Compass, BookOpen, GraduationCap, Award, 
   ArrowUpRight, ArrowRight, ShieldCheck, Flame, UserCheck
 } from 'lucide-react';
 import Link from 'next/link';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
+
+type SchemeItem = {
+  _id: string;
+  title: string;
+  description: string;
+  eligibility: string;
+  benefits?: string;
+  link?: string;
+};
 
 export default async function ScStSupportPage() {
-  let schemes = [];
-
-  try {
-    await dbConnect();
-    const dbSchemes = await GovernmentScheme.find({ category: 'SC/ST Entrepreneurship' }).sort({ createdAt: -1 });
-    schemes = JSON.parse(JSON.stringify(dbSchemes));
-  } catch (error) {
-    console.error('Error fetching SC/ST schemes:', error);
-  }
-
-  // Fallbacks if DB is not seeded
-  const fallbackSchemes = [
+  const fallbackSchemes: SchemeItem[] = [
     {
       _id: 'sc1',
       title: 'Stand-Up India Scheme',
@@ -38,6 +36,15 @@ export default async function ScStSupportPage() {
       link: 'https://www.nationalscsthub.in/'
     }
   ];
+
+  const schemes = await withDatabase<SchemeItem[]>(
+    'sc-st-support-page',
+    async () => {
+      const dbSchemes = await GovernmentScheme.find({ category: 'SC/ST Entrepreneurship' }).sort({ createdAt: -1 });
+      return JSON.parse(JSON.stringify(dbSchemes));
+    },
+    { fallback: fallbackSchemes },
+  );
 
   const displaySchemes = schemes.length > 0 ? schemes : fallbackSchemes;
 
@@ -141,7 +148,7 @@ export default async function ScStSupportPage() {
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {displaySchemes.map((scheme: any) => (
+          {displaySchemes.map((scheme) => (
             <div 
               key={scheme._id}
               className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm flex flex-col justify-between"

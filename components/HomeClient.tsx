@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { ExternalLink } from 'lucide-react';
 import { courses } from '@/lib/courses';
 import { homeHero, homeIntroParagraph } from '@/lib/siteContent';
 
@@ -103,22 +102,6 @@ export default function HomeClient() {
                   <span className="h-px flex-1 bg-linear-to-r from-transparent to-white/30" />
                   <span className="text-white/40 text-[10px] tracking-widest shrink-0">— — —</span>
                   <span className="h-px flex-1 bg-linear-to-l from-transparent to-white/30" />
-                </div>
-
-                <div className="mt-3 pt-3 border-t border-white/10">
-                  <p className="font-hindi text-[10px] sm:text-xs text-white/80 leading-relaxed wrap-anywhere text-center">
-                    <span className="text-white/45 tracking-wider mr-1">{homeHero.hindiTypingCredit.prefix}</span>
-                    <span>{homeHero.hindiTypingCredit.text}</span>
-                  </p>
-                  <a
-                    href={homeHero.hindiTypingCredit.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 flex items-center justify-center gap-1.5 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-[10px] sm:text-xs font-medium text-amber-200 hover:bg-white/15 hover:border-amber-300/40 hover:text-white transition-colors wrap-anywhere"
-                  >
-                    <span className="break-all">{homeHero.hindiTypingCredit.url}</span>
-                    <ExternalLink className="h-3.5 w-3.5 shrink-0 opacity-80" />
-                  </a>
                 </div>
               </div>
 
