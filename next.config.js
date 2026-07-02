@@ -11,6 +11,19 @@ const nextConfig = {
   async headers() {
     return [
       {
+        source: '/initiatives/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate',
+          },
+          {
+            key: 'CDN-Cache-Control',
+            value: 'no-store',
+          },
+        ],
+      },
+      {
         source: '/((?!_next/static|_next/image|favicon.ico|mse.jpeg|Logo|sideimages|uploads|.*\\.(?:jpg|jpeg|png|gif|webp|svg|ico|css|js|woff2?|ttf|eot)).*)',
         headers: [
           {

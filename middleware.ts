@@ -37,11 +37,25 @@ function redirectToLogin(request: NextRequest, pathname: string) {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const isRscRequest =
+    request.headers.get('RSC') === '1' ||
+    request.headers.get('Next-Router-Prefetch') === '1' ||
+    request.nextUrl.searchParams.has('_rsc');
+
+  const applyFreshCacheHeaders = (response: NextResponse) => {
+    if (isRscRequest || pathname.startsWith('/initiatives')) {
+      response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      response.headers.set('CDN-Cache-Control', 'no-store');
+      response.headers.set('Pragma', 'no-cache');
+    }
+    return response;
+  };
+
   const token = request.cookies.get('token')?.value;
   const adminSession = await getAdminSession(request);
 
   if (pathname.startsWith('/uploads/documents/') && !adminSession) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    return applyFreshCacheHeaders(NextResponse.json({ error: 'Forbidden' }, { status: 403 }));
   }
 
   if (pathname === '/login' || pathname.startsWith('/login/')) {
@@ -91,6 +105,10 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
+  if (isRscRequest || pathname.startsWith('/initiatives')) {
+    return applyFreshCacheHeaders(NextResponse.next());
+  }
+
   return NextResponse.next();
 }
 
@@ -105,5 +123,7 @@ export const config = {
     '/forgot-password',
     '/reset-password',
     '/uploads/documents/:path*',
+    '/initiatives/:path*',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)',
   ],
 };

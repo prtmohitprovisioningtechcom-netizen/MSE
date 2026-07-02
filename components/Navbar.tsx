@@ -71,6 +71,7 @@ export default function Navbar() {
     setIsOpen(false);
     startTransition(() => {
       router.push(path);
+      router.refresh();
     });
   };
 
@@ -101,6 +102,7 @@ export default function Navbar() {
 
   const renderOurMembersButton = (compact = false) => {
     const active = isActive(ourMembersPath);
+    const clicked = clickedPath === ourMembersPath;
     return (
       <a
         key="our-members"
@@ -109,7 +111,9 @@ export default function Navbar() {
         className={`our-members-pill-btn inline-flex items-center gap-1.5 rounded-full border-2 font-bold cursor-pointer shadow-sm transition-all ml-1 sm:ml-1.5 ${
           compact ? 'px-2.5 py-1 text-[9px] sm:text-[10px]' : 'px-3 py-1.5 text-[9px] sm:text-[10px] xl:text-[11px]'
         } ${
-          active
+          clicked
+            ? 'border-secondary bg-secondary/15 text-primary scale-95'
+            : active
             ? 'border-amber-500 bg-linear-to-r from-amber-500 to-secondary text-white shadow-md scale-[1.02]'
             : 'border-secondary/70 bg-linear-to-r from-amber-50 via-white to-emerald-50 text-primary hover:border-secondary hover:shadow-md hover:from-amber-100'
         }`}
@@ -127,17 +131,19 @@ export default function Navbar() {
   ) => {
     const path = `/initiatives/${item.slug}`;
     const active = isActive(path);
+    const clicked = clickedPath === path;
     return (
       <a
         key={item.slug}
         href={path}
         onClick={(e) => handleNav(e, path)}
-        onMouseEnter={() => router.prefetch(path)}
         style={{ animationDelay: `${index * 55}ms, ${index * 0.2}s` }}
         className={`initiative-pill-btn inline-flex items-center rounded-full border font-semibold cursor-pointer ${
           compact ? 'px-2 py-1 text-[9px] sm:text-[10px]' : 'px-2.5 py-1.5 text-[9px] sm:text-[10px] xl:text-[11px]'
         } ${
-          active
+          clicked
+            ? 'border-secondary bg-secondary/15 text-primary scale-95'
+            : active
             ? 'is-active border-primary text-white'
             : 'border-slate-200 text-slate-700 hover:text-primary'
         }`}
