@@ -11,7 +11,7 @@ export const organization = {
   addressLine2: 'Firozabad',
   website: 'https://www.mseindustryassociation.com/',
   facebook: 'https://www.facebook.com/',
-  youtube: 'https://www.youtube.com/',
+  youtube: 'https://www.youtube.com/@msmeindusassociation',
   hours: 'Monday to Friday, 9:30 AM to 6:00 PM',
 };
 
