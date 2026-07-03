@@ -271,10 +271,6 @@ export default function Navbar() {
                   <Globe className="h-3 w-3 text-secondary shrink-0" />
                   <span className="font-medium whitespace-nowrap">www.mseindustryassociation.com</span>
                 </a>
-                <p className="flex items-center gap-1.5 min-w-0 pt-0.5">
-                  <MapPin className="h-3 w-3 text-secondary shrink-0" />
-                  <OrganizationAddress className="font-medium text-[9px] sm:text-[10px] whitespace-nowrap" />
-                </p>
                 <div className="flex items-center gap-2 pt-0.5">
                   <a
                     href={organization.facebook}
@@ -295,6 +291,10 @@ export default function Navbar() {
                     <YoutubeIcon className="h-3.5 w-3.5" />
                   </a>
                 </div>
+                <p className="flex items-center gap-1.5 min-w-0 pt-0.5">
+                  <MapPin className="h-3 w-3 text-secondary shrink-0" />
+                  <OrganizationAddress className="font-medium text-[9px] sm:text-[10px] whitespace-nowrap" />
+                </p>
               </div>
             </div>
             <button
