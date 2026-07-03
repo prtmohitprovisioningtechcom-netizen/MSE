@@ -1,36 +1,170 @@
 export type Course = {
   title: string;
-  image: string;
+  image?: string;
+  line1: string;
+  line2: string;
   description: string;
 };
 
-const fallbackImage = '/Course/Industries training.jpeg';
+type CourseEntry = {
+  title: string;
+  imageFile?: string;
+  line1: string;
+  line2: string;
+};
 
-export const courses: Course[] = [
-  { title: 'Fashion designing', image: '/Course/Fashion designing.jpeg', description: 'Fashion designing training program.' },
-  { title: 'Leather goods products training', image: '/Course/Leather goods products.jpeg', description: 'Leather goods products training program.' },
-  { title: 'Leather stitching opretor', image: '/Course/Leather stitching opretor.jpeg', description: 'Leather stitching opretor training program.' },
-  { title: 'Garments manufacturing', image: '/Course/Garments manufacturing.jpeg', description: 'Garments manufacturing training program.' },
-  { title: 'Juet product training', image: '/Course/Juet product training.jpeg', description: 'Juet product training program.' },
-  { title: 'Glass art', image: '/Course/Glass art.jpeg', description: 'Glass art training program.' },
-  { title: 'Glass designing', image: '/Course/Glass designing.jpeg', description: 'Glass designing training program.' },
-  { title: 'Computer education', image: '/Course/Computer education.jpeg', description: 'Computer education training program.' },
-  { title: 'Beautician', image: '/Course/Beautician.jpeg', description: 'Beautician training program.' },
-  { title: 'Make up artist', image: '/Course/Makeup artist.jpeg', description: 'Make up artist training program.' },
-  { title: 'Khadi product training', image: '/Course/Khadi product.jpeg', description: 'Khadi product training program.' },
-  { title: 'Stitching opretor', image: '/Course/Stitching opretor.jpeg', description: 'Stitching opretor training program.' },
-  { title: 'Skill development training program', image: '/Course/Skill development training.jpeg', description: 'Skill development training program.' },
-  { title: 'Industries training', image: '/Course/Industries training.jpeg', description: 'Industries training program.' },
-  { title: 'Industries development training', image: '/Course/Industries development training.jpeg', description: 'Industries development training program.' },
-  { title: 'Industries seminar', image: '/Course/Industries seminar.jpeg', description: 'Industries seminar program.' },
-  { title: 'Industries Mdp and ESDP training program', image: '/Course/Industries Mdp esdp training program.jpeg', description: 'Industries Mdp and ESDP training program.' },
-  { title: 'Electricians', image: fallbackImage, description: 'Electricians training program.' },
-  { title: 'Mobile repairing', image: '/Course/Mobile repairing.jpeg', description: 'Mobile repairing training program.' },
-  { title: 'Ac repairing', image: fallbackImage, description: 'Ac repairing training program.' },
-  { title: 'Sollar pannal stolation', image: '/Course/Sollar pannal stolation.jpeg', description: 'Sollar pannal stolation training program.' },
-  { title: 'Fitter training program', image: '/Course/Fitter training program.jpeg', description: 'Fitter training program.' },
-  { title: 'Motar car repairing', image: '/Course/Motar car repairing .jpeg', description: 'Motar car repairing training program.' },
-  { title: 'Freeze repairing', image: '/Course/Freeze repairing .jpeg', description: 'Freeze repairing training program.' },
-  { title: 'Belding machine training program', image: fallbackImage, description: 'Belding machine training program.' },
-  { title: 'Food Proceising', image: fallbackImage, description: 'Food Proceising training program.' },
+/** Fixed sequence — one unique image per course. Two short lines only. */
+const courseEntries: CourseEntry[] = [
+  {
+    title: 'Fashion designing',
+    imageFile: 'Fashion designing.jpeg',
+    line1: 'Garment sketching and fabric selection.',
+    line2: 'For boutique and tailoring work.',
+  },
+  {
+    title: 'Leather goods products training',
+    imageFile: 'Leather goods products.jpeg',
+    line1: 'Leather cutting, stitching and finishing.',
+    line2: 'For bags and footwear units.',
+  },
+  {
+    title: 'Leather stitching opretor',
+    imageFile: 'Leather stitching opretor.jpeg',
+    line1: 'Industrial leather machine stitching.',
+    line2: 'For workshops and export units.',
+  },
+  {
+    title: 'Garments manufacturing',
+    imageFile: 'Garments manufacturing.jpeg',
+    line1: 'Cutting, sewing and quality check.',
+    line2: 'For garment and export houses.',
+  },
+  {
+    title: 'Juet product training',
+    imageFile: 'Juet product training.jpeg',
+    line1: 'Jute design, weaving and crafts.',
+    line2: 'For eco-friendly product business.',
+  },
+  {
+    title: 'Glass art',
+    imageFile: 'Glass art.jpeg',
+    line1: 'Glass shaping and art finishing.',
+    line2: 'For décor and craft enterprise.',
+  },
+  {
+    title: 'Glass designing',
+    imageFile: 'Glass designing.jpeg',
+    line1: 'Glass design with safety basics.',
+    line2: 'For factories and design work.',
+  },
+  {
+    title: 'Computer education',
+    imageFile: 'Computer education.jpeg',
+    line1: 'MS Office and digital literacy.',
+    line2: 'For students and office jobs.',
+  },
+  {
+    title: 'Beautician',
+    imageFile: 'Beautician.jpeg',
+    line1: 'Skin, hair and salon services.',
+    line2: 'For parlour self-employment.',
+  },
+  {
+    title: 'Make up artist',
+    imageFile: 'Makeup artist.jpeg',
+    line1: 'Bridal and professional makeup.',
+    line2: 'For events and freelance work.',
+  },
+  {
+    title: 'Khadi product training',
+    imageFile: 'Khadi product.jpeg',
+    line1: 'Khadi spinning and weaving.',
+    line2: 'For rural textile enterprise.',
+  },
+  {
+    title: 'Stitching opretor',
+    imageFile: 'Stitching opretor.jpeg',
+    line1: 'Power machine garment stitching.',
+    line2: 'For shops and factory work.',
+  },
+  {
+    title: 'Skill development training program',
+    imageFile: 'Skill development training.jpeg',
+    line1: 'Employability and vocational skills.',
+    line2: 'Aligned with MSME industry needs.',
+  },
+  {
+    title: 'Industries training',
+    imageFile: 'Industries training.jpeg',
+    line1: 'Factory tools, safety and workflow.',
+    line2: 'For production environment jobs.',
+  },
+  {
+    title: 'Industries development training',
+    imageFile: 'Industries development training.jpeg',
+    line1: 'Industrial growth and operations.',
+    line2: 'For new and expanding units.',
+  },
+  {
+    title: 'Industries seminar',
+    imageFile: 'Industries seminar.jpeg',
+    line1: 'Policy, schemes and best practices.',
+    line2: 'For MSME owners and trainees.',
+  },
+  {
+    title: 'Industries Mdp and ESDP training program',
+    imageFile: 'Industries Mdp esdp training program.jpeg',
+    line1: 'MDP and entrepreneurship skills.',
+    line2: 'For business and leadership growth.',
+  },
+  {
+    title: 'Mobile repairing',
+    imageFile: 'Mobile repairing.jpeg',
+    line1: 'Phone hardware and software repair.',
+    line2: 'For service shop employment.',
+  },
+  {
+    title: 'Ac repairing',
+    imageFile: 'Ac repairing.jpeg',
+    line1: 'AC install, gas and servicing.',
+    line2: 'For summer service business.',
+  },
+  {
+    title: 'Sollar pannal stolation',
+    imageFile: 'Sollar pannal stolation.jpeg',
+    line1: 'Solar panel mounting and wiring.',
+    line2: 'For green energy service jobs.',
+  },
+  {
+    title: 'Fitter training program',
+    imageFile: 'Fitter training program.jpeg',
+    line1: 'Fitting, assembly and maintenance.',
+    line2: 'For workshop and plant roles.',
+  },
+  {
+    title: 'Motar car repairing',
+    imageFile: 'Motar car repairing .jpeg',
+    line1: 'Engine and auto repair basics.',
+    line2: 'For garage and service centres.',
+  },
+  {
+    title: 'Freeze repairing',
+    imageFile: 'Freeze repairing .jpeg',
+    line1: 'Fridge cooling system repair.',
+    line2: 'For appliance service shops.',
+  },
+  {
+    title: 'Belding machine training program',
+    imageFile: 'Belding machine training program.jpeg',
+    line1: 'Welding safety and joint work.',
+    line2: 'For metal and construction jobs.',
+  },
 ];
+
+export const courses: Course[] = courseEntries.map(({ title, imageFile, line1, line2 }) => ({
+  title,
+  line1,
+  line2,
+  ...(imageFile ? { image: `/Course/${imageFile}` } : {}),
+  description: `${line1} ${line2}`,
+}));

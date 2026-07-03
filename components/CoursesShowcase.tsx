@@ -23,24 +23,33 @@ export default function CoursesShowcase({ className }: { className?: string }) {
               key={course.title}
               className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] border border-slate-100 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-shadow"
             >
-              <div className="relative aspect-4/3 bg-slate-100">
-                <Image
-                  src={encodeURI(course.image)}
-                  alt={course.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  loading="lazy"
-                  className="object-cover"
-                />
-              </div>
+              {course.image ? (
+                <div className="relative aspect-4/3 bg-slate-100">
+                  <Image
+                    src={encodeURI(course.image)}
+                    alt={course.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    loading="lazy"
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="flex aspect-4/3 items-center justify-center bg-linear-to-br from-primary/5 via-slate-50 to-secondary/10 px-4">
+                  <span className="text-center text-sm font-bold text-primary font-display leading-snug">
+                    {course.title}
+                  </span>
+                </div>
+              )}
 
               <div className="p-4 space-y-2">
                 <h3 className="font-bold text-[15px] text-slate-900 leading-snug font-display">
                   {course.title}
                 </h3>
-                <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">
-                  {course.description}
-                </p>
+                <div className="space-y-0.5">
+                  <p className="text-xs text-slate-500 leading-snug line-clamp-1">{course.line1}</p>
+                  <p className="text-xs text-slate-500 leading-snug line-clamp-1">{course.line2}</p>
+                </div>
               </div>
             </article>
           ))}
