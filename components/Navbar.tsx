@@ -4,7 +4,7 @@ import { useState, useTransition, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Globe, Mail, MapPin, Menu, Phone, Users, X } from 'lucide-react';
+import { Globe, GraduationCap, Mail, MapPin, Menu, Phone, Users, X } from 'lucide-react';
 import { FacebookIcon, YoutubeIcon } from '@/components/icons/SocialIcons';
 import OrganizationAddress from '@/components/OrganizationAddress';
 import { organization } from '@/lib/siteContent';
@@ -25,6 +25,7 @@ const navGroups = [
 ];
 
 const ourMembersPath = '/our-members';
+const studentRegistrationPath = '/student-registration';
 
 const mainNavPaths = navGroups.map((g) => g.path);
 
@@ -124,6 +125,30 @@ export default function Navbar() {
     );
   };
 
+  const renderStudentRegistrationButton = (compact = false) => {
+    const active = isActive(studentRegistrationPath);
+    const clicked = clickedPath === studentRegistrationPath;
+    return (
+      <a
+        key="student-registration"
+        href={studentRegistrationPath}
+        onClick={(e) => handleNav(e, studentRegistrationPath)}
+        className={`student-registration-pill-btn inline-flex items-center gap-1 rounded-full border-2 font-bold cursor-pointer shadow-sm transition-all ml-1 sm:ml-1.5 whitespace-normal text-center leading-tight ${
+          compact ? 'px-2 py-1 text-[8px] sm:text-[9px]' : 'px-2.5 py-1.5 text-[8px] xl:text-[9px]'
+        } ${
+          clicked
+            ? 'border-secondary bg-secondary/15 text-primary scale-95'
+            : active
+            ? 'border-primary bg-linear-to-r from-primary to-slate-800 text-white shadow-md scale-[1.02]'
+            : 'border-primary/70 bg-linear-to-r from-blue-50 via-white to-slate-50 text-primary hover:border-primary hover:shadow-md hover:from-blue-100'
+        }`}
+      >
+        <GraduationCap className={`shrink-0 ${compact ? 'h-2.5 w-2.5' : 'h-3 w-3'}`} />
+        Student And Industry Participation Form
+      </a>
+    );
+  };
+
   const renderInitiativeButton = (
     item: (typeof homeInitiatives)[number],
     index: number,
@@ -158,6 +183,7 @@ export default function Navbar() {
       const buttons = [renderInitiativeButton(item, index, compact)];
       if (item.slug === 'mse-ccia') {
         buttons.push(renderOurMembersButton(compact));
+        buttons.push(renderStudentRegistrationButton(compact));
       }
       return buttons;
     });

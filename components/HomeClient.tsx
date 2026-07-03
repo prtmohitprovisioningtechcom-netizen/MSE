@@ -1,6 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
+import { GraduationCap } from 'lucide-react';
 import { courses } from '@/lib/courses';
 import { homeHero, homeIntroParagraph } from '@/lib/siteContent';
 
@@ -70,9 +72,18 @@ export default function HomeClient() {
             </div>
 
             <div className="rounded-2xl bg-slate-900/55 border border-white/15 p-4 md:p-5 shadow-2xl">
-              <p className="text-[10px] md:text-[11px] font-bold text-white/90 uppercase tracking-[0.18em] mb-3">
-                Skill Development Program
-              </p>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
+                <p className="text-[10px] md:text-[11px] font-bold text-white/90 uppercase tracking-[0.18em]">
+                  Skill Development Program
+                </p>
+                <Link
+                  href="/student-registration"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-full border-2 border-secondary bg-secondary/20 px-3 py-1.5 text-[9px] md:text-[10px] font-bold uppercase tracking-wide text-white hover:bg-secondary hover:border-secondary transition-colors shrink-0 text-center leading-tight max-w-[10rem] sm:max-w-none"
+                >
+                  <GraduationCap className="h-3.5 w-3.5 shrink-0" />
+                  <span>Student & Industry Participation Form</span>
+                </Link>
+              </div>
               <div className="flex flex-wrap gap-2">
                 {courses.map((course) => (
                   <span
