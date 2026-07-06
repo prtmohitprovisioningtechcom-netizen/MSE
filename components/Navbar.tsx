@@ -295,6 +295,16 @@ export default function Navbar() {
                   <MapPin className="h-3 w-3 text-secondary shrink-0" />
                   <OrganizationAddress className="font-medium text-[9px] sm:text-[10px] whitespace-nowrap" />
                 </p>
+                <div className="pt-2">
+                  <span className="inline-flex items-center whitespace-nowrap rounded-full border-2 border-secondary/50 bg-linear-to-r from-amber-50 via-white to-emerald-50 px-3 py-1.5 sm:px-4 sm:py-2 shadow-md shadow-secondary/10">
+                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.14em] text-primary">
+                      Established in
+                    </span>
+                    <span className="ml-1.5 text-base sm:text-xl font-extrabold font-display bg-linear-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                      2018
+                    </span>
+                  </span>
+                </div>
               </div>
             </div>
             <button
