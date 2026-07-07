@@ -245,7 +245,7 @@ export default function Navbar() {
       >
       <div className="border-b border-slate-100 px-4 md:px-6 xl:px-8 py-3 xl:py-4 bg-white">
         <div className="max-w-360 mx-auto flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4 xl:gap-6">
-          <div className="flex items-start gap-3 w-full xl:w-auto xl:max-w-80 2xl:max-w-88 xl:shrink-0">
+          <div className="flex items-start gap-3 w-full xl:w-auto xl:max-w-96 2xl:max-w-[26rem] xl:shrink-0 overflow-visible">
             <Link
               href="/"
               onClick={(e) => handleNav(e, '/')}
@@ -261,7 +261,7 @@ export default function Navbar() {
                 priority
               />
             </Link>
-            <div className="min-w-0 flex-1 space-y-1.5">
+            <div className="min-w-0 flex-1 space-y-1.5 overflow-visible">
               <Link
                 href="/"
                 onClick={(e) => handleNav(e, '/')}
@@ -321,15 +321,25 @@ export default function Navbar() {
                   <MapPin className="h-3 w-3 text-secondary shrink-0" />
                   <OrganizationAddress className="font-medium text-[9px] sm:text-[10px] whitespace-nowrap" />
                 </p>
-                <div className="pt-2">
-                  <span className="inline-flex items-center whitespace-nowrap rounded-full border-2 border-secondary/50 bg-linear-to-r from-amber-50 via-white to-emerald-50 px-3 py-1.5 sm:px-4 sm:py-2 shadow-md shadow-secondary/10">
-                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.14em] text-primary">
-                      Established in
+                <div className="pt-2 overflow-visible">
+                  <div className="flex flex-nowrap items-center gap-2 w-fit max-w-none overflow-visible">
+                    <span className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full border-2 border-secondary/50 bg-linear-to-r from-amber-50 via-white to-emerald-50 px-3 py-1.5 sm:px-4 sm:py-2 shadow-md shadow-secondary/10">
+                      <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.12em] text-primary">
+                        Established in
+                      </span>
+                      <span className="ml-1.5 text-base sm:text-xl font-extrabold font-display text-primary">
+                        2018
+                      </span>
                     </span>
-                    <span className="ml-1.5 text-base sm:text-xl font-extrabold font-display bg-linear-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                      2018
+                    <span className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full border-2 border-secondary/50 bg-linear-to-r from-amber-50 via-white to-emerald-50 px-3 py-1.5 sm:px-4 sm:py-2 shadow-md shadow-secondary/10">
+                      <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.12em] text-primary">
+                        GSTIN Nu-
+                      </span>
+                      <span className="ml-1.5 text-[11px] sm:text-sm font-extrabold font-display text-primary tracking-wide">
+                        09AAVCM1216G1ZB
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  BadgeCheck,
   Building2,
   FileCheck,
   Handshake,
@@ -36,12 +35,6 @@ const mainFunctions = [
     icon: Users,
   },
 ];
-
-const example =
-  'उदाहरण के लिए, यदि कोई चैंबर ऑफ कॉमर्स किसी उद्योग की समस्या को सरकार तक पहुँचाता है और संबंधित विभागों के साथ बैठक आयोजित कर समाधान का प्रयास करता है, तो यह Government Liaison का कार्य माना जाता है।';
-
-const mseContext =
-  'यदि आप एमएसई चैंबर ऑफ कॉमर्स एंड इंडस्ट्री एसोसिएशन के संदर्भ में पूछ रहे हैं, तो Government Liaison का अर्थ होगा कि एसोसिएशन उद्योगों और सरकार के बीच एक सेतु (Bridge) के रूप में कार्य करे, ताकि उद्यमियों को सरकारी योजनाओं, अनुमतियों और नीतियों का लाभ आसानी से मिल सके।';
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
@@ -117,21 +110,6 @@ export default function GovernmentLiaisonPage() {
             ))}
           </div>
         </section>
-
-        <div className="w-full rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 md:p-8 shadow-lg">
-          <div className="flex items-start gap-3 mb-3">
-            <BadgeCheck className="h-5 w-5 text-secondary shrink-0 mt-1" />
-            <p className="font-hindi w-full text-sm md:text-base text-slate-800 leading-relaxed md:leading-8 wrap-anywhere">
-              {example}
-            </p>
-          </div>
-        </div>
-
-        <div className="w-full rounded-3xl border border-primary/20 bg-primary p-5 sm:p-6 md:p-8 shadow-lg">
-          <p className="font-hindi w-full text-sm md:text-base text-white leading-relaxed md:leading-8 wrap-anywhere">
-            {mseContext}
-          </p>
-        </div>
       </div>
     </div>
   );

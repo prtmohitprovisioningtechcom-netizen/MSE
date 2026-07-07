@@ -3,7 +3,6 @@
 import {
   Award,
   BadgeCheck,
-  Building2,
   Globe,
   Leaf,
   Medal,
@@ -75,9 +74,6 @@ const upAwards = [
 
 const otherStates =
   'इनके अलावा कई राज्य सरकारें अपने-अपने औद्योगिक विकास विभागों के माध्यम से नवाचार, महिला उद्यमिता, स्टार्टअप, गुणवत्ता, निर्यात और रोजगार सृजन के लिए भी विशेष पुरस्कार प्रदान करती हैं।';
-
-const chamberNote =
-  'यदि आपका उद्देश्य एमएसई चैंबर ऑफ कॉमर्स एंड इंडस्ट्री एसोसिएशन के लिए एक राष्ट्रीय एवं राज्य स्तरीय उद्योग पुरस्कार सूची तैयार करना है, तो मैं विस्तृत सूची बना सकता हूँ, जिसमें प्रत्येक पुरस्कार की पात्रता, आवेदन प्रक्रिया और संबंधित मंत्रालय/विभाग का विवरण भी शामिल होगा।';
 
 function SectionTitle({
   children,
@@ -206,15 +202,6 @@ export default function GovernmentAwardsPage() {
             <Zap className="h-5 w-5 text-secondary shrink-0 mt-1" />
             <p className="font-hindi w-full text-sm md:text-base text-slate-800 leading-relaxed md:leading-8 wrap-anywhere">
               {otherStates}
-            </p>
-          </div>
-        </div>
-
-        <div className="w-full rounded-3xl border border-primary/20 bg-primary p-5 sm:p-6 md:p-8 shadow-lg">
-          <div className="flex items-start gap-3">
-            <Building2 className="h-5 w-5 text-secondary shrink-0 mt-1" />
-            <p className="font-hindi w-full text-sm md:text-base text-white leading-relaxed md:leading-8 wrap-anywhere">
-              {chamberNote}
             </p>
           </div>
         </div>
