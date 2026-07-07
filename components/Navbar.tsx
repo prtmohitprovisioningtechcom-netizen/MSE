@@ -4,7 +4,7 @@ import { useState, useTransition, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Globe, GraduationCap, Mail, MapPin, Menu, Phone, Users, X } from 'lucide-react';
+import { Globe, GraduationCap, Mail, MapPin, Menu, Phone, Users, X, Award } from 'lucide-react';
 import { FacebookIcon, YoutubeIcon } from '@/components/icons/SocialIcons';
 import OrganizationAddress from '@/components/OrganizationAddress';
 import { organization } from '@/lib/siteContent';
@@ -26,8 +26,9 @@ const navGroups = [
 
 const ourMembersPath = '/our-members';
 const studentRegistrationPath = '/student-registration';
+const zedCertificationPath = '/zed-certification';
 
-const mainNavPaths = navGroups.map((g) => g.path);
+const mainNavPaths = [...navGroups.map((g) => g.path), ourMembersPath, studentRegistrationPath, zedCertificationPath];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -149,6 +150,30 @@ export default function Navbar() {
     );
   };
 
+  const renderZedCertificationButton = (compact = false) => {
+    const active = isActive(zedCertificationPath);
+    const clicked = clickedPath === zedCertificationPath;
+    return (
+      <a
+        key="zed-certification"
+        href={zedCertificationPath}
+        onClick={(e) => handleNav(e, zedCertificationPath)}
+        className={`zed-certification-pill-btn inline-flex items-center gap-1.5 rounded-full border-2 font-bold cursor-pointer shadow-sm transition-all ml-1 sm:ml-1.5 ${
+          compact ? 'px-2.5 py-1 text-[9px] sm:text-[10px]' : 'px-3 py-1.5 text-[9px] sm:text-[10px] xl:text-[11px]'
+        } ${
+          clicked
+            ? 'border-amber-600 bg-amber-100 text-amber-900 scale-95'
+            : active
+            ? 'border-amber-500 bg-linear-to-r from-amber-500 via-yellow-500 to-amber-600 text-white shadow-md scale-[1.02]'
+            : 'border-amber-400/80 bg-linear-to-r from-amber-50 via-yellow-50 to-amber-100 text-amber-900 hover:border-amber-500 hover:shadow-md'
+        }`}
+      >
+        <Award className={`shrink-0 ${compact ? 'h-3 w-3' : 'h-3.5 w-3.5'}`} />
+        ZED Certification
+      </a>
+    );
+  };
+
   const renderInitiativeButton = (
     item: (typeof homeInitiatives)[number],
     index: number,
@@ -184,6 +209,7 @@ export default function Navbar() {
       if (item.slug === 'mse-ccia') {
         buttons.push(renderOurMembersButton(compact));
         buttons.push(renderStudentRegistrationButton(compact));
+        buttons.push(renderZedCertificationButton(compact));
       }
       return buttons;
     });
