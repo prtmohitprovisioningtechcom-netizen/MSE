@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Globe, GraduationCap, Mail, MapPin, Menu, Phone, Users, X, Award } from 'lucide-react';
-import { FacebookIcon, YoutubeIcon } from '@/components/icons/SocialIcons';
+import { FacebookIcon, InstagramIcon, YoutubeIcon } from '@/components/icons/SocialIcons';
 import OrganizationAddress from '@/components/OrganizationAddress';
 import { organization } from '@/lib/siteContent';
 import { homeInitiatives } from '@/lib/homeInitiatives';
@@ -306,6 +306,15 @@ export default function Navbar() {
                     className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 text-[#1877F2] hover:bg-[#1877F2]/10 hover:border-[#1877F2]/40 transition-colors"
                   >
                     <FacebookIcon className="h-3.5 w-3.5" />
+                  </a>
+                  <a
+                    href={organization.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram"
+                    className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 text-[#E4405F] hover:bg-[#E4405F]/10 hover:border-[#E4405F]/40 transition-colors"
+                  >
+                    <InstagramIcon className="h-3.5 w-3.5" />
                   </a>
                   <a
                     href={organization.youtube}

@@ -10,7 +10,8 @@ export const organization = {
   addressLine1: 'Head Office, 14/396 Arya Nagar,',
   addressLine2: 'Firozabad',
   website: 'https://www.mseindustryassociation.com/',
-  facebook: 'https://www.facebook.com/',
+  facebook: 'https://www.facebook.com/mseindustryassociation/',
+  instagram: 'https://www.instagram.com/msmeindus.association/',
   youtube: 'https://www.youtube.com/@msmeindusassociation',
   hours: 'Monday to Friday, 9:30 AM to 6:00 PM',
 };
