@@ -12,7 +12,7 @@ const CoursesShowcase = dynamic(() => import('@/components/CoursesShowcase'), {
 export default function Home() {
   return (
     <>
-      <HomeClient />
+      {/* <HomeClient /> */}
       <IndustriesShowcase />
       <CoursesShowcase />
     </>
