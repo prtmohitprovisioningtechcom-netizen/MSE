@@ -50,7 +50,7 @@ export async function getAdminDashboardStats() {
     // Fetch lists for rendering management tables
     const membersList = await Membership.find({}).populate('user', 'name email role').sort({ createdAt: -1 });
     const complaintsList = await Complaint.find({}).sort({ createdAt: -1 });
-    const eventsList = await Event.find({}).sort({ date: 1 });
+    const eventsList = await Event.find({}).sort({ createdAt: -1 });
     const newsList = await News.find({}).sort({ publishedAt: -1 });
     const schemesList = await GovernmentScheme.find({}).sort({ createdAt: -1 });
     const contactsList = await Contact.find({}).sort({ createdAt: -1 });

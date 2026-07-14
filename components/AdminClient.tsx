@@ -12,7 +12,7 @@ import { approveMembership, rejectMembership } from '@/actions/membership';
 import { updateComplaintStatusAction } from '@/actions/grievance';
 import { createEventAction, deleteEventAction } from '@/actions/events';
 import { createNewsAction, deleteNewsAction, createSchemeAction, deleteSchemeAction, deleteContactAction } from '@/actions/admin';
-import ImageUploadField from '@/components/ImageUploadField';
+import MultiImageUploadField from '@/components/MultiImageUploadField';
 import AdminJobBusinessPanel from '@/components/AdminJobBusinessPanel';
 import type { SessionPayload } from '@/lib/auth';
 
@@ -52,12 +52,8 @@ interface AdminComplaint {
 
 interface AdminEvent {
   _id: string;
-  title: string;
-  date: string;
-  location: string;
-  category: string;
-  capacity: number;
-  registrations?: unknown[];
+  images: string[];
+  createdAt: string;
 }
 
 interface AdminNewsItem {
@@ -115,7 +111,7 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
 
   // Form Modals
   const [showEventModal, setShowEventModal] = useState(false);
-  const [eventForm, setEventForm] = useState({ title: '', description: '', date: '', location: '', category: 'Workshop', capacity: 100, image: '', registrationDeadline: '' });
+  const [eventForm, setEventForm] = useState<{ images: string[] }>({ images: [] });
   
   const [showNewsModal, setShowNewsModal] = useState(false);
   const [newsForm, setNewsForm] = useState({ title: '', summary: '', content: '', type: 'News Article', mediaUrl: '' });
@@ -184,13 +180,16 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
   // Event Action
   const handleCreateEvent = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (eventForm.images.length === 0) return;
     setLoading(true);
     const res = await createEventAction(eventForm);
     setLoading(false);
     if (res.success) {
       setShowEventModal(false);
-      setEventForm({ title: '', description: '', date: '', location: '', category: 'Workshop', capacity: 100, image: '', registrationDeadline: '' });
+      setEventForm({ images: [] });
       router.refresh();
+    } else {
+      alert(res.error || 'Failed to save images');
     }
   };
 
@@ -461,51 +460,45 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
           {activeTab === 'events' && (
             <div className="space-y-6">
               <div className="flex justify-between items-center border-b border-slate-100 pb-2">
-                <h3 className="text-lg font-bold text-primary font-display">Manage Chamber Calendar</h3>
+                <h3 className="text-lg font-bold text-primary font-display">Event Image Gallery</h3>
                 <button 
                   onClick={() => setShowEventModal(true)}
                   className="px-3.5 py-1.5 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider text-[10px] flex items-center gap-1.5 shadow-sm"
                 >
-                  <Plus className="h-4 w-4" /> Create Event
+                  <Plus className="h-4 w-4" /> Upload Images
                 </button>
               </div>
 
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse text-xs">
-                  <thead>
-                    <tr className="border-b border-slate-100 text-slate-400 font-bold uppercase text-[9px]">
-                      <th className="py-3">Event Details</th>
-                      <th className="py-3">Category</th>
-                      <th className="py-3">Registered</th>
-                      <th className="py-3 text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {initialData.events.map((event) => (
-                      <tr key={event._id} className="border-b border-slate-50 hover:bg-slate-50/50">
-                        <td className="py-3.5 pr-2">
-                          <strong className="text-slate-900 block font-semibold">{event.title}</strong>
-                          <span className="text-[10px] text-slate-400 block mt-0.5">{new Date(event.date).toLocaleDateString('en-IN')} | Location: {event.location.split(',')[0]}</span>
-                        </td>
-                        <td className="py-3.5 pr-2">
-                          <span className="font-semibold text-slate-800">{event.category}</span>
-                        </td>
-                        <td className="py-3.5 pr-2">
-                          <span className="font-bold text-primary">{event.registrations?.length || 0} / {event.capacity}</span>
-                        </td>
-                        <td className="py-3.5 text-right">
-                          <button 
-                            onClick={() => handleDeleteEvent(event._id)}
-                            className="p-1.5 border border-rose-200 hover:bg-rose-50 text-rose-600 rounded transition-all"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              {initialData.events.length === 0 ? (
+                <div className="text-center py-10 bg-slate-50 rounded-2xl border border-slate-100">
+                  <p className="text-slate-500 font-medium text-xs">No event images uploaded yet.</p>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {initialData.events.map((event) => (
+                    <div key={event._id} className="bg-slate-50 border border-slate-100 rounded-2xl p-4 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">
+                          {event.images.length} image{event.images.length !== 1 ? 's' : ''}
+                        </span>
+                        <button 
+                          onClick={() => handleDeleteEvent(event._id)}
+                          className="p-1.5 border border-rose-200 hover:bg-rose-50 text-rose-600 rounded transition-all"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+                        {event.images.map((img: string, i: number) => (
+                          <div key={i} className="relative aspect-square rounded-xl overflow-hidden border border-slate-200 bg-white">
+                            <img src={img} alt={`Event image ${i + 1}`} className="object-cover w-full h-full" />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -735,111 +728,26 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
         </div>
       )}
 
-      {/* CREATE EVENT MODAL */}
+      {/* UPLOAD EVENT IMAGES MODAL */}
       {showEventModal && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-lg p-6 shadow-2xl relative border border-slate-100 max-h-[85vh] overflow-y-auto animate-fade-in-up">
-            <button onClick={() => setShowEventModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 p-1 rounded-full hover:bg-slate-100"><X className="h-5 w-5" /></button>
-            <h3 className="text-lg font-bold text-primary font-display pb-3 border-b border-slate-100">Create Chamber Event</h3>
+            <button onClick={() => { setShowEventModal(false); setEventForm({ images: [] }); }} className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 p-1 rounded-full hover:bg-slate-100"><X className="h-5 w-5" /></button>
+            <h3 className="text-lg font-bold text-primary font-display pb-3 border-b border-slate-100">Upload Event Images</h3>
             
             <form onSubmit={handleCreateEvent} className="space-y-4 mt-4 text-xs">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="font-bold text-slate-600">Event Title</label>
-                  <input
-                    type="text"
-                    required
-                    value={eventForm.title}
-                    onChange={(e) => setEventForm({ ...eventForm, title: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="font-bold text-slate-600">Category</label>
-                  <select
-                    value={eventForm.category}
-                    onChange={(e) => setEventForm({ ...eventForm, category: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl bg-white"
-                  >
-                    <option value="Workshop">Workshop</option>
-                    <option value="Vendor Meet">Vendor Meet</option>
-                    <option value="Trade Fair">Trade Fair</option>
-                    <option value="Exhibition">Exhibition</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="font-bold text-slate-600">Event Date</label>
-                  <input
-                    type="datetime-local"
-                    required
-                    value={eventForm.date}
-                    onChange={(e) => setEventForm({ ...eventForm, date: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="font-bold text-slate-600">Bidding / Registration Deadline</label>
-                  <input
-                    type="datetime-local"
-                    value={eventForm.registrationDeadline}
-                    onChange={(e) => setEventForm({ ...eventForm, registrationDeadline: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="font-bold text-slate-600">Location</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. BKC Center, Mumbai"
-                    value={eventForm.location}
-                    onChange={(e) => setEventForm({ ...eventForm, location: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="font-bold text-slate-600">Capacity (Seats)</label>
-                  <input
-                    type="number"
-                    required
-                    value={eventForm.capacity}
-                    onChange={(e) => setEventForm({ ...eventForm, capacity: Number(e.target.value) })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <ImageUploadField
-                  label="Event Cover Image (Optional)"
-                  value={eventForm.image}
-                  onChange={(url) => setEventForm({ ...eventForm, image: url })}
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="font-bold text-slate-600">Detailed Description</label>
-                <textarea
-                  required
-                  rows={3}
-                  value={eventForm.description}
-                  onChange={(e) => setEventForm({ ...eventForm, description: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none"
-                />
-              </div>
+              <MultiImageUploadField
+                label="Select Event Images"
+                values={eventForm.images}
+                onChange={(urls) => setEventForm({ images: urls })}
+              />
 
               <button
                 type="submit"
-                disabled={loading}
-                className="w-full py-3 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider"
+                disabled={loading || eventForm.images.length === 0}
+                className="w-full py-3 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Creating...' : 'Create Event'}
+                {loading ? 'Uploading...' : `Upload ${eventForm.images.length} Image${eventForm.images.length !== 1 ? 's' : ''}`}
               </button>
             </form>
           </div>
