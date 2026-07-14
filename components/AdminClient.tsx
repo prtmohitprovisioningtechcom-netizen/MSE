@@ -13,6 +13,7 @@ import { updateComplaintStatusAction } from '@/actions/grievance';
 import { createEventAction, deleteEventAction } from '@/actions/events';
 import { createNewsAction, deleteNewsAction, createSchemeAction, deleteSchemeAction, deleteContactAction } from '@/actions/admin';
 import MultiImageUploadField from '@/components/MultiImageUploadField';
+import ImageUploadField from '@/components/ImageUploadField';
 import AdminJobBusinessPanel from '@/components/AdminJobBusinessPanel';
 import type { SessionPayload } from '@/lib/auth';
 
