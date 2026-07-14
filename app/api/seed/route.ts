@@ -77,37 +77,14 @@ export async function GET() {
       approvedAt: new Date()
     });
 
-    // 3. Create Events
+    // 3. Create Events (image-only gallery)
     const events = [
       {
-        title: 'National MSME Conclave & Vendor Development Program',
-        description: 'Connecting micro and small scale manufacturers with Public Sector Undertakings (PSUs) and large private corporate buyers. Features keynote speeches by Ministry officials and buyer-seller networking booths.',
-        date: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), // 10 days from now
-        location: 'Pragati Maidan, Hall No. 5, New Delhi',
-        category: 'Vendor Meet',
-        capacity: 350,
-        image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop',
-        registrationDeadline: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000),
-        registrations: [{ user: memberUser._id }]
-      },
-      {
-        title: 'Workshop on Government Credit Schemes & Subsidies',
-        description: 'An interactive training session detailing how to apply for CGTMSE, Mudra loans, and technology upgradation subsidies. Guest speakers include bank directors and MSME facilitators.',
-        date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
-        location: 'MSE Conference Hall, Mumbai & Live Streamed',
-        category: 'Workshop',
-        capacity: 150,
-        image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2070&auto=format&fit=crop',
-        registrationDeadline: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000)
-      },
-      {
-        title: 'India Industrial Expo 2026',
-        description: 'The largest trade show highlighting cutting-edge Indian MSME manufacturing, smart factory technology, and sustainable energy equipment. Co-sponsored by Ministry of Heavy Industries.',
-        date: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), // 15 days ago (Past Event)
-        location: 'BIEC Exhibition Center, Bengaluru',
-        category: 'Exhibition',
-        capacity: 1000,
-        image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop'
+        images: [
+          'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2070&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop'
+        ]
       }
     ];
     await Event.create(events);
