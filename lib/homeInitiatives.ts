@@ -249,6 +249,24 @@ export const homeInitiatives: HomeInitiative[] = [
     ],
     services: ['Award nomination guidance', 'Eligibility orientation', 'Application documentation support', 'Transparent evaluation process'],
   },
+  {
+    slug: 'shubhkamna-sandesh',
+    title: 'Shubhkamna sandesh',
+    badge: 'Messages',
+    summary: 'शुभकामना संदेश (Greetings and Messages).',
+    description: '',
+    points: [],
+    services: [],
+  },
+  {
+    slug: 'achivement',
+    title: 'Achivement',
+    badge: 'Achievements',
+    summary: 'उपलब्धियां (Achievements and Milestones).',
+    description: '',
+    points: [],
+    services: [],
+  },
 ];
 
 export function getInitiativeBySlug(slug: string) {
