@@ -17,6 +17,7 @@ import BusinessPlanPage from '@/components/initiatives/BusinessPlanPage';
 import GovernmentAwardsPage from '@/components/initiatives/GovernmentAwardsPage';
 import MseCciaAwardPage from '@/components/initiatives/MseCciaAwardPage';
 import IndustryAwarenessProgramPage from '@/components/initiatives/IndustryAwarenessProgramPage';
+import AchievementPage from '@/components/initiatives/AchievementPage';
 import { getInitiativeBySlug } from '@/lib/homeInitiatives';
 
 type Props = {
@@ -109,6 +110,10 @@ export default async function InitiativePage({ params }: Props) {
 
   if (slug === 'industry-awareness-program') {
     return <IndustryAwarenessProgramPage />;
+  }
+
+  if (slug === 'achivement') {
+    return <AchievementPage />;
   }
 
   return <InitiativePageContent initiative={initiative} />;

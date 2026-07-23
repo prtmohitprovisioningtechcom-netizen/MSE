@@ -11,6 +11,7 @@ import Testimonial from '@/models/Testimonial';
 import Partner from '@/models/Partner';
 import Contact from '@/models/Contact';
 import JobBusinessDocument from '@/models/JobBusinessDocument';
+import Achievement from '@/models/Achievement';
 import { getSession } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 
@@ -46,6 +47,7 @@ export async function getAdminDashboardStats() {
     const totalNews = await News.countDocuments();
     const totalSchemes = await GovernmentScheme.countDocuments();
     const totalJobBusinessDocs = await JobBusinessDocument.countDocuments();
+    const totalAchievements = await Achievement.countDocuments();
 
     // Fetch lists for rendering management tables
     const membersList = await Membership.find({}).populate('user', 'name email role').sort({ createdAt: -1 });
@@ -55,6 +57,7 @@ export async function getAdminDashboardStats() {
     const schemesList = await GovernmentScheme.find({}).sort({ createdAt: -1 });
     const contactsList = await Contact.find({}).sort({ createdAt: -1 });
     const jobBusinessList = await JobBusinessDocument.find({}).sort({ createdAt: -1 });
+    const achievementsList = await Achievement.find({}).sort({ createdAt: -1 });
 
     return {
       success: true,
@@ -66,6 +69,7 @@ export async function getAdminDashboardStats() {
         newsCount: totalNews,
         schemesCount: totalSchemes,
         jobBusinessCount: totalJobBusinessDocs,
+        achievementsCount: totalAchievements,
       },
       data: {
         members: JSON.parse(JSON.stringify(membersList)),
@@ -75,6 +79,7 @@ export async function getAdminDashboardStats() {
         schemes: JSON.parse(JSON.stringify(schemesList)),
         contacts: JSON.parse(JSON.stringify(contactsList)),
         jobBusinessDocuments: JSON.parse(JSON.stringify(jobBusinessList)),
+        achievements: JSON.parse(JSON.stringify(achievementsList)),
       }
     };
   } catch (error: any) {
@@ -239,6 +244,40 @@ export async function deleteContactAction(id: string) {
     await Contact.findByIdAndDelete(id);
     revalidatePath('/admin');
     return { success: true, message: 'Contact message deleted' };
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}
+
+// Achievement Actions
+export async function createAchievementAction(data: any) {
+  try {
+    await verifyAdmin();
+    await dbConnect();
+
+    const { title, images } = data;
+    if (!title || !images || images.length === 0) {
+      return { error: 'Please provide title and at least one image' };
+    }
+
+    const achievement = await Achievement.create({ title, images });
+
+    revalidatePath('/initiatives/achivement');
+    revalidatePath('/admin');
+    return { success: true, message: 'Achievement added successfully', data: JSON.parse(JSON.stringify(achievement)) };
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}
+
+export async function deleteAchievementAction(id: string) {
+  try {
+    await verifyAdmin();
+    await dbConnect();
+    await Achievement.findByIdAndDelete(id);
+    revalidatePath('/initiatives/achivement');
+    revalidatePath('/admin');
+    return { success: true, message: 'Achievement deleted' };
   } catch (error: any) {
     return { error: error.message };
   }

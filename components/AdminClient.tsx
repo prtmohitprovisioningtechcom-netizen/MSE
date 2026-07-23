@@ -4,20 +4,20 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   Users, Building2, Calendar, ShieldAlert, Newspaper, BookOpen, 
-  Mail, X, Trash2, Plus, ArrowUpRight, Briefcase
+  Mail, X, Trash2, Plus, ArrowUpRight, Briefcase, Trophy
 } from 'lucide-react';
 
 // Actions
 import { approveMembership, rejectMembership } from '@/actions/membership';
 import { updateComplaintStatusAction } from '@/actions/grievance';
 import { createEventAction, deleteEventAction } from '@/actions/events';
-import { createNewsAction, deleteNewsAction, createSchemeAction, deleteSchemeAction, deleteContactAction } from '@/actions/admin';
+import { createNewsAction, deleteNewsAction, createSchemeAction, deleteSchemeAction, deleteContactAction, createAchievementAction, deleteAchievementAction } from '@/actions/admin';
 import MultiImageUploadField from '@/components/MultiImageUploadField';
 import ImageUploadField from '@/components/ImageUploadField';
 import AdminJobBusinessPanel from '@/components/AdminJobBusinessPanel';
 import type { SessionPayload } from '@/lib/auth';
 
-type AdminTab = 'memberships' | 'grievances' | 'events' | 'news' | 'schemes' | 'contacts' | 'jobBusiness';
+type AdminTab = 'memberships' | 'grievances' | 'events' | 'news' | 'schemes' | 'contacts' | 'jobBusiness' | 'achievements';
 
 interface AdminStats {
   users: { total: number; members: number; vendors: number; entrepreneurs: number };
@@ -27,6 +27,7 @@ interface AdminStats {
   newsCount: number;
   schemesCount: number;
   jobBusinessCount: number;
+  achievementsCount: number;
 }
 
 interface AdminMember {
@@ -92,6 +93,13 @@ interface JobBusinessDoc {
   createdAt: string;
 }
 
+interface AdminAchievement {
+  _id: string;
+  title: string;
+  images: string[];
+  createdAt: string;
+}
+
 interface AdminClientProps {
   stats: AdminStats;
   initialData: {
@@ -102,6 +110,7 @@ interface AdminClientProps {
     schemes: AdminScheme[];
     contacts: AdminContact[];
     jobBusinessDocuments: JobBusinessDoc[];
+    achievements: AdminAchievement[];
   };
   adminUser: Pick<SessionPayload, 'name' | 'role'>;
 }
@@ -119,6 +128,9 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
 
   const [showSchemeModal, setShowSchemeModal] = useState(false);
   const [schemeForm, setSchemeForm] = useState({ title: '', description: '', eligibility: '', benefits: '', category: 'Credit & Financial Assistance', link: '' });
+
+  const [showAchievementModal, setShowAchievementModal] = useState(false);
+  const [achievementForm, setAchievementForm] = useState<{ title: string; images: string[] }>({ title: '', images: [] });
 
   // Rejection/Resolution Comments states
   const [rejectionId, setRejectionId] = useState<string | null>(null);
@@ -138,6 +150,7 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
     { id: 'news', name: 'News & Media', icon: Newspaper, count: initialData.news.length },
     { id: 'schemes', name: 'Govt Schemes', icon: BookOpen, count: initialData.schemes.length },
     { id: 'jobBusiness', name: 'Job & Business', icon: Briefcase, count: initialData.jobBusinessDocuments?.length || 0 },
+    { id: 'achievements', name: 'Achievements', icon: Trophy, count: initialData.achievements?.length || 0 },
     { id: 'contacts', name: 'Contact Inbox', icon: Mail, count: initialData.contacts.length }
   ];
 
@@ -245,6 +258,29 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
   const handleDeleteContact = async (id: string) => {
     if (confirm('Are you sure you want to delete this contact enquiry?')) {
       await deleteContactAction(id);
+      router.refresh();
+    }
+  };
+
+  // Achievement Action
+  const handleCreateAchievement = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!achievementForm.title || achievementForm.images.length === 0) return;
+    setLoading(true);
+    const res = await createAchievementAction(achievementForm);
+    setLoading(false);
+    if (res.success) {
+      setShowAchievementModal(false);
+      setAchievementForm({ title: '', images: [] });
+      router.refresh();
+    } else {
+      alert(res.error || 'Failed to save achievement');
+    }
+  };
+
+  const handleDeleteAchievement = async (id: string) => {
+    if (confirm('Are you sure you want to delete this achievement?')) {
+      await deleteAchievementAction(id);
       router.refresh();
     }
   };
@@ -647,6 +683,55 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
             </div>
           )}
 
+          {/* ACHIEVEMENTS PANEL */}
+          {activeTab === 'achievements' && (
+            <div className="space-y-6">
+              <div className="flex justify-between items-center border-b border-slate-100 pb-2">
+                <h3 className="text-lg font-bold text-primary font-display">Achievements Manager</h3>
+                <button 
+                  onClick={() => setShowAchievementModal(true)}
+                  className="px-3.5 py-1.5 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider text-[10px] flex items-center gap-1.5 shadow-sm"
+                >
+                  <Plus className="h-4 w-4" /> Add Achievement
+                </button>
+              </div>
+
+              {initialData.achievements?.length === 0 ? (
+                <div className="text-center py-10 bg-slate-50 rounded-2xl border border-slate-100">
+                  <p className="text-slate-500 font-medium text-xs">No achievements uploaded yet.</p>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {initialData.achievements?.map((ach) => (
+                    <div key={ach._id} className="bg-slate-50 border border-slate-100 rounded-2xl p-4 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <h4 className="font-bold text-slate-900">{ach.title}</h4>
+                          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">
+                            {ach.images.length} image{ach.images.length !== 1 ? 's' : ''}
+                          </span>
+                        </div>
+                        <button 
+                          onClick={() => handleDeleteAchievement(ach._id)}
+                          className="p-1.5 border border-rose-200 hover:bg-rose-50 text-rose-600 rounded transition-all"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+                        {ach.images.map((img: string, i: number) => (
+                          <div key={i} className="relative aspect-square rounded-xl overflow-hidden border border-slate-200 bg-white">
+                            <img src={img} alt={`Achievement image ${i + 1}`} className="object-cover w-full h-full" />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
         </div>
 
       </div>
@@ -917,6 +1002,43 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
                 className="w-full py-3 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider"
               >
                 {loading ? 'Creating...' : 'Create Scheme'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* CREATE ACHIEVEMENT MODAL */}
+      {showAchievementModal && (
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl w-full max-w-lg p-6 shadow-2xl relative border border-slate-100 max-h-[85vh] overflow-y-auto animate-fade-in-up">
+            <button onClick={() => { setShowAchievementModal(false); setAchievementForm({ title: '', images: [] }); }} className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 p-1 rounded-full hover:bg-slate-100"><X className="h-5 w-5" /></button>
+            <h3 className="text-lg font-bold text-primary font-display pb-3 border-b border-slate-100">Add Achievement</h3>
+            
+            <form onSubmit={handleCreateAchievement} className="space-y-4 mt-4 text-xs">
+              <div className="space-y-1">
+                <label className="font-bold text-slate-600">Achievement Title</label>
+                <input
+                  type="text"
+                  required
+                  value={achievementForm.title}
+                  onChange={(e) => setAchievementForm({ ...achievementForm, title: e.target.value })}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none"
+                />
+              </div>
+
+              <MultiImageUploadField
+                label="Select Achievement Images"
+                values={achievementForm.images}
+                onChange={(urls) => setAchievementForm({ ...achievementForm, images: urls })}
+              />
+
+              <button
+                type="submit"
+                disabled={loading || achievementForm.images.length === 0}
+                className="w-full py-3 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Uploading...' : `Upload Achievement`}
               </button>
             </form>
           </div>

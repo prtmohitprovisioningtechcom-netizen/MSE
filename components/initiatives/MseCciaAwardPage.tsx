@@ -18,8 +18,6 @@ import {
 const intro =
   'एमएसई चैंबर ऑफ कॉमर्स एंड इंडस्ट्री एसोसिएशन अपने संविधान और उद्देश्य के अनुरूप उद्योग, व्यापार और उद्यमिता को प्रोत्साहित करने के लिए सम्मान और पुरस्कार प्रदान करते हैं।';
 
-const sectionIntro = 'आप निम्नलिखित पुरस्कार शुरू कर सकते हैं:';
-
 const awards = [
   {
     number: 1,
@@ -98,15 +96,6 @@ const awards = [
 const credibility =
   'इन पुरस्कारों की विश्वसनीयता बनाए रखने के लिए स्वतंत्र जूरी, स्पष्ट पात्रता मानदंड, पारदर्शी मूल्यांकन प्रक्रिया और दस्तावेज़ आधारित चयन प्रक्रिया हो';
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="font-hindi text-lg md:text-2xl font-bold text-primary leading-snug">
-      <span className="inline-block h-2 w-2 rounded-full bg-secondary mr-2 align-middle" />
-      <span className="inline align-middle wrap-break-word">{children}</span>
-    </h2>
-  );
-}
-
 function AwardCard({
   number,
   title,
@@ -168,7 +157,6 @@ export default function MseCciaAwardPage() {
         </div>
 
         <section className="w-full space-y-4 md:space-y-5">
-          <SectionTitle>{sectionIntro}</SectionTitle>
           <div className="grid grid-cols-1 gap-3 md:gap-4">
             {awards.map((item) => (
               <AwardCard
