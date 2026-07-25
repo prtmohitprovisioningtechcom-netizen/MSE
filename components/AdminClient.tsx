@@ -95,7 +95,6 @@ interface JobBusinessDoc {
 
 interface AdminAchievement {
   _id: string;
-  title: string;
   images: string[];
   createdAt: string;
 }
@@ -130,7 +129,7 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
   const [schemeForm, setSchemeForm] = useState({ title: '', description: '', eligibility: '', benefits: '', category: 'Credit & Financial Assistance', link: '' });
 
   const [showAchievementModal, setShowAchievementModal] = useState(false);
-  const [achievementForm, setAchievementForm] = useState<{ title: string; images: string[] }>({ title: '', images: [] });
+  const [achievementForm, setAchievementForm] = useState<{ images: string[] }>({ images: [] });
 
   // Rejection/Resolution Comments states
   const [rejectionId, setRejectionId] = useState<string | null>(null);
@@ -265,13 +264,13 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
   // Achievement Action
   const handleCreateAchievement = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!achievementForm.title || achievementForm.images.length === 0) return;
+    if (achievementForm.images.length === 0) return;
     setLoading(true);
     const res = await createAchievementAction(achievementForm);
     setLoading(false);
     if (res.success) {
       setShowAchievementModal(false);
-      setAchievementForm({ title: '', images: [] });
+      setAchievementForm({ images: [] });
       router.refresh();
     } else {
       alert(res.error || 'Failed to save achievement');
@@ -706,7 +705,6 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
                     <div key={ach._id} className="bg-slate-50 border border-slate-100 rounded-2xl p-4 space-y-3">
                       <div className="flex justify-between items-center">
                         <div>
-                          <h4 className="font-bold text-slate-900">{ach.title}</h4>
                           <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">
                             {ach.images.length} image{ach.images.length !== 1 ? 's' : ''}
                           </span>
@@ -1012,25 +1010,14 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
       {showAchievementModal && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-lg p-6 shadow-2xl relative border border-slate-100 max-h-[85vh] overflow-y-auto animate-fade-in-up">
-            <button onClick={() => { setShowAchievementModal(false); setAchievementForm({ title: '', images: [] }); }} className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 p-1 rounded-full hover:bg-slate-100"><X className="h-5 w-5" /></button>
+            <button onClick={() => { setShowAchievementModal(false); setAchievementForm({ images: [] }); }} className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 p-1 rounded-full hover:bg-slate-100"><X className="h-5 w-5" /></button>
             <h3 className="text-lg font-bold text-primary font-display pb-3 border-b border-slate-100">Add Achievement</h3>
             
             <form onSubmit={handleCreateAchievement} className="space-y-4 mt-4 text-xs">
-              <div className="space-y-1">
-                <label className="font-bold text-slate-600">Achievement Title</label>
-                <input
-                  type="text"
-                  required
-                  value={achievementForm.title}
-                  onChange={(e) => setAchievementForm({ ...achievementForm, title: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none"
-                />
-              </div>
-
               <MultiImageUploadField
                 label="Select Achievement Images"
                 values={achievementForm.images}
-                onChange={(urls) => setAchievementForm({ ...achievementForm, images: urls })}
+                onChange={(urls) => setAchievementForm({ images: urls })}
               />
 
               <button

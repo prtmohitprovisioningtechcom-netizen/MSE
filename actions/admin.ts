@@ -255,12 +255,12 @@ export async function createAchievementAction(data: any) {
     await verifyAdmin();
     await dbConnect();
 
-    const { title, images } = data;
-    if (!title || !images || images.length === 0) {
-      return { error: 'Please provide title and at least one image' };
+    const { images } = data;
+    if (!images || images.length === 0) {
+      return { error: 'Please provide at least one image' };
     }
 
-    const achievement = await Achievement.create({ title, images });
+    const achievement = await Achievement.create({ images });
 
     revalidatePath('/initiatives/achivement');
     revalidatePath('/admin');

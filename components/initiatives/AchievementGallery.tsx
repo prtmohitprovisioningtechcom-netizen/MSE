@@ -4,7 +4,6 @@ import { X } from 'lucide-react';
 
 interface Achievement {
   _id: string;
-  title: string;
   images: string[];
 }
 
@@ -16,7 +15,6 @@ export default function AchievementGallery({ achievements }: { achievements: Ach
       <div className="space-y-12">
         {achievements.map((ach) => (
           <div key={ach._id} className="space-y-4">
-            <h2 className="text-xl md:text-2xl font-bold text-primary font-display border-l-4 border-secondary pl-3">{ach.title}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
               {ach.images.map((img: string, i: number) => (
                 <div 
@@ -24,7 +22,7 @@ export default function AchievementGallery({ achievements }: { achievements: Ach
                   className="relative aspect-video sm:aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-sm group cursor-pointer"
                   onClick={() => setSelectedImage(img)}
                 >
-                  <img src={img} alt={`${ach.title} - ${i + 1}`} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" />
+                  <img src={img} alt={`Achievement ${i + 1}`} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
                     <span className="opacity-0 group-hover:opacity-100 text-white font-bold tracking-wider bg-black/50 px-4 py-2 rounded-lg transition-opacity duration-300">
                       View Image
