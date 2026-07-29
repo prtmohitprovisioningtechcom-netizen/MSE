@@ -1,73 +1,27 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import NextImage from 'next/image';
-import { 
-  Newspaper, Image, Film, FileText, ArrowRight, 
-  Calendar, Tag, Clock, Globe, X, ZoomIn, Play
-} from 'lucide-react';
+import { X, Images, Calendar } from 'lucide-react';
 
 interface NewsClientProps {
   news: any[];
   gallery: any[];
 }
 
-export default function NewsClient({ news: initialNews, gallery: initialGallery }: NewsClientProps) {
-  const [activeFilter, setActiveFilter] = useState<string>('All');
-  const [selectedNews, setSelectedNews] = useState<any | null>(null);
-  const [selectedMedia, setSelectedMedia] = useState<any | null>(null);
+export default function NewsClient({ news: initialNews }: NewsClientProps) {
+  const [selectedMedia, setSelectedMedia] = useState<string | null>(null);
 
-  const fallbackNews = [
-    {
-      _id: '1',
-      images: [
-        'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop'
-      ],
-      createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
-    }
-  ];
-
-  const fallbackGallery = [
-    {
-      _id: 'g1',
-      title: 'MSE Industrial Conclave BKC 2026',
-      type: 'Photo',
-      url: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2070&auto=format&fit=crop'
-    },
-    {
-      _id: 'g2',
-      title: 'Chamber Core Committee Meet',
-      type: 'Photo',
-      url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop'
-    },
-    {
-      _id: 'g3',
-      title: 'Vikas Tech-Forgings Factory Tour',
-      type: 'Video',
-      url: 'https://www.w3schools.com/html/mov_bbb.mp4' // Mock video
-    }
-  ];
-
-  const news = initialNews.length > 0 ? initialNews : fallbackNews;
-  const gallery = initialGallery.length > 0 ? initialGallery : fallbackGallery;
-
-  const filters = [
-    { id: 'All', name: 'All Media', icon: Newspaper },
-    { id: 'News Article', name: 'Articles', icon: FileText },
-    { id: 'Press Release', name: 'Press Releases', icon: Globe },
-    { id: 'Photo', name: 'Photos', icon: Image },
-    { id: 'Video', name: 'Videos', icon: Film },
-  ];
-
-  // News and media lists filtered
-  const filteredNews = news;
-  const filteredGallery = gallery.filter((item) => activeFilter === 'All' || item.type === activeFilter);
+  // Flatten all images from all news items
+  const allImages = initialNews.flatMap((item) =>
+    (item.images || []).map((img: string) => ({
+      url: img,
+      date: item.createdAt || Date.now(),
+    }))
+  );
 
   return (
     <div className="py-12 px-6 max-w-7xl mx-auto space-y-12">
-      
       {/* Header */}
       <div className="text-center space-y-4 max-w-2xl mx-auto">
         <span className="text-secondary font-bold text-xs uppercase tracking-widest block">Chamber Media</span>
@@ -79,128 +33,54 @@ export default function NewsClient({ news: initialNews, gallery: initialGallery 
         </p>
       </div>
 
-      {/* Media Type Filter Tabs */}
-      <div className="flex flex-wrap justify-center gap-3 border-b border-slate-200 pb-5">
-        {filters.map((filter) => {
-          const Icon = filter.icon;
-          return (
-            <button
-              key={filter.id}
-              onClick={() => setActiveFilter(filter.id)}
-              className={`px-4 py-2 border rounded-full text-xs font-semibold tracking-wide transition-all flex items-center gap-1.5 ${
-                activeFilter === filter.id
-                  ? 'border-primary bg-primary text-white shadow-md'
-                  : 'border-slate-200 text-slate-500 hover:border-slate-400 bg-white'
-              }`}
+      {allImages.length === 0 ? (
+        <div className="text-center py-20 bg-slate-50 rounded-3xl border border-slate-100 max-w-md mx-auto space-y-4">
+          <Images className="h-8 w-8 text-slate-400 mx-auto" />
+          <h3 className="text-base font-bold text-slate-800">No media uploaded yet</h3>
+          <p className="text-xs text-slate-500">Media photographs will appear here once uploaded by the administration.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-4 md:gap-6">
+          {allImages.map((img, i) => (
+            <div 
+              key={i} 
+              className="bg-white border border-slate-100 rounded-3xl p-3 shadow-sm group cursor-pointer hover:shadow-md transition-all"
+              onClick={() => setSelectedMedia(img.url)}
             >
-              <Icon className="h-3.5 w-3.5" />
-              <span>{filter.name}</span>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        {/* News Column (Show only if news tabs are active) */}
-        {(activeFilter === 'All' || activeFilter === 'News Article' || activeFilter === 'Press Release') && (
-          <div className={`${activeFilter === 'All' ? 'lg:col-span-8' : 'lg:col-span-12'} space-y-8`}>
-            <h3 className="text-lg font-bold text-primary font-display border-b border-slate-100 pb-2 flex items-center gap-2">
-              <FileText className="h-5 w-5 text-secondary" /> Chamber Announcements & Media
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {filteredNews.map((item) => (
-                <div key={item._id} className="bg-white border border-slate-100 rounded-3xl p-5 shadow-sm space-y-3">
-                  <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-2">
-                    <span className="text-secondary">{item.images?.length || 0} Images</span>
-                    <span className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />
-                      {new Date(item.createdAt || Date.now()).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    {item.images?.slice(0, 4).map((img: string, i: number) => (
-                      <div key={i} className="h-24 w-full rounded-xl overflow-hidden bg-slate-100 relative cursor-pointer" onClick={() => setSelectedMedia({ type: 'Photo', url: img, title: 'Media Image' })}>
-                        <NextImage src={img} alt={`Media image ${i+1}`} fill unoptimized className="object-cover hover:scale-105 transition-transform" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
+              <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-slate-100 mb-3">
+                <NextImage 
+                  src={img.url} 
+                  alt={`Media image ${i+1}`} 
+                  fill 
+                  unoptimized 
+                  className="object-cover group-hover:scale-105 transition-transform duration-300" 
+                  sizes="(max-width: 768px) 50vw, 50vw" 
+                />
+              </div>
+              <div className="px-1 flex items-center justify-center text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                <span className="flex items-center gap-1.5">
+                  <Calendar className="h-3 w-3" />
+                  {new Date(img.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                </span>
+              </div>
             </div>
-          </div>
-        )}
-
-        {/* Gallery Column (Show only if photo/video tabs are active) */}
-        {(activeFilter === 'All' || activeFilter === 'Photo' || activeFilter === 'Video') && (
-          <div className={`${activeFilter === 'All' ? 'lg:col-span-4' : 'lg:col-span-12'} space-y-8`}>
-            <h3 className="text-lg font-bold text-primary font-display border-b border-slate-100 pb-2 flex items-center gap-2">
-              <Image className="h-5 w-5 text-secondary" /> Media & Photos
-            </h3>
-
-            <div className={`grid ${activeFilter === 'All' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-1' : 'grid-cols-1 md:grid-cols-3'} gap-6`}>
-              {filteredGallery.map((item) => (
-                <div 
-                  key={item._id}
-                  onClick={() => setSelectedMedia(item)}
-                  className="bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-sm group cursor-pointer hover:shadow-md transition-all relative"
-                >
-                  <div className="h-40 w-full bg-slate-100 relative overflow-hidden">
-                    {item.type === 'Photo' ? (
-                      <NextImage src={item.url} alt={item.title} fill unoptimized className="object-cover group-hover:scale-[1.05] transition-transform duration-300" sizes="(max-width: 768px) 100vw, 33vw" />
-                    ) : (
-                      <div className="w-full h-full relative bg-slate-900 flex items-center justify-center">
-                        {/* Video thumbnail simulation */}
-                        <Film className="h-10 w-10 text-white/40" />
-                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                          <div className="p-3 bg-secondary rounded-full text-white shadow-md">
-                            <Play className="h-4 w-4 fill-current" />
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs gap-1 font-bold">
-                      <ZoomIn className="h-4 w-4" /> Expand Media
-                    </div>
-                  </div>
-                  <div className="p-3 text-xs">
-                    <span className="text-[9px] font-bold text-slate-400 block uppercase tracking-wider">{item.type}</span>
-                    <span className="font-bold text-slate-800 block truncate mt-0.5">{item.title}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-      </div>
-
-
+          ))}
+        </div>
+      )}
 
       {/* Media Lightbox Modal */}
       {selectedMedia && (
         <div className="fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-4" onClick={() => setSelectedMedia(null)}>
-          <div className="max-w-3xl w-full max-h-[85vh] flex flex-col items-center gap-3 relative animate-fade-in-up" onClick={(e) => e.stopPropagation()}>
+          <div className="max-w-4xl w-full max-h-[85vh] flex flex-col items-center relative animate-fade-in-up" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={() => setSelectedMedia(null)}
-              className="absolute -top-10 right-0 text-white/80 hover:text-white p-1 rounded-full hover:bg-white/10 transition-all"
+              className="absolute -top-12 right-0 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-50"
             >
               <X className="h-6 w-6" />
             </button>
 
-            {selectedMedia.type === 'Photo' ? (
-              <div className="relative w-full max-h-[70vh] h-[70vh]">
-                <NextImage src={selectedMedia.url} alt={selectedMedia.title} fill unoptimized className="object-contain rounded-lg shadow-2xl border border-white/10" sizes="100vw" />
-              </div>
-            ) : (
-              <video src={selectedMedia.url} controls autoPlay className="object-contain max-h-[70vh] rounded-lg shadow-2xl border border-white/10 w-full" />
-            )}
-
-            <div className="text-center text-white space-y-1">
-              <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">{selectedMedia.type}</span>
-              <h4 className="font-bold text-sm">{selectedMedia.title}</h4>
+            <div className="relative w-full max-h-[80vh] h-[80vh]">
+              <NextImage src={selectedMedia} alt="Expanded Media" fill unoptimized className="object-contain rounded-lg shadow-2xl" sizes="100vw" />
             </div>
           </div>
         </div>
