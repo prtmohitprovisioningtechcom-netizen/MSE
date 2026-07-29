@@ -1,40 +1,22 @@
 import mongoose from 'mongoose';
 
+// Delete any previously cached model to avoid stale schema conflicts
+if (mongoose.models.News) {
+  delete mongoose.models.News;
+}
+
 const NewsSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: [true, 'Title is required'],
-      trim: true,
-    },
-    content: {
-      type: String,
-      required: [true, 'Content is required'],
-    },
-    summary: {
-      type: String,
-      required: [true, 'Summary is required'],
-    },
-    type: {
-      type: String,
-      enum: ['News Article', 'Press Release'],
-      required: [true, 'News type is required'],
-    },
-    mediaUrl: {
-      type: String,
-      default: '',
-    },
-    status: {
-      type: String,
-      enum: ['Draft', 'Published'],
-      default: 'Published',
-    },
-    publishedAt: {
-      type: Date,
-      default: Date.now,
+    images: {
+      type: [String],
+      required: [true, 'At least one image is required'],
+      validate: {
+        validator: (v: string[]) => v.length > 0,
+        message: 'At least one image is required',
+      },
     },
   },
   { timestamps: true }
 );
 
-export default mongoose.models.News || mongoose.model('News', NewsSchema);
+export default mongoose.model('News', NewsSchema);

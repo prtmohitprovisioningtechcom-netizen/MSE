@@ -53,7 +53,7 @@ export async function getAdminDashboardStats() {
     const membersList = await Membership.find({}).populate('user', 'name email role').sort({ createdAt: -1 });
     const complaintsList = await Complaint.find({}).sort({ createdAt: -1 });
     const eventsList = await Event.find({}).sort({ createdAt: -1 });
-    const newsList = await News.find({}).sort({ publishedAt: -1 });
+    const newsList = await News.find({}).sort({ createdAt: -1 });
     const schemesList = await GovernmentScheme.find({}).sort({ createdAt: -1 });
     const contactsList = await Contact.find({}).sort({ createdAt: -1 });
     const jobBusinessList = await JobBusinessDocument.find({}).sort({ createdAt: -1 });
@@ -94,22 +94,16 @@ export async function createNewsAction(data: any) {
     await verifyAdmin();
     await dbConnect();
 
-    const { title, content, summary, type, mediaUrl } = data;
-    if (!title || !content || !summary || !type) {
-      return { error: 'Please provide all required fields' };
+    const { images } = data;
+    if (!images || images.length === 0) {
+      return { error: 'Please provide at least one image' };
     }
 
-    const news = await News.create({
-      title,
-      content,
-      summary,
-      type,
-      mediaUrl: mediaUrl || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop',
-    });
+    const news = await News.create({ images });
 
     revalidatePath('/news');
     revalidatePath('/admin');
-    return { success: true, message: 'News article added successfully', data: JSON.parse(JSON.stringify(news)) };
+    return { success: true, message: 'Media added successfully', data: JSON.parse(JSON.stringify(news)) };
   } catch (error: any) {
     return { error: error.message };
   }

@@ -21,21 +21,11 @@ export default function NewsClient({ news: initialNews, gallery: initialGallery 
   const fallbackNews = [
     {
       _id: '1',
-      title: 'MSE Submits Pre-Budget Memorandum to Finance Ministry',
-      summary: 'Proposals highlight credit flow improvements, GST simplification, and special export incentives for micro-enterprises.',
-      content: 'The MSE Chamber of Commerce & Industry Association has officially submitted a comprehensive Pre-Budget Memorandum to the Ministry of Finance. Our President, in a delegation, pressed for lowering interest rates for CGTMSE backed credit, enhancing the threshold of corporate invoice auditing, and providing specific logistics subsidies for micro-enterprises. These interventions are critical to bolster domestic manufacturing and double MSME export contributions.',
-      type: 'Press Release',
-      mediaUrl: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop',
-      publishedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
-    },
-    {
-      _id: '2',
-      title: 'Skill Development Initiative for SC/ST Entrepreneurs Launched',
-      summary: 'A new 6-month specialized entrepreneurship certification program launched in association with NSDC.',
-      content: 'In our endeavor to support marginalized communities, MSE in partnership with National Skill Development Corporation (NSDC) has launched the Stand-Up India Digital training portal. This program offers free courses in advanced corporate finance, tax compliances, supply chain operations, and e-procurement portals. Over 500 SC/ST startup founders have already enrolled in the first cohort.',
-      type: 'News Article',
-      mediaUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop',
-      publishedAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString()
+      images: [
+        'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop'
+      ],
+      createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
     }
   ];
 
@@ -72,7 +62,7 @@ export default function NewsClient({ news: initialNews, gallery: initialGallery 
   ];
 
   // News and media lists filtered
-  const filteredNews = news.filter((item) => activeFilter === 'All' || item.type === activeFilter);
+  const filteredNews = news;
   const filteredGallery = gallery.filter((item) => activeFilter === 'All' || item.type === activeFilter);
 
   return (
@@ -117,41 +107,26 @@ export default function NewsClient({ news: initialNews, gallery: initialGallery 
         {(activeFilter === 'All' || activeFilter === 'News Article' || activeFilter === 'Press Release') && (
           <div className={`${activeFilter === 'All' ? 'lg:col-span-8' : 'lg:col-span-12'} space-y-8`}>
             <h3 className="text-lg font-bold text-primary font-display border-b border-slate-100 pb-2 flex items-center gap-2">
-              <FileText className="h-5 w-5 text-secondary" /> Press Releases & Articles
+              <FileText className="h-5 w-5 text-secondary" /> Chamber Announcements & Media
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {filteredNews.map((item) => (
-                <div 
-                  key={item._id}
-                  className="bg-white border border-slate-100 rounded-3xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
-                >
-                  <div className="space-y-3">
-                    {item.mediaUrl && (
-                      <div className="h-36 w-full rounded-2xl overflow-hidden bg-slate-100 mb-2 relative">
-                        <NextImage src={item.mediaUrl} alt={item.title} fill unoptimized className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
-                      </div>
-                    )}
-                    
-                    <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold uppercase tracking-wider">
-                      <span className="text-secondary">{item.type}</span>
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
-                        {new Date(item.publishedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                      </span>
-                    </div>
-
-                    <h4 className="font-bold text-slate-900 text-sm font-display line-clamp-2 leading-snug">{item.title}</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">{item.summary}</p>
+                <div key={item._id} className="bg-white border border-slate-100 rounded-3xl p-5 shadow-sm space-y-3">
+                  <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-2">
+                    <span className="text-secondary">{item.images?.length || 0} Images</span>
+                    <span className="flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      {new Date(item.createdAt || Date.now()).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    </span>
                   </div>
-
-                  <button
-                    onClick={() => setSelectedNews(item)}
-                    className="mt-6 inline-flex items-center gap-1 text-[10px] font-bold text-primary hover:text-primary-hover uppercase tracking-wider text-left w-fit"
-                  >
-                    <span>Read Article</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </button>
+                  <div className="grid grid-cols-2 gap-2">
+                    {item.images?.slice(0, 4).map((img: string, i: number) => (
+                      <div key={i} className="h-24 w-full rounded-xl overflow-hidden bg-slate-100 relative cursor-pointer" onClick={() => setSelectedMedia({ type: 'Photo', url: img, title: 'Media Image' })}>
+                        <NextImage src={img} alt={`Media image ${i+1}`} fill unoptimized className="object-cover hover:scale-105 transition-transform" />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>

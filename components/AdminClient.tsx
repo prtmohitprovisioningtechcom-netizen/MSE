@@ -60,10 +60,8 @@ interface AdminEvent {
 
 interface AdminNewsItem {
   _id: string;
-  title: string;
-  summary: string;
-  type: string;
-  publishedAt: string;
+  images: string[];
+  createdAt: string;
 }
 
 interface AdminScheme {
@@ -123,7 +121,7 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
   const [eventForm, setEventForm] = useState<{ images: string[] }>({ images: [] });
   
   const [showNewsModal, setShowNewsModal] = useState(false);
-  const [newsForm, setNewsForm] = useState({ title: '', summary: '', content: '', type: 'News Article', mediaUrl: '' });
+  const [newsForm, setNewsForm] = useState<{ images: string[] }>({ images: [] });
 
   const [showSchemeModal, setShowSchemeModal] = useState(false);
   const [schemeForm, setSchemeForm] = useState({ title: '', description: '', eligibility: '', benefits: '', category: 'Credit & Financial Assistance', link: '' });
@@ -216,13 +214,16 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
   // News Action
   const handleCreateNews = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (newsForm.images.length === 0) return;
     setLoading(true);
     const res = await createNewsAction(newsForm);
     setLoading(false);
     if (res.success) {
       setShowNewsModal(false);
-      setNewsForm({ title: '', summary: '', content: '', type: 'News Article', mediaUrl: '' });
+      setNewsForm({ images: [] });
       router.refresh();
+    } else {
+      alert(res.error || 'Failed to save images');
     }
   };
 
@@ -542,51 +543,45 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
           {activeTab === 'news' && (
             <div className="space-y-6">
               <div className="flex justify-between items-center border-b border-slate-100 pb-2">
-                <h3 className="text-lg font-bold text-primary font-display">Chamber Announcements</h3>
+                <h3 className="text-lg font-bold text-primary font-display">Chamber Announcements & Media</h3>
                 <button 
                   onClick={() => setShowNewsModal(true)}
                   className="px-3.5 py-1.5 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider text-[10px] flex items-center gap-1.5 shadow-sm"
                 >
-                  <Plus className="h-4 w-4" /> Add Article
+                  <Plus className="h-4 w-4" /> Upload Images
                 </button>
               </div>
 
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse text-xs">
-                  <thead>
-                    <tr className="border-b border-slate-100 text-slate-400 font-bold uppercase text-[9px]">
-                      <th className="py-3">Headline</th>
-                      <th className="py-3">Type</th>
-                      <th className="py-3">Date</th>
-                      <th className="py-3 text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {initialData.news.map((item) => (
-                      <tr key={item._id} className="border-b border-slate-50 hover:bg-slate-50/50">
-                        <td className="py-3.5 pr-2">
-                          <strong className="text-slate-900 block font-semibold">{item.title}</strong>
-                          <span className="text-[10px] text-slate-400 block mt-0.5 truncate max-w-sm" title={item.summary}>{item.summary}</span>
-                        </td>
-                        <td className="py-3.5 pr-2">
-                          <span className="font-semibold text-slate-800">{item.type}</span>
-                        </td>
-                        <td className="py-3.5 pr-2">
-                          <span className="text-slate-500">{new Date(item.publishedAt).toLocaleDateString('en-IN')}</span>
-                        </td>
-                        <td className="py-3.5 text-right">
-                          <button 
-                            onClick={() => handleDeleteNews(item._id)}
-                            className="p-1.5 border border-rose-200 hover:bg-rose-50 text-rose-600 rounded transition-all"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              {initialData.news.length === 0 ? (
+                <div className="text-center py-10 bg-slate-50 rounded-2xl border border-slate-100">
+                  <p className="text-slate-500 font-medium text-xs">No media uploaded yet.</p>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {initialData.news.map((item) => (
+                    <div key={item._id} className="bg-slate-50 border border-slate-100 rounded-2xl p-4 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">
+                          {item.images.length} image{item.images.length !== 1 ? 's' : ''}
+                        </span>
+                        <button 
+                          onClick={() => handleDeleteNews(item._id)}
+                          className="p-1.5 border border-rose-200 hover:bg-rose-50 text-rose-600 rounded transition-all"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+                        {item.images.map((img: string, i: number) => (
+                          <div key={i} className="relative aspect-square rounded-xl overflow-hidden border border-slate-200 bg-white">
+                            <img src={img} alt={`Media image ${i + 1}`} className="object-cover w-full h-full" />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -842,70 +837,22 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
       {showNewsModal && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-lg p-6 shadow-2xl relative border border-slate-100 max-h-[85vh] overflow-y-auto animate-fade-in-up">
-            <button onClick={() => setShowNewsModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 p-1 rounded-full hover:bg-slate-100"><X className="h-5 w-5" /></button>
-            <h3 className="text-lg font-bold text-primary font-display pb-3 border-b border-slate-100">Publish News / Press Release</h3>
+            <button onClick={() => { setShowNewsModal(false); setNewsForm({ images: [] }); }} className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 p-1 rounded-full hover:bg-slate-100"><X className="h-5 w-5" /></button>
+            <h3 className="text-lg font-bold text-primary font-display pb-3 border-b border-slate-100">Upload News & Media</h3>
             
             <form onSubmit={handleCreateNews} className="space-y-4 mt-4 text-xs">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="font-bold text-slate-600">Headline Title</label>
-                  <input
-                    type="text"
-                    required
-                    value={newsForm.title}
-                    onChange={(e) => setNewsForm({ ...newsForm, title: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="font-bold text-slate-600">Type</label>
-                  <select
-                    value={newsForm.type}
-                    onChange={(e) => setNewsForm({ ...newsForm, type: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl bg-white"
-                  >
-                    <option value="News Article">News Article</option>
-                    <option value="Press Release">Press Release</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <label className="font-bold text-slate-600">Short Summary</label>
-                <input
-                  type="text"
-                  required
-                  value={newsForm.summary}
-                  onChange={(e) => setNewsForm({ ...newsForm, summary: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <ImageUploadField
-                  label="Featured Image"
-                  value={newsForm.mediaUrl}
-                  onChange={(url) => setNewsForm({ ...newsForm, mediaUrl: url })}
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="font-bold text-slate-600">Detailed Article Content</label>
-                <textarea
-                  required
-                  rows={4}
-                  value={newsForm.content}
-                  onChange={(e) => setNewsForm({ ...newsForm, content: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none"
-                />
-              </div>
+              <MultiImageUploadField
+                label="Select Media Images"
+                values={newsForm.images}
+                onChange={(urls) => setNewsForm({ images: urls })}
+              />
 
               <button
                 type="submit"
-                disabled={loading}
-                className="w-full py-3 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider"
+                disabled={loading || newsForm.images.length === 0}
+                className="w-full py-3 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Publishing...' : 'Publish Article'}
+                {loading ? 'Uploading...' : `Upload ${newsForm.images.length} Image${newsForm.images.length !== 1 ? 's' : ''}`}
               </button>
             </form>
           </div>
