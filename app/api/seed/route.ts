@@ -89,23 +89,13 @@ export async function GET() {
     ];
     await Event.create(events);
 
-    // 4. Create News
+    // 4. Create News (image-only gallery)
     const news = [
       {
-        title: 'MSE Submits Pre-Budget Memorandum to Finance Ministry',
-        summary: 'Proposals highlight credit flow improvements, GST simplification, and special export incentives for micro-enterprises.',
-        content: 'The MSE Chamber of Commerce & Industry Association has officially submitted a comprehensive Pre-Budget Memorandum to the Ministry of Finance. Our President, in a delegation, pressed for lowering interest rates for CGTMSE backed credit, enhancing the threshold of corporate invoice auditing, and providing specific logistics subsidies for micro-enterprises. These interventions are critical to bolster domestic manufacturing and double MSME export contributions.',
-        type: 'Press Release',
-        mediaUrl: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop',
-        publishedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
-      },
-      {
-        title: 'Skill Development Initiative for SC/ST Entrepreneurs Launched',
-        summary: 'A new 6-month specialized entrepreneurship certification program launched in association with NSDC.',
-        content: 'In our endeavor to support marginalized communities, MSE in partnership with National Skill Development Corporation (NSDC) has launched the Stand-Up India Digital training portal. This program offers free courses in advanced corporate finance, tax compliances, supply chain operations, and e-procurement portals. Over 500 SC/ST startup founders have already enrolled in the first cohort.',
-        type: 'News Article',
-        mediaUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop',
-        publishedAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000)
+        images: [
+          'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop'
+        ]
       }
     ];
     await News.create(news);

@@ -177,48 +177,7 @@ export default function NewsClient({ news: initialNews, gallery: initialGallery 
 
       </div>
 
-      {/* News Full Reader Modal */}
-      {selectedNews && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl w-full max-w-2xl p-6 md:p-8 shadow-2xl relative border border-slate-100 max-h-[85vh] overflow-y-auto animate-fade-in-up space-y-4">
-            <button
-              onClick={() => setSelectedNews(null)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 p-1.5 rounded-full hover:bg-slate-100 transition-all z-10"
-            >
-              <X className="h-5 w-5" />
-            </button>
 
-            <span className="px-2.5 py-0.5 rounded-full bg-secondary/15 text-[10px] font-bold text-secondary uppercase tracking-wide">
-              {selectedNews.type}
-            </span>
-
-            <h3 className="text-2xl font-extrabold text-primary font-display leading-tight pt-1">
-              {selectedNews.title}
-            </h3>
-
-            <div className="flex items-center gap-1 text-xs text-slate-400 font-bold uppercase tracking-wider">
-              <Calendar className="h-3.5 w-3.5 text-secondary" />
-              <span>Published: {new Date(selectedNews.publishedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-            </div>
-
-            {selectedNews.mediaUrl && (
-              <div className="h-60 w-full rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 relative">
-                <NextImage src={selectedNews.mediaUrl} alt={selectedNews.title} fill unoptimized className="object-cover" sizes="800px" />
-              </div>
-            )}
-
-            <p className="text-xs text-slate-500 font-medium italic border-l-4 border-slate-200 pl-3 leading-relaxed">
-              Summary: {selectedNews.summary}
-            </p>
-
-            <hr className="border-slate-100" />
-
-            <div className="text-xs text-slate-600 space-y-4 leading-relaxed whitespace-pre-wrap">
-              {selectedNews.content}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Media Lightbox Modal */}
       {selectedMedia && (
