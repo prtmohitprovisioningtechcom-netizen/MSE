@@ -393,7 +393,7 @@ export default function Navbar() {
                   alt="GeM"
                   width={262}
                   height={118}
-                  className="h-20 2xl:h-24 w-auto object-contain pointer-events-none select-none"
+                  className="h-12 2xl:h-16 w-auto object-contain pointer-events-none select-none"
                   draggable={false}
                 />
               </div>
