@@ -246,21 +246,26 @@ export default function Navbar() {
       <div className="border-b border-slate-100 px-4 md:px-6 xl:px-8 py-3 xl:py-4 bg-white">
         <div className="max-w-360 mx-auto flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4 xl:gap-6">
           <div className="flex items-start gap-3 w-full xl:w-auto xl:max-w-96 2xl:max-w-[26rem] xl:shrink-0 overflow-visible">
-            <Link
-              href="/"
-              onClick={(e) => handleNav(e, '/')}
-              className="shrink-0 cursor-pointer self-center sm:self-start"
-            >
-              <Image
-                src="/mse.jpeg"
-                alt="MSE Logo"
-                width={320}
-                height={246}
-                sizes="(max-width: 640px) 112px, (max-width: 768px) 128px, (max-width: 1024px) 144px, 176px"
-                className="h-28 w-auto sm:h-32 md:h-36 lg:h-40 xl:h-44 object-contain"
-                priority
-              />
-            </Link>
+            <div className="flex flex-col items-center gap-1">
+              <Link
+                href="/"
+                onClick={(e) => handleNav(e, '/')}
+                className="shrink-0 cursor-pointer self-center sm:self-start"
+              >
+                <Image
+                  src="/mse.jpeg"
+                  alt="MSE Logo"
+                  width={320}
+                  height={246}
+                  sizes="(max-width: 640px) 112px, (max-width: 768px) 128px, (max-width: 1024px) 144px, 176px"
+                  className="h-28 w-auto sm:h-32 md:h-36 lg:h-40 xl:h-44 object-contain"
+                  priority
+                />
+              </Link>
+              <div className="text-red-600 font-black text-sm sm:text-base md:text-lg text-center tracking-wide bg-red-50 px-3 py-1 rounded-full border-2 border-red-200 shadow-sm mt-1 whitespace-nowrap">
+                Our Members 200+ Firm
+              </div>
+            </div>
             <div className="min-w-0 flex-1 space-y-1.5 overflow-visible">
               <Link
                 href="/"

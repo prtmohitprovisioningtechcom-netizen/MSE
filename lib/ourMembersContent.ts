@@ -1,3 +1,5 @@
+import { directoryMembersRaw } from './membersDataRaw';
+
 export type ChamberMember = {
   name: string;
   role?: string;
@@ -5,6 +7,15 @@ export type ChamberMember = {
   additionalOrganization?: string;
   industry?: string;
   image?: string;
+};
+
+export type DirectoryMember = {
+  sno: number;
+  businessName: string;
+  ownerName: string;
+  address: string;
+  udyamNumber: string;
+  category: string;
 };
 
 export const ourMembers = {
@@ -65,3 +76,5 @@ export const chamberMembers: ChamberMember[] = [
     image: '/Members/Kavya jindal.jpeg',
   },
 ];
+
+export const directoryMembers: DirectoryMember[] = directoryMembersRaw;
