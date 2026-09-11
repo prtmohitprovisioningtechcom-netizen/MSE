@@ -176,9 +176,29 @@ export default function MseCciaAwardPage({ awardsData = [] }: { awardsData?: Mse
           </p>
         </div>
 
+        <section className="w-full space-y-4 md:space-y-5">
+          <div className="grid grid-cols-1 gap-3 md:gap-4">
+            {awards.map((item) => (
+              <AwardCard
+                key={item.number}
+                number={item.number}
+                title={item.title}
+                text={item.text}
+                icon={item.icon}
+              />
+            ))}
+          </div>
+        </section>
+
+        <div className="w-full rounded-3xl border border-secondary/30 bg-linear-to-r from-secondary/10 via-white to-secondary/5 p-5 sm:p-6 md:p-8 shadow-lg">
+          <p className="font-hindi w-full text-sm md:text-base text-slate-800 leading-relaxed md:leading-8 wrap-anywhere">
+            {credibility}
+          </p>
+        </div>
+
         {/* Uploaded Award Images Gallery Section */}
         {allAwardImages.length > 0 && (
-          <section className="w-full space-y-4">
+          <section className="w-full space-y-4 pt-2">
             <div className="flex items-center justify-between border-b border-slate-200 pb-3">
               <div>
                 <span className="text-[11px] font-bold text-secondary uppercase tracking-widest block font-hindi">
@@ -213,26 +233,6 @@ export default function MseCciaAwardPage({ awardsData = [] }: { awardsData?: Mse
             </div>
           </section>
         )}
-
-        <section className="w-full space-y-4 md:space-y-5">
-          <div className="grid grid-cols-1 gap-3 md:gap-4">
-            {awards.map((item) => (
-              <AwardCard
-                key={item.number}
-                number={item.number}
-                title={item.title}
-                text={item.text}
-                icon={item.icon}
-              />
-            ))}
-          </div>
-        </section>
-
-        <div className="w-full rounded-3xl border border-secondary/30 bg-linear-to-r from-secondary/10 via-white to-secondary/5 p-5 sm:p-6 md:p-8 shadow-lg">
-          <p className="font-hindi w-full text-sm md:text-base text-slate-800 leading-relaxed md:leading-8 wrap-anywhere">
-            {credibility}
-          </p>
-        </div>
       </div>
 
       {/* Lightbox Modal */}
