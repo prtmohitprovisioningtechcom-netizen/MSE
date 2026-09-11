@@ -94,16 +94,24 @@ export async function createNewsAction(data: any) {
     await verifyAdmin();
     await dbConnect();
 
-    const { images } = data;
-    if (!images || images.length === 0) {
-      return { error: 'Please provide at least one image' };
+    const { title, content, images } = data;
+    const trimmedTitle = typeof title === 'string' ? title.trim() : '';
+    const trimmedContent = typeof content === 'string' ? content.trim() : '';
+    const validImages = Array.isArray(images) ? images.filter(Boolean) : [];
+
+    if (!trimmedTitle && !trimmedContent && validImages.length === 0) {
+      return { error: 'Please enter a title, written text, or upload at least one image' };
     }
 
-    const news = await News.create({ images });
+    const news = await News.create({
+      title: trimmedTitle,
+      content: trimmedContent,
+      images: validImages,
+    });
 
     revalidatePath('/news');
     revalidatePath('/admin');
-    return { success: true, message: 'Media added successfully', data: JSON.parse(JSON.stringify(news)) };
+    return { success: true, message: 'News & Media published successfully', data: JSON.parse(JSON.stringify(news)) };
   } catch (error: any) {
     return { error: error.message };
   }

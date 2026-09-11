@@ -7,13 +7,19 @@ if (mongoose.models.News) {
 
 const NewsSchema = new mongoose.Schema(
   {
+    title: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    content: {
+      type: String,
+      trim: true,
+      default: '',
+    },
     images: {
       type: [String],
-      required: [true, 'At least one image is required'],
-      validate: {
-        validator: (v: string[]) => v.length > 0,
-        message: 'At least one image is required',
-      },
+      default: [],
     },
   },
   { timestamps: true }

@@ -60,6 +60,8 @@ interface AdminEvent {
 
 interface AdminNewsItem {
   _id: string;
+  title?: string;
+  content?: string;
   images: string[];
   createdAt: string;
 }
@@ -121,7 +123,11 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
   const [eventForm, setEventForm] = useState<{ images: string[] }>({ images: [] });
   
   const [showNewsModal, setShowNewsModal] = useState(false);
-  const [newsForm, setNewsForm] = useState<{ images: string[] }>({ images: [] });
+  const [newsForm, setNewsForm] = useState<{ title: string; content: string; images: string[] }>({
+    title: '',
+    content: '',
+    images: [],
+  });
 
   const [showSchemeModal, setShowSchemeModal] = useState(false);
   const [schemeForm, setSchemeForm] = useState({ title: '', description: '', eligibility: '', benefits: '', category: 'Credit & Financial Assistance', link: '' });
@@ -214,16 +220,19 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
   // News Action
   const handleCreateNews = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newsForm.images.length === 0) return;
+    if (!newsForm.title.trim() && !newsForm.content.trim() && newsForm.images.length === 0) {
+      alert('Please provide a title, full text, or at least one image');
+      return;
+    }
     setLoading(true);
     const res = await createNewsAction(newsForm);
     setLoading(false);
     if (res.success) {
       setShowNewsModal(false);
-      setNewsForm({ images: [] });
+      setNewsForm({ title: '', content: '', images: [] });
       router.refresh();
     } else {
-      alert(res.error || 'Failed to save images');
+      alert(res.error || 'Failed to save news article');
     }
   };
 
@@ -543,41 +552,68 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
           {activeTab === 'news' && (
             <div className="space-y-6">
               <div className="flex justify-between items-center border-b border-slate-100 pb-2">
-                <h3 className="text-lg font-bold text-primary font-display">Chamber Announcements & Media</h3>
+                <div>
+                  <h3 className="text-lg font-bold text-primary font-display">Chamber Announcements & Media</h3>
+                  <p className="text-xs text-slate-400">Post news articles with text, circulars, and media gallery photos</p>
+                </div>
                 <button 
                   onClick={() => setShowNewsModal(true)}
                   className="px-3.5 py-1.5 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider text-[10px] flex items-center gap-1.5 shadow-sm"
                 >
-                  <Plus className="h-4 w-4" /> Upload Images
+                  <Plus className="h-4 w-4" /> Add News & Media
                 </button>
               </div>
 
               {initialData.news.length === 0 ? (
                 <div className="text-center py-10 bg-slate-50 rounded-2xl border border-slate-100">
-                  <p className="text-slate-500 font-medium text-xs">No media uploaded yet.</p>
+                  <p className="text-slate-500 font-medium text-xs">No media or news uploaded yet.</p>
                 </div>
               ) : (
                 <div className="space-y-6">
                   {initialData.news.map((item) => (
                     <div key={item._id} className="bg-slate-50 border border-slate-100 rounded-2xl p-4 space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">
-                          {item.images.length} image{item.images.length !== 1 ? 's' : ''}
-                        </span>
+                      <div className="flex justify-between items-start gap-4">
+                        <div className="space-y-1 flex-1">
+                          {item.title ? (
+                            <h4 className="font-bold text-slate-800 text-sm">{item.title}</h4>
+                          ) : (
+                            <h4 className="font-bold text-slate-500 text-sm italic">Untitled Media Post</h4>
+                          )}
+                          <div className="flex items-center gap-3 text-[10px] text-slate-400 font-medium">
+                            <span>{new Date(item.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                            {item.images && item.images.length > 0 && (
+                              <span>• {item.images.length} image{item.images.length !== 1 ? 's' : ''}</span>
+                            )}
+                          </div>
+                        </div>
                         <button 
                           onClick={() => handleDeleteNews(item._id)}
-                          className="p-1.5 border border-rose-200 hover:bg-rose-50 text-rose-600 rounded transition-all"
+                          className="p-1.5 border border-rose-200 hover:bg-rose-50 text-rose-600 rounded transition-all shrink-0"
+                          title="Delete news article"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
-                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
-                        {item.images.map((img: string, i: number) => (
-                          <div key={i} className="relative aspect-square rounded-xl overflow-hidden border border-slate-200 bg-white">
-                            <img src={img} alt={`Media image ${i + 1}`} className="object-cover w-full h-full" />
-                          </div>
-                        ))}
-                      </div>
+
+                      {/* Written full text box (scrollable if long) */}
+                      {item.content && item.content.trim() && (
+                        <div className="bg-white border border-slate-200 rounded-xl p-3 max-h-40 overflow-y-auto custom-scrollbar">
+                          <p className="text-xs text-slate-700 whitespace-pre-line leading-relaxed font-sans">
+                            {item.content}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Images Grid preview */}
+                      {item.images && item.images.length > 0 && (
+                        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 pt-1">
+                          {item.images.map((img: string, i: number) => (
+                            <div key={i} className="relative aspect-square rounded-xl overflow-hidden border border-slate-200 bg-white">
+                              <img src={img} alt={`Media image ${i + 1}`} className="object-cover w-full h-full" />
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -836,23 +872,57 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
       {/* CREATE NEWS MODAL */}
       {showNewsModal && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl w-full max-w-lg p-6 shadow-2xl relative border border-slate-100 max-h-[85vh] overflow-y-auto animate-fade-in-up">
-            <button onClick={() => { setShowNewsModal(false); setNewsForm({ images: [] }); }} className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 p-1 rounded-full hover:bg-slate-100"><X className="h-5 w-5" /></button>
-            <h3 className="text-lg font-bold text-primary font-display pb-3 border-b border-slate-100">Upload News & Media</h3>
+          <div className="bg-white rounded-3xl w-full max-w-xl p-6 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto animate-fade-in-up">
+            <button 
+              onClick={() => { setShowNewsModal(false); setNewsForm({ title: '', content: '', images: [] }); }} 
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 p-1 rounded-full hover:bg-slate-100"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <h3 className="text-lg font-bold text-primary font-display pb-3 border-b border-slate-100">
+              Publish News & Media Announcement
+            </h3>
             
             <form onSubmit={handleCreateNews} className="space-y-4 mt-4 text-xs">
-              <MultiImageUploadField
-                label="Select Media Images"
-                values={newsForm.images}
-                onChange={(urls) => setNewsForm({ images: urls })}
-              />
+              <div className="space-y-1">
+                <label className="font-bold text-slate-600">News Headline / Title</label>
+                <input
+                  type="text"
+                  value={newsForm.title}
+                  onChange={(e) => setNewsForm({ ...newsForm, title: e.target.value })}
+                  placeholder="e.g. National MSME Conclave 2026 or Budget Highlights"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-primary text-slate-800 text-xs"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex justify-between items-center">
+                  <label className="font-bold text-slate-600">Full Written Text / Article</label>
+                  <span className="text-[10px] text-slate-400">Scrollable box if long</span>
+                </div>
+                <textarea
+                  rows={6}
+                  value={newsForm.content}
+                  onChange={(e) => setNewsForm({ ...newsForm, content: e.target.value })}
+                  placeholder="Enter full news article text, circular details, or announcement content here..."
+                  className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-primary text-slate-800 text-xs leading-relaxed"
+                />
+              </div>
+
+              <div className="border-t border-slate-100 pt-3">
+                <MultiImageUploadField
+                  label="Attach Media Images (Optional)"
+                  values={newsForm.images}
+                  onChange={(urls) => setNewsForm({ ...newsForm, images: urls })}
+                />
+              </div>
 
               <button
                 type="submit"
-                disabled={loading || newsForm.images.length === 0}
-                className="w-full py-3 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={loading || (!newsForm.title.trim() && !newsForm.content.trim() && newsForm.images.length === 0)}
+                className="w-full py-3 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
-                {loading ? 'Uploading...' : `Upload ${newsForm.images.length} Image${newsForm.images.length !== 1 ? 's' : ''}`}
+                {loading ? 'Publishing...' : 'Publish News & Media'}
               </button>
             </form>
           </div>
