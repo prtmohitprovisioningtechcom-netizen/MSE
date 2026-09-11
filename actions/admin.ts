@@ -99,17 +99,16 @@ export async function createNewsAction(data: any) {
     await verifyAdmin();
     await dbConnect();
 
-    const { title, content, images } = data;
-    const trimmedTitle = typeof title === 'string' ? title.trim() : '';
+    const { content, images } = data;
     const trimmedContent = typeof content === 'string' ? content.trim() : '';
     const validImages = Array.isArray(images) ? images.filter(Boolean) : [];
 
-    if (!trimmedTitle && !trimmedContent && validImages.length === 0) {
-      return { error: 'Please enter a title, written text, or upload at least one image' };
+    if (!trimmedContent && validImages.length === 0) {
+      return { error: 'Please enter paragraph text or upload at least one image' };
     }
 
     const news = await News.create({
-      title: trimmedTitle,
+      title: '',
       content: trimmedContent,
       images: validImages,
     });

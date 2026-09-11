@@ -88,7 +88,6 @@ export default function NewsClient({ news: initialNews }: NewsClientProps) {
           {initialNews.map((item) => {
             const hasImages = Array.isArray(item.images) && item.images.length > 0;
             const hasContent = Boolean(item.content && item.content.trim());
-            const hasTitle = Boolean(item.title && item.title.trim());
 
             return (
               <article
@@ -109,13 +108,6 @@ export default function NewsClient({ news: initialNews }: NewsClientProps) {
                         : 'Recent'}
                     </span>
                   </div>
-
-                  {/* Title - only displayed if entered by admin */}
-                  {hasTitle && (
-                    <h2 className="text-lg sm:text-xl font-bold text-slate-900 font-display leading-snug group-hover:text-primary transition-colors">
-                      {item.title}
-                    </h2>
-                  )}
 
                   {/* Full Written Text Box with Scroll */}
                   {hasContent && (
@@ -218,12 +210,10 @@ export default function NewsClient({ news: initialNews }: NewsClientProps) {
               <X className="h-5 w-5" />
             </button>
 
-            <div className="space-y-2 border-b border-slate-100 pb-4 pr-8">
-              {selectedArticle.title && (
-                <h3 className="text-xl sm:text-2xl font-extrabold text-primary font-display leading-snug">
-                  {selectedArticle.title}
-                </h3>
-              )}
+            <div className="space-y-1 border-b border-slate-100 pb-3 pr-8">
+              <span className="text-[11px] font-bold text-secondary uppercase tracking-widest block">
+                Announcement
+              </span>
               <p className="text-xs text-slate-400 flex items-center gap-1">
                 <Calendar className="h-3.5 w-3.5" />
                 {selectedArticle.createdAt

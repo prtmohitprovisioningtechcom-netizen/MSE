@@ -181,8 +181,12 @@ export default function MseCciaAwardPage({ awardsData = [] }: { awardsData?: Mse
           <section className="w-full space-y-4">
             <div className="flex items-center justify-between border-b border-slate-200 pb-3">
               <div>
-                <span className="text-[11px] font-bold text-secondary uppercase tracking-widest block">Ceremony Gallery</span>
-                <h2 className="text-xl md:text-2xl font-bold text-primary font-display">Award Ceremony & Felicitation Highlights</h2>
+                <span className="text-[11px] font-bold text-secondary uppercase tracking-widest block font-hindi">
+                  समारोह गैलरी / Ceremony Gallery
+                </span>
+                <h2 className="text-xl md:text-2xl font-bold text-primary font-display font-hindi">
+                  पुरस्कार समारोह एवं सम्मान झलकियां (Award Ceremony Highlights)
+                </h2>
               </div>
               <span className="text-xs text-slate-400 font-semibold">{allAwardImages.length} Photographs</span>
             </div>

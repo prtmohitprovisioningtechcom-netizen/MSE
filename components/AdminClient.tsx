@@ -131,8 +131,7 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
   const [eventForm, setEventForm] = useState<{ images: string[] }>({ images: [] });
   
   const [showNewsModal, setShowNewsModal] = useState(false);
-  const [newsForm, setNewsForm] = useState<{ title: string; content: string; images: string[] }>({
-    title: '',
+  const [newsForm, setNewsForm] = useState<{ content: string; images: string[] }>({
     content: '',
     images: [],
   });
@@ -232,19 +231,19 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
   // News Action
   const handleCreateNews = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newsForm.title.trim() && !newsForm.content.trim() && newsForm.images.length === 0) {
-      alert('Please provide a title, full text, or at least one image');
+    if (!newsForm.content.trim() && newsForm.images.length === 0) {
+      alert('Please enter paragraph text or upload at least one image');
       return;
     }
     setLoading(true);
-    const res = await createNewsAction(newsForm);
+    const res = await createNewsAction({ content: newsForm.content, images: newsForm.images });
     setLoading(false);
     if (res.success) {
       setShowNewsModal(false);
-      setNewsForm({ title: '', content: '', images: [] });
+      setNewsForm({ content: '', images: [] });
       router.refresh();
     } else {
-      alert(res.error || 'Failed to save news article');
+      alert(res.error || 'Failed to save news');
     }
   };
 
@@ -608,16 +607,11 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
                   {initialData.news.map((item) => (
                     <div key={item._id} className="bg-slate-50 border border-slate-100 rounded-2xl p-4 space-y-3">
                       <div className="flex justify-between items-start gap-4">
-                        <div className="space-y-1 flex-1">
-                          {item.title ? (
-                            <h4 className="font-bold text-slate-800 text-sm">{item.title}</h4>
-                          ) : null}
-                          <div className="flex items-center gap-3 text-[10px] text-slate-400 font-medium">
-                            <span>{new Date(item.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                            {item.images && item.images.length > 0 && (
-                              <span>• {item.images.length} image{item.images.length !== 1 ? 's' : ''}</span>
-                            )}
-                          </div>
+                        <div className="flex items-center gap-3 text-[10px] text-slate-400 font-medium">
+                          <span>{new Date(item.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                          {item.images && item.images.length > 0 && (
+                            <span>• {item.images.length} image{item.images.length !== 1 ? 's' : ''}</span>
+                          )}
                         </div>
                         <button 
                           onClick={() => handleDeleteNews(item._id)}
@@ -957,37 +951,26 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-xl p-6 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto animate-fade-in-up">
             <button 
-              onClick={() => { setShowNewsModal(false); setNewsForm({ title: '', content: '', images: [] }); }} 
+              onClick={() => { setShowNewsModal(false); setNewsForm({ content: '', images: [] }); }} 
               className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 p-1 rounded-full hover:bg-slate-100"
             >
               <X className="h-5 w-5" />
             </button>
             <h3 className="text-lg font-bold text-primary font-display pb-3 border-b border-slate-100">
-              Publish News & Media Announcement
+              Publish News & Media
             </h3>
             
             <form onSubmit={handleCreateNews} className="space-y-4 mt-4 text-xs">
               <div className="space-y-1">
-                <label className="font-bold text-slate-600">News Headline / Title</label>
-                <input
-                  type="text"
-                  value={newsForm.title}
-                  onChange={(e) => setNewsForm({ ...newsForm, title: e.target.value })}
-                  placeholder="e.g. National MSME Conclave 2026 or Budget Highlights"
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-primary text-slate-800 text-xs"
-                />
-              </div>
-
-              <div className="space-y-1">
                 <div className="flex justify-between items-center">
-                  <label className="font-bold text-slate-600">Full Written Text / Article</label>
+                  <label className="font-bold text-slate-600">News Paragraph / Details</label>
                   <span className="text-[10px] text-slate-400">Scrollable box if long</span>
                 </div>
                 <textarea
-                  rows={6}
+                  rows={7}
                   value={newsForm.content}
                   onChange={(e) => setNewsForm({ ...newsForm, content: e.target.value })}
-                  placeholder="Enter full news article text, circular details, or announcement content here..."
+                  placeholder="Enter news paragraph text, circular details, or announcement content here..."
                   className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-primary text-slate-800 text-xs leading-relaxed"
                 />
               </div>
@@ -1002,7 +985,7 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
 
               <button
                 type="submit"
-                disabled={loading || (!newsForm.title.trim() && !newsForm.content.trim() && newsForm.images.length === 0)}
+                disabled={loading || (!newsForm.content.trim() && newsForm.images.length === 0)}
                 className="w-full py-3 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 {loading ? 'Publishing...' : 'Publish News & Media'}
