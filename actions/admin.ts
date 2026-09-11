@@ -12,6 +12,7 @@ import Partner from '@/models/Partner';
 import Contact from '@/models/Contact';
 import JobBusinessDocument from '@/models/JobBusinessDocument';
 import Achievement from '@/models/Achievement';
+import MseCciaAward from '@/models/MseCciaAward';
 import { getSession } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 
@@ -48,6 +49,7 @@ export async function getAdminDashboardStats() {
     const totalSchemes = await GovernmentScheme.countDocuments();
     const totalJobBusinessDocs = await JobBusinessDocument.countDocuments();
     const totalAchievements = await Achievement.countDocuments();
+    const totalMseCciaAwards = await MseCciaAward.countDocuments();
 
     // Fetch lists for rendering management tables
     const membersList = await Membership.find({}).populate('user', 'name email role').sort({ createdAt: -1 });
@@ -58,6 +60,7 @@ export async function getAdminDashboardStats() {
     const contactsList = await Contact.find({}).sort({ createdAt: -1 });
     const jobBusinessList = await JobBusinessDocument.find({}).sort({ createdAt: -1 });
     const achievementsList = await Achievement.find({}).sort({ createdAt: -1 });
+    const mseCciaAwardsList = await MseCciaAward.find({}).sort({ createdAt: -1 });
 
     return {
       success: true,
@@ -70,6 +73,7 @@ export async function getAdminDashboardStats() {
         schemesCount: totalSchemes,
         jobBusinessCount: totalJobBusinessDocs,
         achievementsCount: totalAchievements,
+        mseCciaAwardsCount: totalMseCciaAwards,
       },
       data: {
         members: JSON.parse(JSON.stringify(membersList)),
@@ -80,6 +84,7 @@ export async function getAdminDashboardStats() {
         contacts: JSON.parse(JSON.stringify(contactsList)),
         jobBusinessDocuments: JSON.parse(JSON.stringify(jobBusinessList)),
         achievements: JSON.parse(JSON.stringify(achievementsList)),
+        mseCciaAwards: JSON.parse(JSON.stringify(mseCciaAwardsList)),
       }
     };
   } catch (error: any) {
@@ -280,6 +285,40 @@ export async function deleteAchievementAction(id: string) {
     revalidatePath('/initiatives/achivement');
     revalidatePath('/admin');
     return { success: true, message: 'Achievement deleted' };
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}
+
+// MSE-CCIA Award Actions
+export async function createMseCciaAwardAction(data: any) {
+  try {
+    await verifyAdmin();
+    await dbConnect();
+
+    const { images } = data;
+    if (!images || images.length === 0) {
+      return { error: 'Please provide at least one image' };
+    }
+
+    const award = await MseCciaAward.create({ images });
+
+    revalidatePath('/initiatives/mse-ccia');
+    revalidatePath('/admin');
+    return { success: true, message: 'MSE-CCIA Award images added successfully', data: JSON.parse(JSON.stringify(award)) };
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}
+
+export async function deleteMseCciaAwardAction(id: string) {
+  try {
+    await verifyAdmin();
+    await dbConnect();
+    await MseCciaAward.findByIdAndDelete(id);
+    revalidatePath('/initiatives/mse-ccia');
+    revalidatePath('/admin');
+    return { success: true, message: 'MSE-CCIA Award image deleted' };
   } catch (error: any) {
     return { error: error.message };
   }

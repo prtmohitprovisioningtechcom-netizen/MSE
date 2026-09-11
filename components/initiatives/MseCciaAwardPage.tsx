@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import {
   Award,
   BadgeCheck,
@@ -13,6 +14,10 @@ import {
   Star,
   Trophy,
   Users,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Images,
 } from 'lucide-react';
 
 const intro =
@@ -127,7 +132,22 @@ function AwardCard({
   );
 }
 
-export default function MseCciaAwardPage() {
+interface MseCciaAwardItem {
+  _id: string;
+  images: string[];
+  createdAt?: string;
+}
+
+export default function MseCciaAwardPage({ awardsData = [] }: { awardsData?: MseCciaAwardItem[] }) {
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+
+  const allAwardImages = (awardsData || []).flatMap((item) =>
+    (item.images || []).map((img) => ({
+      url: img,
+      date: item.createdAt,
+    }))
+  );
+
   return (
     <div className="w-full min-w-0 bg-slate-50 pb-16">
       <div className="bg-linear-to-br from-primary via-slate-900 to-indigo-950 text-white">
@@ -156,6 +176,40 @@ export default function MseCciaAwardPage() {
           </p>
         </div>
 
+        {/* Uploaded Award Images Gallery Section */}
+        {allAwardImages.length > 0 && (
+          <section className="w-full space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <div>
+                <span className="text-[11px] font-bold text-secondary uppercase tracking-widest block">Ceremony Gallery</span>
+                <h2 className="text-xl md:text-2xl font-bold text-primary font-display">Award Ceremony & Felicitation Highlights</h2>
+              </div>
+              <span className="text-xs text-slate-400 font-semibold">{allAwardImages.length} Photographs</span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
+              {allAwardImages.map((img, i) => (
+                <div
+                  key={i}
+                  onClick={() => setSelectedImageIndex(i)}
+                  className="relative aspect-4/3 rounded-2xl overflow-hidden bg-slate-100 cursor-pointer group shadow-sm hover:shadow-lg transition-all border border-slate-200"
+                >
+                  <img
+                    src={img.url}
+                    alt={`MSE-CCIA Award photo ${i + 1}`}
+                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center">
+                    <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 text-white text-[10px] font-bold px-2.5 py-1 rounded-full backdrop-blur-xs">
+                      View Full Image
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
         <section className="w-full space-y-4 md:space-y-5">
           <div className="grid grid-cols-1 gap-3 md:gap-4">
             {awards.map((item) => (
@@ -176,6 +230,61 @@ export default function MseCciaAwardPage() {
           </p>
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      {selectedImageIndex !== null && allAwardImages[selectedImageIndex] && (
+        <div
+          className="fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-4 backdrop-blur-xs"
+          onClick={() => setSelectedImageIndex(null)}
+        >
+          <div className="relative max-w-5xl w-full max-h-[90vh] flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setSelectedImageIndex(null)}
+              className="absolute -top-12 right-0 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-50"
+            >
+              <X className="h-6 w-6" />
+            </button>
+
+            {allAwardImages.length > 1 && (
+              <>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedImageIndex((i) => (i! - 1 + allAwardImages.length) % allAwardImages.length);
+                  }}
+                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-3 bg-black/50 hover:bg-black/80 rounded-full text-white transition-all z-50"
+                >
+                  <ChevronLeft className="h-6 w-6" />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedImageIndex((i) => (i! + 1) % allAwardImages.length);
+                  }}
+                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-3 bg-black/50 hover:bg-black/80 rounded-full text-white transition-all z-50"
+                >
+                  <ChevronRight className="h-6 w-6" />
+                </button>
+              </>
+            )}
+
+            <div className="relative w-full h-[70vh] sm:h-[80vh] flex items-center justify-center">
+              <img
+                src={allAwardImages[selectedImageIndex].url}
+                alt="Award Expanded"
+                className="max-h-full max-w-full object-contain rounded-2xl shadow-2xl"
+              />
+            </div>
+
+            {allAwardImages.length > 1 && (
+              <div className="mt-3 text-white/80 text-xs font-bold">
+                {selectedImageIndex + 1} / {allAwardImages.length}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+

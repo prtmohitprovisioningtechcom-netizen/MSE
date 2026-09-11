@@ -18,6 +18,8 @@ import GovernmentAwardsPage from '@/components/initiatives/GovernmentAwardsPage'
 import MseCciaAwardPage from '@/components/initiatives/MseCciaAwardPage';
 import IndustryAwarenessProgramPage from '@/components/initiatives/IndustryAwarenessProgramPage';
 import AchievementPage from '@/components/initiatives/AchievementPage';
+import dbConnect from '@/lib/db';
+import MseCciaAward from '@/models/MseCciaAward';
 import { getInitiativeBySlug } from '@/lib/homeInitiatives';
 
 type Props = {
@@ -105,7 +107,10 @@ export default async function InitiativePage({ params }: Props) {
   }
 
   if (slug === 'mse-ccia') {
-    return <MseCciaAwardPage />;
+    await dbConnect();
+    const awardDocs = await MseCciaAward.find({}).sort({ createdAt: -1 }).lean();
+    const awardsData = JSON.parse(JSON.stringify(awardDocs));
+    return <MseCciaAwardPage awardsData={awardsData} />;
   }
 
   if (slug === 'industry-awareness-program') {

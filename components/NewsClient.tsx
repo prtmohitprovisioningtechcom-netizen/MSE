@@ -98,10 +98,6 @@ export default function NewsClient({ news: initialNews }: NewsClientProps) {
                 {/* Header Information */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/5 text-primary">
-                      <Newspaper className="h-3 w-3 text-primary" />
-                      {hasContent && hasImages ? 'News & Media' : hasContent ? 'Announcement' : 'Media Release'}
-                    </span>
                     <span className="flex items-center gap-1 text-[11px] text-slate-400 font-semibold">
                       <Calendar className="h-3.5 w-3.5" />
                       {item.createdAt
@@ -114,16 +110,12 @@ export default function NewsClient({ news: initialNews }: NewsClientProps) {
                     </span>
                   </div>
 
-                  {/* Title */}
-                  {hasTitle ? (
+                  {/* Title - only displayed if entered by admin */}
+                  {hasTitle && (
                     <h2 className="text-lg sm:text-xl font-bold text-slate-900 font-display leading-snug group-hover:text-primary transition-colors">
                       {item.title}
                     </h2>
-                  ) : !hasContent && hasImages ? (
-                    <h2 className="text-base font-bold text-slate-700 font-display">
-                      Chamber Press & Event Photography
-                    </h2>
-                  ) : null}
+                  )}
 
                   {/* Full Written Text Box with Scroll */}
                   {hasContent && (
@@ -227,12 +219,11 @@ export default function NewsClient({ news: initialNews }: NewsClientProps) {
             </button>
 
             <div className="space-y-2 border-b border-slate-100 pb-4 pr-8">
-              <span className="text-[11px] font-bold text-secondary uppercase tracking-widest block">
-                Official Announcement
-              </span>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-primary font-display leading-snug">
-                {selectedArticle.title || 'Chamber Circular & Press Release'}
-              </h3>
+              {selectedArticle.title && (
+                <h3 className="text-xl sm:text-2xl font-extrabold text-primary font-display leading-snug">
+                  {selectedArticle.title}
+                </h3>
+              )}
               <p className="text-xs text-slate-400 flex items-center gap-1">
                 <Calendar className="h-3.5 w-3.5" />
                 {selectedArticle.createdAt
@@ -340,7 +331,7 @@ export default function NewsClient({ news: initialNews }: NewsClientProps) {
             {/* Lightbox Footer caption */}
             <div className="mt-4 flex items-center justify-between w-full px-2 text-white/80 text-xs">
               <span className="truncate max-w-[70%] font-medium">
-                {activeLightbox.title || 'Chamber Media Photo'}
+                {activeLightbox.title || ''}
               </span>
               {activeLightbox.images.length > 1 && (
                 <span className="font-bold bg-white/15 px-3 py-1 rounded-full text-[11px]">

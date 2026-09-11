@@ -4,20 +4,20 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   Users, Building2, Calendar, ShieldAlert, Newspaper, BookOpen, 
-  Mail, X, Trash2, Plus, ArrowUpRight, Briefcase, Trophy
+  Mail, X, Trash2, Plus, ArrowUpRight, Briefcase, Trophy, Award
 } from 'lucide-react';
 
 // Actions
 import { approveMembership, rejectMembership } from '@/actions/membership';
 import { updateComplaintStatusAction } from '@/actions/grievance';
 import { createEventAction, deleteEventAction } from '@/actions/events';
-import { createNewsAction, deleteNewsAction, createSchemeAction, deleteSchemeAction, deleteContactAction, createAchievementAction, deleteAchievementAction } from '@/actions/admin';
+import { createNewsAction, deleteNewsAction, createSchemeAction, deleteSchemeAction, deleteContactAction, createAchievementAction, deleteAchievementAction, createMseCciaAwardAction, deleteMseCciaAwardAction } from '@/actions/admin';
 import MultiImageUploadField from '@/components/MultiImageUploadField';
 import ImageUploadField from '@/components/ImageUploadField';
 import AdminJobBusinessPanel from '@/components/AdminJobBusinessPanel';
 import type { SessionPayload } from '@/lib/auth';
 
-type AdminTab = 'memberships' | 'grievances' | 'events' | 'news' | 'schemes' | 'contacts' | 'jobBusiness' | 'achievements';
+type AdminTab = 'memberships' | 'grievances' | 'events' | 'news' | 'schemes' | 'contacts' | 'jobBusiness' | 'achievements' | 'mseCcia';
 
 interface AdminStats {
   users: { total: number; members: number; vendors: number; entrepreneurs: number };
@@ -28,6 +28,7 @@ interface AdminStats {
   schemesCount: number;
   jobBusinessCount: number;
   achievementsCount: number;
+  mseCciaAwardsCount?: number;
 }
 
 interface AdminMember {
@@ -99,6 +100,12 @@ interface AdminAchievement {
   createdAt: string;
 }
 
+interface AdminMseCciaAward {
+  _id: string;
+  images: string[];
+  createdAt: string;
+}
+
 interface AdminClientProps {
   stats: AdminStats;
   initialData: {
@@ -110,6 +117,7 @@ interface AdminClientProps {
     contacts: AdminContact[];
     jobBusinessDocuments: JobBusinessDoc[];
     achievements: AdminAchievement[];
+    mseCciaAwards?: AdminMseCciaAward[];
   };
   adminUser: Pick<SessionPayload, 'name' | 'role'>;
 }
@@ -135,6 +143,9 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
   const [showAchievementModal, setShowAchievementModal] = useState(false);
   const [achievementForm, setAchievementForm] = useState<{ images: string[] }>({ images: [] });
 
+  const [showMseCciaModal, setShowMseCciaModal] = useState(false);
+  const [mseCciaForm, setMseCciaForm] = useState<{ images: string[] }>({ images: [] });
+
   // Rejection/Resolution Comments states
   const [rejectionId, setRejectionId] = useState<string | null>(null);
   const [rejectionReason, setRejectionReason] = useState('');
@@ -154,6 +165,7 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
     { id: 'schemes', name: 'Govt Schemes', icon: BookOpen, count: initialData.schemes.length },
     { id: 'jobBusiness', name: 'Job & Business', icon: Briefcase, count: initialData.jobBusinessDocuments?.length || 0 },
     { id: 'achievements', name: 'Achievements', icon: Trophy, count: initialData.achievements?.length || 0 },
+    { id: 'mseCcia', name: 'MSE-CCIA Award', icon: Award, count: initialData.mseCciaAwards?.length || 0 },
     { id: 'contacts', name: 'Contact Inbox', icon: Mail, count: initialData.contacts.length }
   ];
 
@@ -290,6 +302,29 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
   const handleDeleteAchievement = async (id: string) => {
     if (confirm('Are you sure you want to delete this achievement?')) {
       await deleteAchievementAction(id);
+      router.refresh();
+    }
+  };
+
+  // MSE-CCIA Award Action
+  const handleCreateMseCciaAward = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (mseCciaForm.images.length === 0) return;
+    setLoading(true);
+    const res = await createMseCciaAwardAction(mseCciaForm);
+    setLoading(false);
+    if (res.success) {
+      setShowMseCciaModal(false);
+      setMseCciaForm({ images: [] });
+      router.refresh();
+    } else {
+      alert(res.error || 'Failed to save MSE-CCIA Award images');
+    }
+  };
+
+  const handleDeleteMseCciaAward = async (id: string) => {
+    if (confirm('Are you sure you want to delete these MSE-CCIA Award images?')) {
+      await deleteMseCciaAwardAction(id);
       router.refresh();
     }
   };
@@ -576,9 +611,7 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
                         <div className="space-y-1 flex-1">
                           {item.title ? (
                             <h4 className="font-bold text-slate-800 text-sm">{item.title}</h4>
-                          ) : (
-                            <h4 className="font-bold text-slate-500 text-sm italic">Untitled Media Post</h4>
-                          )}
+                          ) : null}
                           <div className="flex items-center gap-3 text-[10px] text-slate-400 font-medium">
                             <span>{new Date(item.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                             {item.images && item.images.length > 0 && (
@@ -751,6 +784,56 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
                         {ach.images.map((img: string, i: number) => (
                           <div key={i} className="relative aspect-square rounded-xl overflow-hidden border border-slate-200 bg-white">
                             <img src={img} alt={`Achievement image ${i + 1}`} className="object-cover w-full h-full" />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* MSE-CCIA AWARD PANEL */}
+          {activeTab === 'mseCcia' && (
+            <div className="space-y-6">
+              <div className="flex justify-between items-center border-b border-slate-100 pb-2">
+                <div>
+                  <h3 className="text-lg font-bold text-primary font-display">MSE-CCIA Award Gallery</h3>
+                  <p className="text-xs text-slate-400">Upload ceremony and winner photographs to display on the MSE-CCIA page</p>
+                </div>
+                <button 
+                  onClick={() => setShowMseCciaModal(true)}
+                  className="px-3.5 py-1.5 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider text-[10px] flex items-center gap-1.5 shadow-sm"
+                >
+                  <Plus className="h-4 w-4" /> Upload Award Images
+                </button>
+              </div>
+
+              {(!initialData.mseCciaAwards || initialData.mseCciaAwards.length === 0) ? (
+                <div className="text-center py-10 bg-slate-50 rounded-2xl border border-slate-100">
+                  <p className="text-slate-500 font-medium text-xs">No MSE-CCIA Award images uploaded yet.</p>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {initialData.mseCciaAwards.map((item) => (
+                    <div key={item._id} className="bg-slate-50 border border-slate-100 rounded-2xl p-4 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">
+                          {item.images.length} image{item.images.length !== 1 ? 's' : ''} • {new Date(item.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        </span>
+                        <button 
+                          onClick={() => handleDeleteMseCciaAward(item._id)}
+                          className="p-1.5 border border-rose-200 hover:bg-rose-50 text-rose-600 rounded transition-all"
+                          title="Delete award images"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+                        {item.images.map((img: string, i: number) => (
+                          <div key={i} className="relative aspect-square rounded-xl overflow-hidden border border-slate-200 bg-white">
+                            <img src={img} alt={`Award image ${i + 1}`} className="object-cover w-full h-full" />
                           </div>
                         ))}
                       </div>
@@ -1043,6 +1126,32 @@ export default function AdminClient({ stats, initialData, adminUser }: AdminClie
                 className="w-full py-3 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Uploading...' : `Upload Achievement`}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* CREATE MSE-CCIA AWARD MODAL */}
+      {showMseCciaModal && (
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl w-full max-w-lg p-6 shadow-2xl relative border border-slate-100 max-h-[85vh] overflow-y-auto animate-fade-in-up">
+            <button onClick={() => { setShowMseCciaModal(false); setMseCciaForm({ images: [] }); }} className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 p-1 rounded-full hover:bg-slate-100"><X className="h-5 w-5" /></button>
+            <h3 className="text-lg font-bold text-primary font-display pb-3 border-b border-slate-100">Upload MSE-CCIA Award Images</h3>
+            
+            <form onSubmit={handleCreateMseCciaAward} className="space-y-4 mt-4 text-xs">
+              <MultiImageUploadField
+                label="Select Award Ceremony / Winner Images"
+                values={mseCciaForm.images}
+                onChange={(urls) => setMseCciaForm({ images: urls })}
+              />
+
+              <button
+                type="submit"
+                disabled={loading || mseCciaForm.images.length === 0}
+                className="w-full py-3 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Uploading...' : `Upload ${mseCciaForm.images.length} Award Image${mseCciaForm.images.length !== 1 ? 's' : ''}`}
               </button>
             </form>
           </div>
