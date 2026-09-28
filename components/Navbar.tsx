@@ -116,7 +116,7 @@ export default function Navbar() {
           clicked
             ? 'border-secondary bg-secondary/15 text-primary scale-95'
             : active
-            ? 'border-amber-500 bg-linear-to-r from-amber-500 to-secondary text-white shadow-md scale-[1.02]'
+            ? 'border-amber-500 bg-linear-to-r from-amber-500 to-secondary text-white shadow-md'
             : 'border-secondary/70 bg-linear-to-r from-amber-50 via-white to-emerald-50 text-primary hover:border-secondary hover:shadow-md hover:from-amber-100'
         }`}
       >
@@ -140,7 +140,7 @@ export default function Navbar() {
           clicked
             ? 'border-secondary bg-secondary/15 text-primary scale-95'
             : active
-            ? 'border-primary bg-linear-to-r from-primary to-slate-800 text-white shadow-md scale-[1.02]'
+            ? 'border-primary bg-linear-to-r from-primary to-slate-800 text-white shadow-md'
             : 'border-primary/70 bg-linear-to-r from-blue-50 via-white to-slate-50 text-primary hover:border-primary hover:shadow-md hover:from-blue-100'
         }`}
       >
@@ -164,7 +164,7 @@ export default function Navbar() {
           clicked
             ? 'border-amber-600 bg-amber-100 text-amber-900 scale-95'
             : active
-            ? 'border-amber-500 bg-linear-to-r from-amber-500 via-yellow-500 to-amber-600 text-white shadow-md scale-[1.02]'
+            ? 'border-amber-500 bg-linear-to-r from-amber-500 via-yellow-500 to-amber-600 text-white shadow-md'
             : 'border-amber-400/80 bg-linear-to-r from-amber-50 via-yellow-50 to-amber-100 text-amber-900 hover:border-amber-500 hover:shadow-md'
         }`}
       >
@@ -205,11 +205,19 @@ export default function Navbar() {
 
   const renderInitiativeRow = (compact = false) =>
     homeInitiatives.flatMap((item, index) => {
+      if (item.slug === 'shubhkamna-sandesh' || item.slug === 'achivement') {
+        return [];
+      }
+
       const buttons = [renderInitiativeButton(item, index, compact)];
       if (item.slug === 'mse-ccia') {
-        buttons.push(renderOurMembersButton(compact));
+        const shubhkamnaIndex = homeInitiatives.findIndex((entry) => entry.slug === 'shubhkamna-sandesh');
+        const achievementIndex = homeInitiatives.findIndex((entry) => entry.slug === 'achivement');
+        buttons.push(renderInitiativeButton(homeInitiatives[shubhkamnaIndex], shubhkamnaIndex, compact));
+        buttons.push(renderInitiativeButton(homeInitiatives[achievementIndex], achievementIndex, compact));
         buttons.push(renderStudentRegistrationButton(compact));
         buttons.push(renderZedCertificationButton(compact));
+        buttons.push(renderOurMembersButton(compact));
       }
       return buttons;
     });
@@ -244,41 +252,39 @@ export default function Navbar() {
         style={{ paddingTop: topBarHeight }}
       >
       <div className="border-b border-slate-100 px-4 md:px-6 xl:px-8 py-3 xl:py-4 bg-white">
-        <div className="max-w-360 mx-auto flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4 xl:gap-6">
-          <div className="flex items-start gap-3 w-full xl:w-auto xl:max-w-96 2xl:max-w-[26rem] xl:shrink-0 overflow-visible">
-            <div className="flex flex-col items-center gap-1">
-              <Link
-                href="/"
-                onClick={(e) => handleNav(e, '/')}
-                className="shrink-0 cursor-pointer self-center sm:self-start"
-              >
-                <Image
-                  src="/mse.jpeg"
-                  alt="MSE Logo"
-                  width={320}
-                  height={246}
-                  sizes="(max-width: 640px) 112px, (max-width: 768px) 128px, (max-width: 1024px) 144px, 176px"
-                  className="h-28 w-auto sm:h-32 md:h-36 lg:h-40 xl:h-44 object-contain"
-                  priority
-                />
-              </Link>
-              <div className="text-red-600 font-black text-sm sm:text-base md:text-lg text-center tracking-wide bg-red-50 px-3 py-1 rounded-full border-2 border-red-200 shadow-sm mt-1 whitespace-nowrap">
-                Our Members 200+ Firm
+        <div className="max-w-360 mx-auto flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4 xl:gap-2">
+          <div className="w-full xl:w-[27rem] xl:shrink-0">
+            <div className="flex min-w-0 items-start gap-0">
+              <div className="flex shrink-0 flex-col items-center gap-1 xl:w-[8.625rem]">
+                <Link
+                  href="/"
+                  onClick={(e) => handleNav(e, '/')}
+                  className="shrink-0 cursor-pointer self-center sm:self-start"
+                >
+                  <Image
+                    src="/mse.jpeg"
+                    alt="MSE Logo"
+                    width={320}
+                    height={246}
+                    sizes="(max-width: 640px) 112px, (max-width: 768px) 128px, (max-width: 1024px) 144px, 176px"
+                    className="h-28 w-auto sm:h-32 md:h-36 lg:h-40 xl:h-44 object-contain"
+                    priority
+                  />
+                </Link>
               </div>
-            </div>
-            <div className="min-w-0 flex-1 space-y-1.5 overflow-visible">
-              <Link
-                href="/"
-                onClick={(e) => handleNav(e, '/')}
-                className="block text-[10px] sm:text-[11px] md:text-xs xl:text-[12px] font-extrabold text-primary leading-tight font-display uppercase hover:text-primary/80 transition-colors cursor-pointer"
-              >
-                <span className="block whitespace-nowrap">MSE Chamber of Commerce</span>
-                <span className="block whitespace-nowrap">And Industry Association</span>
-              </Link>
-              <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.16em] text-secondary">
-                {organization.tagline}
-              </p>
-              <div className="space-y-1 text-[10px] text-slate-600">
+              <div className="min-w-0 flex-1 space-y-1.5 overflow-hidden">
+                <Link
+                  href="/"
+                  onClick={(e) => handleNav(e, '/')}
+                  className="block text-[10px] sm:text-[11px] md:text-xs xl:text-[12px] font-extrabold text-primary leading-tight font-display uppercase hover:text-primary/80 transition-colors cursor-pointer"
+                >
+                  <span className="block sm:whitespace-nowrap">MSE Chamber of Commerce</span>
+                  <span className="block sm:whitespace-nowrap">And Industry Association</span>
+                </Link>
+                <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.16em] text-secondary">
+                  {organization.tagline}
+                </p>
+                <div className="space-y-1 text-[10px] text-slate-600">
                 <a
                   href={`tel:${organization.phone.replace(/\s/g, '')}`}
                   className="flex items-center gap-1.5 hover:text-primary transition-colors"
@@ -291,7 +297,7 @@ export default function Navbar() {
                   className="flex items-center gap-1.5 hover:text-primary transition-colors min-w-0"
                 >
                   <Mail className="h-3 w-3 text-secondary shrink-0" />
-                  <span className="font-medium whitespace-nowrap">{organization.email}</span>
+                  <span className="min-w-0 truncate font-medium">{organization.email}</span>
                 </a>
                 <a
                   href={organization.website}
@@ -300,8 +306,12 @@ export default function Navbar() {
                   className="flex items-center gap-1.5 hover:text-primary transition-colors min-w-0"
                 >
                   <Globe className="h-3 w-3 text-secondary shrink-0" />
-                  <span className="font-medium whitespace-nowrap">www.mseindustryassociation.com</span>
+                  <span className="min-w-0 truncate font-medium">www.mseindustryassociation.com</span>
                 </a>
+                <p className="flex min-w-0 items-center gap-1.5 overflow-hidden pt-0.5">
+                  <MapPin className="h-3 w-3 text-secondary shrink-0" />
+                  <OrganizationAddress className="min-w-0 truncate whitespace-nowrap text-[9px] font-medium sm:text-[10px]" />
+                </p>
                 <div className="flex items-center gap-2 pt-0.5">
                   <a
                     href={organization.facebook}
@@ -331,45 +341,60 @@ export default function Navbar() {
                     <YoutubeIcon className="h-3.5 w-3.5" />
                   </a>
                 </div>
-                <p className="flex items-center gap-1.5 min-w-0 pt-0.5">
-                  <MapPin className="h-3 w-3 text-secondary shrink-0" />
-                  <OrganizationAddress className="font-medium text-[9px] sm:text-[10px] whitespace-nowrap" />
-                </p>
-                <div className="pt-2 overflow-visible">
-                  <div className="flex flex-nowrap items-center gap-2 w-fit max-w-none overflow-visible">
-                    <span className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full border-2 border-secondary/50 bg-linear-to-r from-amber-50 via-white to-emerald-50 px-3 py-1.5 sm:px-4 sm:py-2 shadow-md shadow-secondary/10">
-                      <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.12em] text-primary">
-                        Established in
-                      </span>
-                      <span className="ml-1.5 text-base sm:text-xl font-extrabold font-display text-primary">
-                        2018
-                      </span>
-                    </span>
-                    <span className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full border-2 border-secondary/50 bg-linear-to-r from-amber-50 via-white to-emerald-50 px-3 py-1.5 sm:px-4 sm:py-2 shadow-md shadow-secondary/10">
-                      <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.12em] text-primary">
-                        GSTIN Nu-
-                      </span>
-                      <span className="ml-1.5 text-[11px] sm:text-sm font-extrabold font-display text-primary tracking-wide">
-                        09AAVCM1216G1ZB
-                      </span>
-                    </span>
-                  </div>
                 </div>
               </div>
+              <button
+                type="button"
+                onClick={() => setIsOpen((open) => !open)}
+                className="xl:hidden shrink-0 p-2 text-primary hover:bg-slate-100 rounded-lg transition-all"
+                aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                aria-expanded={isOpen}
+              >
+                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={() => setIsOpen((open) => !open)}
-              className="xl:hidden shrink-0 p-2 text-primary hover:bg-slate-100 rounded-lg transition-all"
-              aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              aria-expanded={isOpen}
-            >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
+
+            <div className="mt-1 flex w-full flex-wrap items-center gap-2">
+              <div className="whitespace-nowrap rounded-full border-2 border-red-200 bg-red-50 px-2 py-1 text-center text-[10px] font-black tracking-wide text-red-600 shadow-sm sm:px-3 sm:text-base md:text-lg">
+                Our Members 200+ Firm
+              </div>
+              <div className="flex h-9 shrink-0 items-center gap-1">
+                <span className="shrink-0 text-[8px] font-extrabold tracking-[0.08em] text-slate-500">
+                  REGD BY-
+                </span>
+                <Image
+                  src="/Logo/Gem(6).png"
+                  alt="GeM"
+                  width={262}
+                  height={118}
+                  className="h-7 w-auto origin-left scale-200 object-contain pointer-events-none select-none 2xl:h-8"
+                  draggable={false}
+                />
+              </div>
+            </div>
+
+            <div className="mt-3 flex w-full flex-wrap xl:flex-nowrap items-center gap-1.5">
+              <span className="inline-flex min-w-0 shrink-0 items-center whitespace-nowrap rounded-full border-2 border-secondary/50 bg-linear-to-r from-amber-50 via-white to-emerald-50 px-3 py-1.5 sm:px-4 sm:py-2 xl:h-10 xl:px-2.5 xl:py-1.5 shadow-md shadow-secondary/10">
+                <span className="text-[10px] sm:text-xs xl:text-[10px] font-bold uppercase tracking-[0.1em] text-primary">
+                  Established in
+                </span>
+                <span className="ml-1.5 text-base sm:text-xl xl:text-lg font-extrabold font-display text-primary">
+                  2018
+                </span>
+              </span>
+              <span className="inline-flex min-w-0 shrink-0 items-center whitespace-nowrap rounded-full border-2 border-secondary/50 bg-linear-to-r from-amber-50 via-white to-emerald-50 px-3 py-1.5 sm:px-4 sm:py-2 xl:h-10 xl:px-2.5 xl:py-1.5 shadow-md shadow-secondary/10">
+                <span className="text-[10px] sm:text-xs xl:text-[10px] font-bold uppercase tracking-[0.1em] text-primary">
+                  GSTIN Nu-
+                </span>
+                <span className="ml-1.5 text-[11px] sm:text-sm xl:text-xs font-extrabold font-display text-primary tracking-wide">
+                  09AAVCM1216G1ZB
+                </span>
+              </span>
+            </div>
           </div>
 
-          <div className="hidden xl:flex flex-col justify-start flex-1 min-w-0 gap-2 ml-auto pl-6 2xl:pl-8 border-l border-slate-100">
-            <nav className="flex flex-nowrap items-center justify-start gap-x-1.5 2xl:gap-x-2 w-full overflow-x-auto scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <div className="ml-auto hidden min-w-0 flex-1 flex-col justify-start gap-2 overflow-hidden border-l border-slate-100 pl-2 xl:flex 2xl:pl-3">
+            <nav className="flex flex-wrap items-center justify-start gap-x-1.5 gap-y-1 2xl:gap-x-2 w-full">
               {navGroups.map((link) => (
                 <div key={link.name} className="relative shrink-0">
                   <a
@@ -383,24 +408,8 @@ export default function Navbar() {
               ))}
             </nav>
 
-            <div className="grid w-full grid-cols-[10.5rem_1fr] 2xl:grid-cols-[12.5rem_1fr] items-start gap-x-2 2xl:gap-x-3">
-              <div className="flex flex-col items-start shrink-0 pt-0.5">
-                <span className="text-[10px] font-extrabold tracking-[0.14em] text-slate-500 mb-0.5">
-                  REGD BY-
-                </span>
-                <Image
-                  src="/Logo/Gem(6).png"
-                  alt="GeM"
-                  width={262}
-                  height={118}
-                  className="h-12 2xl:h-16 w-auto object-contain pointer-events-none select-none"
-                  draggable={false}
-                />
-              </div>
-
-              <div className="flex flex-wrap gap-1 w-full max-w-5xl items-center justify-end ml-auto">
-                {renderInitiativeRow()}
-              </div>
+            <div className="flex w-full min-w-0 flex-wrap content-start items-center justify-start gap-x-1.5 gap-y-2">
+              {renderInitiativeRow()}
             </div>
           </div>
         </div>
