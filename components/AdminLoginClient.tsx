@@ -100,14 +100,6 @@ export default function AdminLoginClient() {
             </button>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-slate-100 text-center text-xs text-slate-500">
-            <p>
-              New admin?{' '}
-              <Link href="/admin/register" className="text-secondary font-bold hover:underline">
-                Create Admin Account
-              </Link>
-            </p>
-          </div>
         </div>
       </div>
     </div>
